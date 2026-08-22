@@ -291,3 +291,7 @@ Pastikan ketentuan lisensi serta atribusi source awal tetap dipatuhi sebelum rep
 
 **PKKMB Universitas Narotama 2026**  
 *CineAction — Mahakarya Garda Depan, Mengukir Dampak untuk Negeri*
+
+**CopyRight**
+
+© 2026 - Irsyadulloh Ramadhan B.N
