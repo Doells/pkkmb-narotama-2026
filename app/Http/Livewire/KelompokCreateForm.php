@@ -34,14 +34,16 @@ class KelompokCreateForm extends Component
         // setidaknya input pertama yang hanya required,
         // karena nanti akan difilter apakah input kedua dan input selanjutnya apakah berisi
         $this->validate([
-            'kelompok.0.kode_kelompok' => 'required',
-            'kelompok.0.name' => 'required'
-        ], ['kelompok.0.name.required' => 'Nama Kelompok Wajid Diisi.',
-        'kelompok.0.kode_kelompok.required' => 'Kode Kelompok Wajid Diisi.',]);
+            'kelompok.*.kode_kelompok' => 'required',
+            'kelompok.*.name' => 'required',
+        ], [
+            'kelompok.*.name.required' => 'Nama kelompok wajib diisi.',
+            'kelompok.*.kode_kelompok.required' => 'Kode kelompok wajib diisi.',
+        ]);
 
         // ambil input/request dari position yang berisi
         $kelompok = array_filter($this->kelompok, function ($a) {
-            return trim($a['name'], $a['kode_kelompok']) !== "";
+            return trim($a['name']) !== '' || trim($a['kode_kelompok']) !== '';
         });
 
         // alasan menggunakan create alih2 mengunakan ::insert adalah karena tidak looping untuk menambahkan created_at dan updated_at
@@ -49,7 +51,7 @@ class KelompokCreateForm extends Component
             Kelompok::create($kelompok);
         }
 
-        redirect()->route('kelompok.index')->with('success', 'Data posisi berhasil ditambahkan.');
+        redirect()->route('kelompok.index')->with('success', 'Data kelompok berhasil ditambahkan.');
     }
 
     public function render()

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\User;
+use App\Services\UserDeletionService;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
@@ -30,19 +31,15 @@ final class StudentTable extends PowerGridComponent
         );
     }
 
-    /* public function header(): array
+    public function header(): array
     {
         return [
             Button::add('bulk-checked')
-                ->caption(__('Hapus'))
-                ->class('bg-red-500 w-4 text-white rounded-lg hover:bg-red-600')
+                ->caption(__('Hapus Terpilih'))
+                ->class('cine-bulk-delete')
                 ->emit('bulkCheckedDelete', []),
-            Button::add('bulk-edit-checked')
-                ->caption(__('Edit'))
-                ->class('bg-blue-500 w-4 text-white rounded-lg hover:bg-blue-600')
-                ->emit('bulkCheckedEdit', []),
         ];
-    } */
+    }
 
     public function bulkCheckedDelete()
     {
@@ -57,9 +54,15 @@ final class StudentTable extends PowerGridComponent
 
 
             try {
-                User::whereIn('id', $ids)->delete();
-                $this->dispatchBrowserEvent('showToast', ['success' => true, 'message' => 'Data peserta berhasi dihapus.']);
-            } catch (\Illuminate\Database\QueryException $ex) {
+                User::whereIn('id', $ids)->get()->each(function (User $user): void {
+                    app(UserDeletionService::class)->delete($user);
+                });
+                $this->checkboxValues = [];
+                $this->checkboxAll = false;
+                $this->fillData();
+                $this->dispatchBrowserEvent('showToast', ['success' => true, 'message' => 'Data peserta berhasil dihapus.']);
+            } catch (\Throwable $ex) {
+                report($ex);
                 $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Data gagal dihapus, kemungkinan ada data lain yang menggunakan data tersebut.']);
             }
         }
@@ -75,7 +78,7 @@ final class StudentTable extends PowerGridComponent
 
             $ids = join('-', $ids);
             // return redirect(route('student.edit', ['ids' => $ids])); // tidak berfungsi/menredirect
-            return $this->dispatchBrowserEvent('redirect', ['url' => route('dashboard.students.edit', ['ids' => $ids])]);
+            return $this->dispatchBrowserEvent('redirect', ['url' => route('students.edit', ['ids' => $ids])]);
         }
     }
 
@@ -96,7 +99,7 @@ final class StudentTable extends PowerGridComponent
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput()->showToggleColumns(),
             Footer::make()
-                ->showPerPage(10)
+                ->showPerPage(10, [10, 20, 50, 100])
                 ->showRecordCount()
                 ->pagination('components.pagination'),
         ];
@@ -133,7 +136,7 @@ final class StudentTable extends PowerGridComponent
         return User::query()
             ->join('roles', 'users.role_id', '=', 'roles.id')
             ->join('positions', 'users.position_id', '=', 'positions.id')
-            ->join('kelompoks', 'users.kelompok_id', '=', 'kelompoks.id')
+            ->leftJoin('kelompoks', 'users.kelompok_id', '=', 'kelompoks.id')
             ->select('users.*', 'roles.name as role', 'positions.name as position', 'kelompoks.name as kelompok_name')
             ->when(Auth::user(), function ($query) {
                 return $this->filterPeserta($query);
@@ -192,7 +195,7 @@ final class StudentTable extends PowerGridComponent
                 ->route('students.edit', ['ids' => 'id']),
 
             Button::make('destroy', 'Delete')
-                    ->class('bg-red-500 hover:bg-red-600 hover:underline rounded-full px-4 py-1 text-white my-2')
+                    ->class('delete-btn bg-red-500 hover:bg-red-600 hover:underline rounded-full px-4 py-1 text-white my-2')
                     ->target('')
                     ->route('students.destroy', ['users' => 'id'])
                     ->method('delete')

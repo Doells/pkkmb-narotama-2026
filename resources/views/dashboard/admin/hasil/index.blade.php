@@ -1,195 +1,90 @@
 @extends('layouts.dashboard.app')
 
-@section('content')            
-    <main class="h-full overflow-y-auto">
-        <div class="container mx-auto">
-            <div class="grid w-full gap-5 px-10 mx-auto lg:grid-cols-12">
-                <div class="col-span-8">
-                    <h2 class="mt-6 mb-1 text-2xl font-semibold text-gray-700">
-                        Data Kelulusan Peserta
-                    </h2>
-                    <p class="text-sm text-gray-400">
-                        Keterangan :
-                    </p>
-                    <p class="text-sm text-gray-400">
-                        Total {{ count($peserta) }} Peserta
-                    </p>
-                    <p class="text-sm text-gray-400">
-                        Total Tugas = {{ $taskCount }}
-                    </p>
-                    <p class="text-sm text-gray-400">
-                        Total Presensi = {{ $presencesCount }}
-                    </p>
-                </div>
+@section('content')
+    <section class="cine-results-page" aria-labelledby="results-heading">
+        <div class="cine-results-overview">
+            <div class="cine-results-intro">
+                <span class="cine-results-kicker">FINAL CUT — REKAP KELULUSAN</span>
+                <h2 id="results-heading">Data Kelulusan Peserta</h2>
+                <p>Nilai akhir dihitung dari presensi, tugas yang diterima, dan ketaatan peserta.</p>
             </div>
-        </div>
-        <div class="w-full">
-            <form action="{{ route('hasil.export-excel') }}" method="POST" target="__blank">
+
+            <div class="cine-results-metrics" aria-label="Ringkasan data hasil">
+                <div class="cine-results-metric"><span>Peserta</span><strong>{{ $peserta->count() }}</strong></div>
+                <div class="cine-results-metric"><span>Total tugas</span><strong>{{ $taskCount }}</strong></div>
+                <div class="cine-results-metric"><span>Sesi presensi</span><strong>{{ $presencesCount }}</strong></div>
+            </div>
+
+            <form action="{{ route('hasil.export-excel') }}" method="POST" target="_blank" class="cine-results-export">
                 @csrf
-                <div class="w-full mx-auto">
-                    <button type="submit" class="flex mx-auto text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-                        Export Excel
-                    </button>
-                </div>
+                <button type="submit"><span aria-hidden="true">↓</span> Export Excel</button>
             </form>
         </div>
-        @if ($peserta)
-            <section class="container px-6 mx-auto mt-5">
-                <div class="grid gap-5 lg:grid-cols-12">
-                    <main class="col-span-12 p-4 lg:pt-0">
-                        <div class="px-6 py-2 mt-2 bg-white rounded-lg">
-                            <table class="w-full" aria-label="Table">
-                                <thead>
-                                    <tr class="text-sm font-normal text-left text-gray-900 border-b border-b-gray-600">
-                                        <th class="py-4" scope="">No</th>
-                                        <th class="py-4" scope="">Nim</th>
-                                        <th class="py-4" scope="">Nama Peserta</th>
-                                        <th class="py-4" scope="">Kelompok</th>
-                                        <th class="py-4" scope="">Presensi</th>
-                                        <th class="py-4" scope="">Izin</th>
-                                        <th class="py-4" scope="">Tugas</th>
-                                        <th class="py-4" scope="">Pelanggaran</th>
-                                        <th class="py-4" scope="">Keputusan</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white">
-                                    @foreach ($peserta as $key => $item)
-                                        <tr class="text-gray-700 border-b">
-                                            <td class="">
-                                                {{ $key + 1 }}
-                                            </td>
-                                            <td class="px-1 py-5">
-                                                <div class="flex items-center text-sm">
-                                                    <div>
-                                                        <h2 class="font-medium text-black">
-                                                            {{ $item->nim ?? '' }}
-                                                        </h2>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="w-1/3 px-1 py-5">
-                                                <div class="flex items-center text-sm">
-                                                    <div>
-                                                        <h2 class="font-medium text-black">
-                                                            {{ ucfirst($item->name ?? '') }}
-                                                        </h2>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="px-1 py-5">
-                                                <div class="flex items-center text-sm">
-                                                    <div>
-                                                        <h2 class="font-medium text-black">
-                                                            {{ $item->kelompok_id ?? '' }}
-                                                        </h2>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="px-1 py-5">
-                                                <div class="flex items-center text-sm">
-                                                    <div>
-                                                        <h2 class="font-medium text-black">
-                                                            {{ optional($item->submitPresensi->where('is_permission', 0))->count() ?? 0 }}
-                                                        </h2>
-                                                    </div>
-                                                </div>
-                                            </td>                                                                                                                                                                                                                 
-                                            <td class="px-1 py-5">
-                                                <div class="flex items-center text-sm">
-                                                    <div>
-                                                        <h2 class="font-medium text-black">
-                                                            {{ optional($item->submitPresensi->where('is_permission', 1))->count() ?? 0 }}
-                                                        </h2>
-                                                    </div>
-                                                </div>
-                                            </td>                                                                                                                                                                                                                 
-                                            <td class="px-1 py-5">
-                                                <div class="flex items-center text-sm">
-                                                    <div>
-                                                        <h2 class="font-medium text-black">
-                                                            {{ optional($item->submitTugas->where('status', 'Diterima'))->count() ?? 0 }}
-                                                        </h2>
-                                                    </div>
-                                                </div>
-                                            </td>                                                                                                                                                                                                                 
-                                            <td class="px-1 py-5">
-                                                <div class="flex items-center text-sm">
-                                                    <div>
-                                                        <h2 class="font-medium text-black">
-                                                            @php
-                                                                $totalPoin = 0;
-                                                                foreach ($item->pelanggaran_peserta as $pelanggaran) {
-                                                                    $totalPoin += $pelanggaran->poin;
-                                                                }
-                                                                echo $totalPoin;
-                                                            @endphp
-                                                        </h2>
-                                                    </div>
-                                                </div>
-                                            </td>                                                                                                                                                                                                                 
-                                            <td class="px-1 py-5">
-                                                <div class="flex items-center text-sm">
-                                                    <div>
-                                                        @php
-                                                            $presensiMasuk = optional($item->submitPresensi)->count() ?? 0;
-                                                            //$totalIzin = optional($item->submitPresensi)->where('is_permission', 1)->count() ?? 0;
-                                                            $tugasDikerjakan = optional($item->submitTugas->where('status', 'Diterima'))->count() ?? 0;
-                                                            $totalPelanggaran = $item->pelanggaran_peserta->sum('poin');
-                                                            
-                                                            //total
-                                                            $totalPresensi = ($presensiMasuk / $presencesCount) * 100;
-                                                            $totalTugas = ($tugasDikerjakan / $taskCount) * 100;
-                                                            $ketaatan = 100 - $totalPelanggaran;
-                                                            $totalSkor = ($totalPresensi + $totalTugas + $ketaatan) / 3;
-                                            
-                                                            $keputusan = '';
-                                            
-                                                            if ($totalSkor <= 40) {
-                                                                $keputusan = 'Tidak Lulus';
-                                                            } elseif ($totalSkor >= 80) {
-                                                                $keputusan = 'Lulus';
-                                                            } else {
-                                                                $keputusan = 'Lulus Bersyarat';
-                                                            }
-                                                        @endphp
-                                                        <h2 class="font-medium text-black">
-                                                            {{ $keputusan }}
-                                                        </h2>
-                                                            Presensi {{ $totalPresensi }}%
-                                                            Tugas {{ $totalTugas }}%
-                                                            Ketaatan {{ $ketaatan }}%
-                                                    </div>
-                                                </div>
-                                            </td>                                                                                                                                                                                                                                                           
-                                        </tr>
-                                    @endforeach
-                                </tbody>                                
-                            </table>
-                        </div>
-                    </main>
+
+        @if ($peserta->isNotEmpty())
+            <div class="cine-results-card">
+                <div class="cine-results-card-heading">
+                    <div><span class="cine-results-reel" aria-hidden="true"></span><h3>Daftar hasil peserta</h3></div>
+                    <p>Geser tabel ke samping untuk melihat seluruh kolom.</p>
                 </div>
-            </section>    
-        @else
-            <div class="flex w-full pt-2 lg:pt-8">
-                <div class="m-auto text-center">
-                    <img src="{{ asset('/src/img/maskot_pkkmb_maaf_2.png') }}" alt="" class="w-32 mx-auto mb-2">
 
-                    <h2 class="mb-1 text-2xl lg:text-3xl font-semibold text-gray-700">
-                        Anda belum memiliki peserta
-                    </h2>
-                    
-                    <p class="text-sm lg:text-base text-gray-400 mb-4">
-                        Sepertinya Anda belum memiliki peserta. <br>
-                        Silahkan, tambahkan pesertamu dulu!
-                    </p>
+                <div class="cine-results-table-wrap" tabindex="0" role="region" aria-label="Tabel hasil kelulusan peserta">
+                    <table class="cine-results-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">No</th><th scope="col">NIM</th><th scope="col">Nama peserta</th>
+                                <th scope="col">Kelompok</th><th scope="col">Hadir</th><th scope="col">Izin</th>
+                                <th scope="col">Tugas</th><th scope="col">Poin</th><th scope="col">Keputusan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($peserta as $key => $item)
+                                @php
+                                    $presensiHadir = $item->submitPresensi->where('is_permission', 0)->count();
+                                    $presensiIzin = $item->submitPresensi->where('is_permission', 1)->count();
+                                    $presensiMasuk = $item->submitPresensi->count();
+                                    $tugasDikerjakan = $item->submitTugas->where('status', 'Diterima')->count();
+                                    $totalPelanggaran = $item->pelanggaran_peserta->sum('poin');
+                                    $totalPresensi = $presencesCount > 0 ? round(($presensiMasuk / $presencesCount) * 100, 2) : 0;
+                                    $totalTugas = $taskCount > 0 ? round(($tugasDikerjakan / $taskCount) * 100, 2) : 0;
+                                    $ketaatan = max(0, 100 - $totalPelanggaran);
+                                    $totalSkor = round(($totalPresensi + $totalTugas + $ketaatan) / 3, 2);
 
-                    <div class="relative">
-                        <a href="{{ route('students.create') }}" class="px-4 py-2 mt-10 lg:mt-2 text-left text-white rounded-md lg:rounded-xl bg-space-textungu">
-                            + Tambah Peserta
-                        </a>
-                    </div>
+                                    if ($totalSkor <= 40) {
+                                        $keputusan = 'Tidak Lulus';
+                                        $decisionClass = 'is-failed';
+                                    } elseif ($totalSkor >= 80) {
+                                        $keputusan = 'Lulus';
+                                        $decisionClass = 'is-passed';
+                                    } else {
+                                        $keputusan = 'Lulus Bersyarat';
+                                        $decisionClass = 'is-conditional';
+                                    }
+                                @endphp
+                                <tr>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td><strong class="cine-results-nim">{{ $item->nim ?? '—' }}</strong></td>
+                                    <td class="cine-results-name">{{ ucfirst($item->name ?? '—') }}</td>
+                                    <td>{{ optional($item->kelompok)->name ?? 'Belum ditentukan' }}</td>
+                                    <td>{{ $presensiHadir }}</td><td>{{ $presensiIzin }}</td>
+                                    <td>{{ $tugasDikerjakan }}</td><td>{{ $totalPelanggaran }}</td>
+                                    <td>
+                                        <span class="cine-results-decision {{ $decisionClass }}">{{ $keputusan }}</span>
+                                        <span class="cine-results-score">Skor {{ $totalSkor }}</span>
+                                        <span class="cine-results-breakdown">P {{ $totalPresensi }}% · T {{ $totalTugas }}% · K {{ $ketaatan }}%</span>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
+        @else
+            <div class="cine-results-empty">
+                <span aria-hidden="true">00</span><h3>Belum ada peserta</h3>
+                <p>Tambahkan akun peserta terlebih dahulu untuk menampilkan hasil kelulusan.</p>
+                <a href="{{ route('students.create') }}">+ Tambah Peserta</a>
+            </div>
         @endif
-    </main>
+    </section>
 @endsection

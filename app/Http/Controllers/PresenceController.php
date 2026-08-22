@@ -105,7 +105,12 @@ class PresenceController extends Controller
             return redirect()->back();
         }
 
-        $decryptQrCodeContent = Crypt::decryptString($code);
+        try {
+            $decryptQrCodeContent = Crypt::decryptString($code);
+        } catch (\Exception $e) {
+            Alert::error('Gagal!', 'QR Code tidak valid atau rusak!');
+            return redirect()->back();
+        }
 
         // Memecah string berdasarkan delimiter koma
         $dataQrCode = explode('-', $decryptQrCodeContent);
@@ -146,7 +151,12 @@ class PresenceController extends Controller
         // Misalkan input code berupa string seperti 'value1,value2,value3'
         $code = $request->input('code');
 
-        $decryptQrCodeContent = Crypt::decryptString($code);
+        try {
+            $decryptQrCodeContent = Crypt::decryptString($code);
+        } catch (\Exception $e) {
+            Alert::error('Gagal!', 'QR Code tidak valid atau rusak!');
+            return redirect()->back();
+        }
 
         // Memecah string berdasarkan delimiter koma
         $dataQrCode = explode('-', $decryptQrCodeContent);

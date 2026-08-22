@@ -29,15 +29,15 @@ final class AttendanceTable extends PowerGridComponent
         );
     }
 
-    /* public function header(): array
+    public function header(): array
     {
         return [
             Button::add('bulk-checked')
-                ->caption(__('Hapus'))
-                ->class('bg-red-500 hover:bg-red-600 rounded-md text-white')
+                ->caption(__('Hapus Terpilih'))
+                ->class('cine-bulk-delete')
                 ->emit('bulkCheckedDelete', []),
         ];
-    } */
+    }
 
     public function bulkCheckedDelete()
     {
@@ -49,6 +49,9 @@ final class AttendanceTable extends PowerGridComponent
 
             try {
                 Attendance::whereIn('id', $ids)->delete();
+                $this->checkboxValues = [];
+                $this->checkboxAll = false;
+                $this->fillData();
                 $this->dispatchBrowserEvent('showToast', ['success' => true, 'message' => 'Data absensi berhasi dihapus.']);
             } catch (\Illuminate\Database\QueryException $ex) {
                 $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Data gagal dihapus, kemungkinan ada data lain yang menggunakan data tersebut.']);
@@ -73,8 +76,9 @@ final class AttendanceTable extends PowerGridComponent
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput()->showToggleColumns(),
             Footer::make()
-                ->showPerPage()
-                ->showRecordCount(),
+                ->showPerPage(10, [10, 20, 50, 100])
+                ->showRecordCount()
+                ->pagination('components.pagination'),
         ];
     }
 

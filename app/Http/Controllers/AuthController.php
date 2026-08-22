@@ -13,7 +13,7 @@ class AuthController extends Controller
             'title' => 'Login'
         ]);
     }
-    
+
     public function authenticate(Request $request)
     {
         $credentials = $request->validate([
@@ -23,7 +23,6 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
             // Pesan sukses jika berhasil login
             return redirect()->intended('/dashboard')->with('loginSuccess', 'Login berhasil! Silahkan masuk.');
         }
@@ -35,12 +34,8 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
-
         return redirect('/');
     }
 }
-

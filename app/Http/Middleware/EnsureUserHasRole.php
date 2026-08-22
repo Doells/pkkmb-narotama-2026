@@ -17,15 +17,16 @@ class EnsureUserHasRole
      */
     public function handle($request, Closure $next, ...$roles)
     {
-        $userRole = Role::find(auth()->user()->role_id);
-        foreach ($roles as $role) {
-            // if ($role === "superadmin" && auth()->user()->isSuperadmin()) return $next($request);
-            if ($userRole->name === $role) {
-                return $next($request);
-            }
-        }
+        $user = auth()->user();
 
-        // returnn abort(403);
-        return abort(403, 'Kamu tidak memilik izin untuk mengakses halaman tersebut.');
+        abort_unless($user && $user->role, 403);
+
+        abort_unless(
+            in_array($user->role->name, $roles, true),
+            403,
+            'Anda tidak memiliki izin mengakses halaman ini.'
+        );
+
+        return $next($request);
     }
 }

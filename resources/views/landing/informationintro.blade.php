@@ -1,206 +1,66 @@
 @extends('layouts.landing.base')
 
 @section('content')
-    <section id="news" class="h-screen w-full bg-[#000000]">
-        <img 
-            src="{{ asset('/src/img/hero/2/blink_blink.png') }}" 
-            alt="blink_blink" 
-            class="absolute lg:ml-60 h-screen object-cover z-1"
-            data-aos="fade-zoom-in"
-            data-aos-easing="ease-in-back"
-            data-aos-duration="1000"
-            data-aos-offset="0"
-        >
-        <img 
-            src="{{ asset('/src/img/hero/2/clip_path_group.png') }}" 
-            alt="clip_path_group" 
-            class="absolute mt-0 ml-0 h-screen object-cover z-0 filter grayscale"
-            data-aos="fade-zoom-in"
-            data-aos-easing="ease-in-back"
-            data-aos-duration="1000"
-            data-aos-offset="0"
-        >
-
-        <div class="absolute w-full h-screen flex flex-col items-center text-center pt-56 lg:pt-28 z-10">
-            <h2 
-                id="title" 
-                class="text-white text-3xl lg:text-5xl font-extrabold mb-3 lg:mb-5 z-10"
-                data-aos="fade-up"
-                data-aos-anchor-placement="center-bottom"
-                data-aos-delay="1200"
-            >
-                Perbanyak Informasimu <br>
-                Perluas Wawasanmu
-            </h2>
-            
-            <h3 
-                id="text1" 
-                class="text-white text-sm lg:text-base font-light mb-5 lg:mb-10 z-10"
-                data-aos="fade-up"
-                data-aos-easing="linear"
-                data-aos-delay="1500"
-                data-aos-duration="500"
-            >
-                Dunia terus berubah, Maka ikuti perkembangan Informasi <br>
-                Informasi dapat membantumu untuk dapatkan ide-ide terbaru
-            </h3>
-            
-            <a 
-                href="{{ route('informasi-berita') }}"
-                data-aos="fade-zoom-in"
-                data-aos-easing="ease-in-back"
-                data-aos-delay="2500"
-                data-aos-duration="1000"
-                data-aos-offset="0"
-            >
-                <button class="bg-white px-7 py-2 z-10 text-black text-base rounded-lg mb-12">
-                    Selengkapnya
-                </button>
-            </a>
-
-            <img
-                src="/src/img/information/1/card.png" 
-                alt="card" 
-                class="h-48 lg:h-52 z-10"
-                data-aos="fade-up"
-                data-aos-delay="1500"
-                data-aos-duration="3000"
-            >
+<main>
+    <section class="cine-page-hero">
+        <div class="cine-container cine-page-hero-inner">
+            <div><div class="cine-eyebrow">PUSAT INFORMASI PESERTA</div><h1>Siapkan dirimu.<br><em>Mulai aksimu.</em></h1><p>Temukan semua panduan yang dibutuhkan untuk mengikuti rangkaian PKKMB Universitas Narotama 2026.</p></div>
+            <div class="cine-page-number">01<span>/04</span></div>
         </div>
     </section>
 
-    <section id="infopkkmb" class="h-screen w-full bg-[#000000]">
-        <img 
-            src="{{ asset('/src/img/information/2/clip_path_group.png') }}" 
-            alt="clip_path_group" 
-            class="absolute mt-0 ml-0 h-screen object-cover filter grayscale"
-            data-aos="fade-zoom-in"
-            data-aos-easing="ease-in-back"
-            data-aos-duration="1000"
-            data-aos-offset="0"
-        >
-        <img 
-            src="{{ asset('/src/img/information/2/pkkmb_2024.png') }}" 
-            alt="pkkmb_2024" 
-            class="absolute lg:ml-10 lg:mt-36 object-cover filter grayscale"
-            data-aos="fade-zoom-in"
-            data-aos-easing="ease-in-back"
-            data-aos-duration="1000"
-            data-aos-offset="0"
-        >
-        <img 
-            src="{{ asset('/src/img/information/2/pkkmb_2024.png') }}" 
-            alt="pkkmb_2024" 
-            class="absolute mt-150 lg:ml-100 lg:mt-125 object-cover filter grayscale"
-            data-aos="fade-zoom-in"
-            data-aos-easing="ease-in-back"
-            data-aos-duration="1000"
-            data-aos-offset="0"
-        >
+    <nav class="cine-tabs" aria-label="Daftar informasi"><div class="cine-container cine-tabs-inner"><a href="#pengenalan"><span>01</span>Pengenalan</a><a href="#pedoman"><span>02</span>Pedoman</a><a href="#seragam"><span>03</span>Seragam</a><a href="#panitia"><span>04</span>Panitia</a></div></nav>
 
-        <div class="absolute w-full h-screen flex flex-col items-center text-center pt-28">
-            <h2 
-                id="title" 
-                class="text-white text-3xl lg:text-5xl font-extrabold mb-3 lg:mb-5 text-glow"
-                data-aos="fade-up"
-                data-aos-anchor-placement="center-bottom"
-                data-aos-delay="1200"
-            >
-                Carilah Informasi Terbaik <br>
-                Untuk Menunjangan Kegiatanmu
-            </h2>
-            
-            <h3 
-                id="text1" 
-                class="text-white text-sm lg:text-base font-light mb-5 lg:mb-10"
-                data-aos="fade-up"
-                data-aos-easing="linear"
-                data-aos-delay="1500"
-                data-aos-duration="500"
-            >
-                Dengan informasi terbaik langkahmu semakin lancar <br>
-                Dengan informasi terbaik jalanmu semakin mudah
-            </h3>
-            
-            <div class="grid grid-cols-3 gap-5 mx-3">
-                <div>
-                    <img src="{{asset('/src/img/information/2/profil.png')}}" class="w-[150px] h-[200px]" alt="profil.png">
-                </div>
-                <div class="flex my-auto">
-                    <a 
-                        href="{{ route('informasi-kegiatan') }}"
-                        class="w-full bg-white  py-2 text-black text-base rounded-lg"
-                        data-aos="fade-zoom-in"
-                        data-aos-easing="ease-in-back"
-                        data-aos-delay="2500"
-                        data-aos-duration="1000"
-                        data-aos-offset="0"
-                    >
-                        Selengkapnya
-                    </a>
-                </div>
-                <div>
-                    <img src="{{asset('/src/img/information/2/sijagad_semangat.png')}}" class="w-[150px] h-[200px]" alt="sijagad_semangat.png">
-                </div>
+    <section class="cine-detail" id="pengenalan">
+        <div class="cine-container cine-detail-grid">
+            <div><span class="cine-detail-index">01</span><div class="cine-kicker">PENGENALAN PKKMB</div><h2>Babak pembuka<br>perjalananmu.</h2></div>
+            <div><p class="cine-detail-lead">PKKMB adalah ruang pertama untuk mengenal kehidupan kampus, budaya akademik, lingkungan universitas, dan teman-teman seperjuangan.</p><div class="cine-feature-row"><div><b>Kenali Kampus</b><p>Mengenal fakultas, layanan mahasiswa, fasilitas, dan sistem akademik.</p></div><div><b>Bangun Relasi</b><p>Bertemu mahasiswa baru lintas program studi dan para pendamping.</p></div><div><b>Mulai Berkarya</b><p>Menumbuhkan semangat kolaborasi, kepemimpinan, dan dampak nyata.</p></div></div></div>
+        </div>
+    </section>
+
+    <section class="cine-detail alt" id="pedoman">
+        <div class="cine-container cine-detail-grid">
+            <div><span class="cine-detail-index yellow">02</span><div class="cine-kicker">PEDOMAN PESERTA</div><h2>Datang siap.<br>Pulang berkesan.</h2></div>
+            <div class="cine-doc"><iframe src="{{ asset('/src/document/buku_pedoman_pkkmb2023.pdf') }}" title="Buku Pedoman PKKMB"></iframe><div class="cine-doc-action"><span><small>DOKUMEN PESERTA</small><b>Buku Pedoman PKKMB</b></span><a href="{{ asset('/src/document/buku_pedoman_pkkmb2023.pdf') }}" download class="cine-button cine-button-dark">Unduh PDF <b>↓</b></a></div></div>
+        </div>
+    </section>
+
+    <section class="cine-detail" id="seragam">
+        <div class="cine-container cine-detail-grid">
+            <div><span class="cine-detail-index coral">03</span><div class="cine-kicker">KETENTUAN SERAGAM</div><h2>Rapi, nyaman,<br>dan siap beraksi.</h2></div>
+            <div class="cine-doc"><iframe src="{{ asset('/src/document/seragam_peserta_pkkm2023.pdf') }}" title="Ketentuan Seragam PKKMB"></iframe><div class="cine-doc-action"><span><small>DOKUMEN PESERTA</small><b>Ketentuan Seragam PKKMB</b></span><a href="{{ asset('/src/document/seragam_peserta_pkkm2023.pdf') }}" download class="cine-button cine-button-dark">Unduh PDF <b>↓</b></a></div></div>
+        </div>
+    </section>
+
+    @php
+        $teams = [
+            ['name' => 'Dr. Tahegga Primananda Alfath, S.H., M.H.', 'title' => 'Ketua Panitia Pengarah Universitas'],
+            ['name' => 'Fredy Pradana Putra', 'title' => 'Anggota Panitia Pengarah Universitas'],
+            ['name' => 'Muhammad Syaiful', 'title' => 'Ketua Panitia Pengarah Mahasiswa'],
+            ['name' => 'Ilda Annisa Afifah', 'title' => 'Anggota Panitia Pengarah Mahasiswa'],
+            ['name' => 'Juliana Fitria', 'title' => 'Ketua Pelaksana'],
+        ];
+    @endphp
+    <section class="cine-detail cine-team-section" id="panitia">
+        <div class="cine-container">
+            <div class="cine-team-head"><div><span class="cine-detail-index mint">04</span><div class="cine-kicker">KENALI PANITIA</div><h2>Teman pertama<br>di langkah barumu.</h2></div><p>Panitia dan pendamping siap membantu agar pengalaman PKKMB-mu berjalan aman, nyaman, dan menyenangkan.</p></div>
+            <div class="cine-team-grid">
+                @foreach($teams as $person)
+                    @php
+                        $parts = preg_split('/\s+/', trim($person['name']));
+                        $initials = strtoupper(substr($parts[0] ?? 'P', 0, 1) . substr($parts[1] ?? '', 0, 1));
+                    @endphp
+                    <article class="cine-person"><div class="cine-avatar"><b>{{ $initials }}</b><small>PKKMB 26</small></div><h3>{{ $person['name'] }}</h3><p>{{ $person['title'] }}</p></article>
+                @endforeach
             </div>
-
-        </div>
-    </section>
-
-    <section id="announcement" class="h-screen w-full bg-[#000000]">
-
-        <div>
-            <div class="absolute w-full h-screen flex flex-col items-center text-center pt-56 lg:pt-28 ">
-                <h2 
-                    id="title" 
-                    class="text-white text-3xl lg:text-5xl font-extrabold mb-3 lg:mb-5 text-glow lg:pt-28 z-10"
-                    data-aos="fade-up"
-                    data-aos-anchor-placement="center-bottom"
-                    data-aos-delay="1200"
-                >
-                    Berjuang Sungguh-Sungguh <br>
-                    Mendapat Hasil Kemudian
-                </h2>
-                <img 
-                    src="{{ asset('/src/img/information/3/group_88.png') }}" 
-                    alt="bintang" 
-                    class="absolute object-cover items-center w-[800px] z-0"
-                    data-aos="fade-zoom-in"
-                    data-aos-easing="ease-in-back"
-                    data-aos-duration="1000"
-                    data-aos-offset="0"
-                >
-                
-                <h3 
-                    id="text1" 
-                    class="text-white text-sm lg:text-base font-light mb-5 lg:mb-10  z-10"
-                    data-aos="fade-up"
-                    data-aos-easing="linear"
-                    data-aos-delay="1500"
-                    data-aos-duration="500"
-                >
-                    Perjuanganmu tidak mungkin sia-sia <br>
-                    Hasilmu saat ini adalah perjuanganmu dimasa lampau
-                </h3>
-    
-                {{-- <div class=" z-10">
-                    <a 
-                        href="{{ route('pengumuman-landing') }}"
-                        class="w-full px-5 py-2 text-black text-base rounded-lg bg-white z-10"
-                        data-aos="fade-zoom-in"
-                        data-aos-easing="ease-in-back"
-                        data-aos-delay="2500"
-                        data-aos-duration="1000"
-                        data-aos-offset="0"
-                    >
-                        Cek Sekarang
-                    </a>
-                </div> --}}
-                
+            <div class="cine-team-actions">
+                <a href="{{ route('informasi-panitia') }}" class="cine-button cine-button-primary">
+                    Lihat Semua Susunan Panitia <b>→</b>
+                </a>
             </div>
         </div>
     </section>
+
+    <section class="cine-cta"><div class="cine-container cine-cta-inner"><div><small>LANGKAH SELANJUTNYA</small><h2>Sudah membaca semua panduan?</h2></div>@auth<a href="{{ route('home-presences.indexuserdashboard') }}" class="cine-button cine-button-dark">Buka Dashboard <b>→</b></a>@else<a href="{{ route('auth.login') }}" class="cine-button cine-button-dark">Login Peserta <b>→</b></a>@endauth</div></section>
+</main>
 @endsection
-
-@push('javascript')
-@endpush

@@ -25,6 +25,11 @@ class ProfileController extends Controller
 
     public function profileupdate(User $user, Request $request)
     {   
+        abort_unless(
+            auth()->id() === $user->id || auth()->user()->isSuperAdmin(),
+            403,
+            'Anda tidak memiliki izin mengubah profil ini.'
+        );
 
         $request->validate([
             'nama_lengkap' => 'required',

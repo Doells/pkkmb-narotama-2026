@@ -1,4 +1,4 @@
-<header class="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
+<header class="cine-admin-header sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
     <div class="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
         <div class="flex items-center gap-2 sm:gap-4 lg:hidden">
             <!-- Hamburger Toggle BTN -->
@@ -287,11 +287,13 @@
             </ul>
 
             <!-- User Area -->
-            <div class="relative" x-data="{ dropdownOpen: false }" @click.outside="dropdownOpen = false">
-                <a class="flex items-center gap-4" href="#" @click.prevent="dropdownOpen = ! dropdownOpen">
+            <div class="cine-admin-user relative" x-data="{ dropdownOpen: false }" @click.outside="dropdownOpen = false">
+                <a class="cine-admin-user-trigger flex items-center gap-4" href="#"
+                    @click.prevent="dropdownOpen = ! dropdownOpen" :aria-expanded="dropdownOpen.toString()"
+                    aria-haspopup="true">
                     <span class="hidden text-right lg:block">
-                        <span class="block text-sm font-medium text-black dark:text-white">{{Auth::user()->name ?? 'Guest'}}</span>
-                        <span class="block text-xs font-medium">{{Auth::user()->position->name ?? 'Null'}}</span>
+                        <span class="block text-sm font-medium text-black dark:text-white">{{ Auth::user()->name ?? 'Guest' }}</span>
+                        <span class="block text-xs font-medium">{{ optional(Auth::user()->position)->name ?? optional(auth()->user()->role)->name ?? 'Pengguna' }}</span>
                     </span>
 
                     <span class="h-12 w-12 rounded-full">
@@ -308,11 +310,13 @@
 
                 <!-- Dropdown Start -->
                 <div x-show="dropdownOpen"
-                    class="absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+                    class="cine-admin-user-menu absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm border shadow-default"
+                    style="background-color: #0d2c40 !important; border-color: rgba(80, 214, 178, 0.45) !important; color: #f7fbfd !important;">
                     <ul class="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-strokedark">
                         <li>
                             <a href="{{route('dashboard-user.profileindex')}}"
-                                class="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+                                class="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out lg:text-base"
+                                style="color: #f7fbfd !important;">
                                 <svg class="fill-current" width="22" height="22" viewBox="0 0 22 22"
                                     fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -345,7 +349,8 @@
                         @csrf
                         @method('DELETE')
                         <button
-                            class="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+                            class="cine-admin-user-menu__logout flex w-full items-center gap-3.5 px-6 py-4 text-left text-sm font-medium duration-300 ease-in-out lg:text-base"
+                            style="background-color: transparent !important; color: #ffaaa4 !important;">
                             <svg class="fill-current" width="22" height="22" viewBox="0 0 22 22" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path

@@ -7,15 +7,12 @@ use App\Models\User; // <-- TAMBAHKAN INI
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash; // <-- TAMBAHKAN INI
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        Log::info('Mencoba login dengan data:', $request->all());
-        
         $validator = Validator::make($request->all(), [
             'nim' => 'required|string',
             'password' => 'required|string',

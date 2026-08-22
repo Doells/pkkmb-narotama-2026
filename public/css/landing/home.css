@@ -3,7 +3,7 @@
 }
 
 .hero-background {
-    background: radial-gradient(circle, var(--bg-radial-from, #4A289C), var(--bg-radial-to, #00092B));
+    background: radial-gradient(circle, #073B5C, #041B2D);
 }
 
 #hero::before {
@@ -12,31 +12,32 @@
     bottom: 0;
     width: 100%;
     height: 150px;
-    background: linear-gradient(to top, #000000,transparent);
+    background: linear-gradient(to top, #073B5C, transparent);
     z-index: 10;
 }
+
 .hero-section2-background {
-    background: linear-gradient(var(--bg-linear-angle, 0deg), var(--bg-linear-from, #19AEFE), var(--bg-linear-to, #050B33));
+    background: linear-gradient(var(--bg-linear-angle, 0deg), rgba(255, 249, 232, 1), #073B5C);
 }
 
 .information-background {
-    background: radial-gradient(circle, var(--bg-radial-from, #0B3B74), var(--bg-radial-to, #050B33));
+    background: radial-gradient(circle, #073B5C, #041B2D);
 }
 
 .gradient-text-information {
-    background: linear-gradient(170deg, #D73AFF, #FFFFFF);
-    -webkit-background-clip: text; /* Menggunakan prefix untuk dukungan browser tertentu */
+    background: linear-gradient(170deg, #FFC83D, #FFF9E8);
+    -webkit-background-clip: text;
     background-clip: text;
-    color: transparent; /* Membuat teks transparan */
+    color: transparent;
 }
 
 .gradient-text-pengenalan {
-    background: linear-gradient(140deg, #FE7BE5, #F6635C);
-    -webkit-background-clip: text; /* Menggunakan prefix untuk dukungan browser tertentu */
+    background: linear-gradient(140deg, #FF5A4F, #FFC83D);
+    -webkit-background-clip: text;
     background-clip: text;
-    color: transparent; /* Membuat teks transparan */
+    color: transparent;
 }
 
 .gradient-bg-video1 {
-    background: linear-gradient(var(--bg-linear-angle, 140deg), var(--bg-linear-from, #0E21A0), var(--bg-linear-to, #EC53B0));
+    background: linear-gradient(var(--bg-linear-angle, 140deg), #073B5C, #50D6B2);
 }

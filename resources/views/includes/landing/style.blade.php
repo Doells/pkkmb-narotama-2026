@@ -1,10 +1,12 @@
 <link rel="stylesheet" href="{{ asset('css/landing/home.css') }}">
+<link rel="stylesheet" href="{{ asset('css/landing/cineaction-2026.css') }}">
 
 <style>
     .tab button.active {
         display: inline-block;
         width: 100%;
-        background-color: #FFCE43;
+        background-color: #FFC83D;
+        color: #073B5C;
         opacity: 0.95;
         font-weight: 900;
     }

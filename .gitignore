@@ -7,6 +7,14 @@
 .env
 .env.save
 .env.backup
+.env.example2
+/storage/logs/*.log
+*.sql
+*.zip
+*.rar
+*.7z
+gbash.exe.stack*
+clean-dark.js
 .DS_Store
 .phpunit.result.cache
 Homestead.json
@@ -15,7 +23,9 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
-public/.htaccess
 public/.well-known/
 public/404.html
 /storage/debugbar
+/patches.diff
+*.stackdump
+*.stackdico

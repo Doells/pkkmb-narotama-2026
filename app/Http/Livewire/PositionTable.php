@@ -25,19 +25,15 @@ final class PositionTable extends PowerGridComponent
         );
     }
 
-    /* public function header(): array
+    public function header(): array
     {
         return [
             Button::add('bulk-checked')
-                ->caption(__('Hapus'))
-                ->class('bg-red-500 w-4 text-white rounded-lg hover:bg-red-600')
+                ->caption(__('Hapus Terpilih'))
+                ->class('cine-bulk-delete')
                 ->emit('bulkCheckedDelete', []),
-            Button::add('bulk-edit-checked')
-                ->caption(__('Edit'))
-                ->class('bg-green-500 w-4 text-white rounded-lg hover:bg-green-600')
-                ->emit('bulkCheckedEdit', []),
         ];
-    } */
+    }
 
     public function bulkCheckedDelete()
     {
@@ -49,6 +45,9 @@ final class PositionTable extends PowerGridComponent
 
             try {
                 Position::whereIn('id', $ids)->delete();
+                $this->checkboxValues = [];
+                $this->checkboxAll = false;
+                $this->fillData();
                 $this->dispatchBrowserEvent('showToast', ['success' => true, 'message' => 'Data posisi berhasil dihapus.']);
             } catch (\Illuminate\Database\QueryException $ex) {
                 $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Data gagal dihapus, kemungkinan ada data lain yang menggunakan data tersebut.']);
@@ -87,8 +86,9 @@ final class PositionTable extends PowerGridComponent
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
-                ->showPerPage()
-                ->showRecordCount(),
+                ->showPerPage(10, [10, 20, 50, 100])
+                ->showRecordCount()
+                ->pagination('components.pagination'),
         ];
     }
 

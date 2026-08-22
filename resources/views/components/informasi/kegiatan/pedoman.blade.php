@@ -1,17 +1,10 @@
-{{-- <div class="bg-purple-300">
-    <div class="px-5 lg:px-36 py-5 lg:py-20 w-full">
-        <iframe class="mb-5" src="{{ asset('/src/document/buku_pedoman_pkkmb2023.pdf') }}" width="100%" height="1000px"></iframe>
-        
-        <a href="{{ asset('/src/document/buku_pedoman_pkkmb2023.pdf') }}" download="buku_pedoman_pkkmb2023.pdf" class="bg-space-buttonbiru hover:bg-blue-400 px-8 py-3 text-white text-base rounded-lg">Unduh File</a>
-    </div>
-</div> --}}
+    <div class="px-5 lg:px-12 py-10 w-full rounded-[24px] bg-white shadow-sm border border-cine-navy/10 mt-5">
+        <h2 class="text-2xl font-black text-cine-navy mb-6">Buku Pedoman</h2>
+        <iframe class="mb-6 rounded-lg border border-zinc-200" src="{{ asset('/src/document/buku_pedoman_pkkmb2023.pdf') }}" width="100%" height="800px"></iframe>
 
-<div class="bg-[#000000]">
-    <div class="w-full px-4 py-20">
-        <div class="max-w-2xl mx-auto text-center">
-            <h2 class="font-bold text-xl mb-3 lg:text-2xl ">Mohon Maaf Kakak Belum Bisa Mengakses Halaman Ini</h2>
-            <p class="font-normal text-xs text-secondary lg:text-sm mb-10">Silahkan coba lagi nanti :)</p>
+        <div class="text-center md:text-left">
+            <a href="{{ asset('/src/document/buku_pedoman_pkkmb2023.pdf') }}" download="buku_pedoman_pkkmb2023.pdf" class="bg-cine-yellow hover:bg-cine-navy hover:text-cine-cream px-8 py-3 text-cine-navy font-bold text-base rounded-[12px] transition-colors inline-block cinematic-shadow">
+                Unduh Data Pedoman
+            </a>
         </div>
-    </div>    
-</div>
-
+    </div>

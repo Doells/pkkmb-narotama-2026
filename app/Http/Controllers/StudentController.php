@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\UserDeletionService;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -39,12 +40,17 @@ class StudentController extends Controller
         ]);
     }
 
-    public function admindestroy(User $users)
+    public function admindestroy(User $users, UserDeletionService $deletionService)
     {
+        if (auth()->id() === $users->id) {
+            return back()->with('error', 'Akun yang sedang digunakan untuk login tidak dapat dihapus.');
+        }
+
         try {
-            $users->delete();
+            $deletionService->delete($users);
             return back()->with('success', 'Data admin berhasil dihapus.');
-        } catch (\Exception $ex) {
+        } catch (\Throwable $ex) {
+            report($ex);
             return back()->with('error', 'Gagal menghapus data admin.');
         }
     }
@@ -81,17 +87,13 @@ class StudentController extends Controller
         ]);
     }
 
-    public function destroy(User $users)
+    public function destroy(User $users, UserDeletionService $deletionService)
     {
         try {
-            //Hapus data dari tabel DetailUser terlebih dahulu
-            $users->detailuser()->delete();
-
-            // Lalu hapus data dari tabel user
-            $users->delete();
-            
+            $deletionService->delete($users);
             return back()->with('success', 'Data peserta berhasil dihapus.');
-        } catch (\Exception $ex) {
+        } catch (\Throwable $ex) {
+            report($ex);
             return back()->with('error', 'Gagal menghapus data peserta.');
         }
     }

@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
-class adminEditForm extends Component
+class AdminEditForm extends Component
 {
     use useUniqueValidation;
 

@@ -1,19 +1,38 @@
 @extends('layouts.landing.base')
 
 @section('content')
-    <section class="w-full bg-[#000000] pt-10 lg:pt-36 px-6 lg:px-28">
-        <div class="flex flex-col items-center">
-            <div class="flex flex-col items-center mb-5 lg:mb-10">
-                <img class="w-20 lg:w-28 bg-white rounded-lg mb-5" src="{{ asset('/src/img/logo/logo.png') }}" alt="logo" />
-                <h1 class="uppercase text-white font-extrabold text-2xl leading-none lg:text-4xl text-center mb-1">{{ strtoupper($news->title ?? '') }}</h1>
-                <h2 class="text-slate-300 text-sm lg:text-base font-medium">Dibuat pada tanggal {{ $news->created_at ? $news->created_at->translatedFormat('l, j F Y') : '' }}</h2>
+    <!-- Page Header -->
+    <section class="w-full bg-cine-navy pt-[168px] pb-[64px]">
+        <div class="max-w-[1180px] mx-auto px-[24px] text-center lg:text-left flex flex-col lg:flex-row justify-between lg:items-end gap-[32px]">
+            <div class="w-full lg:w-3/4">
+                <span class="inline-block text-cine-yellow font-bold text-xs tracking-widest uppercase mb-4 bg-cine-yellow/10 px-3 py-1 rounded">DETAIL BERITA</span>
+                <h1 class="text-3xl lg:text-5xl font-black text-cine-cream mb-4 tracking-tighter leading-tight">
+                    {{ strtoupper($news->title ?? 'DETAIL INFORMASI BERITA') }}
+                </h1>
             </div>
+            <div class="w-full lg:w-1/4 lg:text-right">
+                <span class="text-cine-cream/70 font-medium text-sm tracking-widest uppercase">TERAKHIR DIPERBARUI</span>
+                <p class="text-cine-blue font-bold">
+                    {{ $news->created_at ? $news->created_at->translatedFormat('l, j F Y') : 'TERBARU' }}
+                </p>
+            </div>
+        </div>
+    </section>
 
-            <img class="w-full mb-10" data-lity src="{{ url(Storage::url($news->thumbnail_news[0]->thumbnail)) }}" alt="thumbnail">
+    <!-- Main Content -->
+    <section class="w-full bg-cine-cream min-h-[500px] py-[56px] lg:py-[88px]">
+        <div class="max-w-[800px] mx-auto px-[24px] bg-white rounded-[24px] p-[32px] lg:p-[48px] border border-cine-navy/10 shadow-sm">
+            <article class="prose prose-lg lg:prose-xl max-w-none text-cine-navy text-justify leading-relaxed">
+                <p class="first-letter:text-6xl first-letter:font-black first-letter:text-cine-blue first-letter:mr-3 first-letter:float-left first-line:uppercase first-line:tracking-widest">
+                    {{ $news->description ?? 'Konten berita tidak tersedia.' }}
+                </p>
+            </article>
 
-            <p class="text-white px-6 lg:px-20 text-base text-justify mb-10 lg:mb-28">
-                <span class="font-bold text-white">PKKMB Universitas Narotama 2024 - </span> {{ $news->description ?? '' }}
-            </p>
+            <div class="mt-16 pt-8 border-t border-cine-navy/10 flex justify-center lg:justify-start">
+                <a href="{{ route('informasi-berita') }}" class="text-cine-navy bg-cine-navy/5 px-8 py-3 rounded-[12px] font-bold hover:bg-cine-yellow transition-colors inline-block text-sm">
+                    Kembali ke Berita
+                </a>
+            </div>
         </div>
     </section>
 @endsection

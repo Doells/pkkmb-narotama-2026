@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kelompok;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class KelompokController extends Controller
 {
@@ -34,9 +36,14 @@ class KelompokController extends Controller
     public function destroy(Kelompok $kelompok)
     {
         try {
-            $kelompok->delete();
+            DB::transaction(function () use ($kelompok): void {
+                User::where('kelompok_id', $kelompok->id)->update(['kelompok_id' => null]);
+                $kelompok->delete();
+            });
+
             return back()->with('success', 'Data kelompok berhasil dihapus.');
-        } catch (\Exception $ex) {
+        } catch (\Throwable $ex) {
+            report($ex);
             return back()->with('error', 'Gagal menghapus data kelompok.');
         }
     }

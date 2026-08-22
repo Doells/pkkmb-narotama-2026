@@ -16,18 +16,18 @@ use Illuminate\Http\Request;
 class DashboardController extends Controller
 {
     public function index()
-    {   
+    {
         $positionIdPeserta = 1; // Ganti dengan nilai yang sesuai dengan kondisi Anda
         $positionIdPanitia = 2; // Ganti dengan nilai yang sesuai dengan kondisi Anda
-
+        
         $pesertaCount = User::query()
             ->where('position_id', $positionIdPeserta)
             ->count();
-
+            
         $panitiaCount = User::query()
             ->where('position_id', $positionIdPanitia)
             ->count();
-
+            
         return view('dashboard.admin.index', [
             "title" => "Dashboard Admin",
             "positionCount" => Position::count(),
@@ -40,14 +40,14 @@ class DashboardController extends Controller
             "panitiaCount" => $panitiaCount,
         ]);
     }
-
+    
     public function indexuserdashboard()
     {
         $presencesCount = Attendance::query()
             // ->with('positions')
             ->forCurrentUser(auth()->user()->position_id)
             ->count();
-
+            
         return view('dashboard.user.index', [
             "title" => 'Dashboard',
             "taskCount" => TambahTugas::count(),

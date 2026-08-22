@@ -11,7 +11,6 @@ use App\Models\TambahTugas;
 use App\Models\Task;
 use App\Models\User;
 use Maatwebsite\Excel\Facades\Excel;
-
 use Illuminate\Http\Request;
 
 class HasilController extends Controller
@@ -33,11 +32,16 @@ class HasilController extends Controller
             })
             ->count();
 
-        $peserta = User::where('position_id', '1')->orderBy('kelompok_id', 'asc')->orderBy('name', 'asc')->get();
+        $peserta = User::where('position_id', '1')
+            ->with(['kelompok', 'submitPresensi', 'submitTugas', 'pelanggaran_peserta'])
+            ->orderBy('kelompok_id', 'asc')
+            ->orderBy('name', 'asc')
+            ->get();
+
         $pelanggaran = Pelanggaran::whereIn('peserta_id', $peserta->pluck('id'))->get();
         $presensi = Presence::whereIn('user_id', $peserta->pluck('id'))->get();
         $tugas = Task::whereIn('user_id', $peserta->pluck('id'))->get();
-        
+
         //dd($pelanggaran);
         return view('dashboard.admin.hasil.index', compact('peserta', 'pelanggaran', 'presensi'), [
             "title" => "Hasil Kelulusan",
@@ -50,5 +54,4 @@ class HasilController extends Controller
     {
         return Excel::download(new HasilDataExport, 'hasil-data.xlsx');
     }
-
 }

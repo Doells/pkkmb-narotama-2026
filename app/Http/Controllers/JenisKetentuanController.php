@@ -1,21 +1,15 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-
 use App\Http\Requests\Dashboard\JenisKetentuan\StoreJenisKetentuanRequest;
 use App\Http\Requests\Dashboard\JenisKetentuan\UpdateJenisKetentuanRequest;
-
 use Illuminate\Support\Facades\Storage;
-
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
-
 use App\Models\User;
 use App\Models\Pelanggaran;
 use App\Models\Ketentuan;
@@ -29,7 +23,6 @@ class JenisKetentuanController extends Controller
     public function index()
     {
         $jenisketentuann = JenisKetentuan::orderBy('created_at', 'desc')->get();
-        
         return view('dashboard.admin.jenisketentuan.index', compact('jenisketentuann'), ["title" => "Jenis Ketentuan"]);
     }
 
@@ -47,7 +40,6 @@ class JenisKetentuanController extends Controller
     public function store(StoreJenisKetentuanRequest $request)
     {
         $data = $request->all();
-
         $data['users_id'] = Auth::user()->id;
 
         // add to jenis ketentuan
@@ -91,10 +83,8 @@ class JenisKetentuanController extends Controller
     public function destroy($id)
     {
         $jenisketentuan = JenisKetentuan::find($id);
-
         if ($jenisketentuan) {
             $jenisketentuan->delete();
-            
             // toast()->success('Berita berhasil dihapus');
             return back();
         } else {

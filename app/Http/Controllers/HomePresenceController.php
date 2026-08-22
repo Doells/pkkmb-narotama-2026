@@ -67,5 +67,4 @@ class HomePresenceController extends Controller
             'priodDate' => $priodDate,
         ]);
     }
-    
 }

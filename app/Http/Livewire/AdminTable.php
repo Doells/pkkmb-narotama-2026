@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Position;
 use App\Models\Role;
 use App\Models\User;
+use App\Services\UserDeletionService;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
@@ -32,19 +33,15 @@ final class AdminTable extends PowerGridComponent
         );
     }
 
-    /* public function header(): array
+    public function header(): array
     {
         return [
             Button::add('bulk-checked')
-                ->caption(__('Hapus'))
-                ->class('bg-red-500 w-4 text-white rounded-lg hover:bg-red-600')
+                ->caption(__('Hapus Terpilih'))
+                ->class('cine-bulk-delete')
                 ->emit('bulkCheckedDelete', []),
-            Button::add('bulk-edit-checked')
-                ->caption(__('Edit'))
-                ->class('bg-blue-500 w-4 text-white rounded-lg hover:bg-blue-600')
-                ->emit('bulkCheckedEdit', []),
         ];
-    } */
+    }
 
     public function bulkCheckedDelete()
     {
@@ -59,9 +56,15 @@ final class AdminTable extends PowerGridComponent
 
 
             try {
-                User::whereIn('id', $ids)->delete();
-                $this->dispatchBrowserEvent('showToast', ['success' => true, 'message' => 'Data admin berhasi dihapus.']);
-            } catch (\Illuminate\Database\QueryException $ex) {
+                User::whereIn('id', $ids)->get()->each(function (User $user): void {
+                    app(UserDeletionService::class)->delete($user);
+                });
+                $this->checkboxValues = [];
+                $this->checkboxAll = false;
+                $this->fillData();
+                $this->dispatchBrowserEvent('showToast', ['success' => true, 'message' => 'Data admin berhasil dihapus.']);
+            } catch (\Throwable $ex) {
+                report($ex);
                 $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Data gagal dihapus, kemungkinan ada data lain yang menggunakan data tersebut.']);
             }
         }
@@ -77,7 +80,7 @@ final class AdminTable extends PowerGridComponent
 
             $ids = join('-', $ids);
             // return redirect(route('student.edit', ['ids' => $ids])); // tidak berfungsi/menredirect
-            return $this->dispatchBrowserEvent('redirect', ['url' => route('dashboard.students.edit', ['ids' => $ids])]);
+            return $this->dispatchBrowserEvent('redirect', ['url' => route('admin.edit', ['ids' => $ids])]);
         }
     }
 
@@ -98,8 +101,9 @@ final class AdminTable extends PowerGridComponent
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput()->showToggleColumns(),
             Footer::make()
-                ->showPerPage()
-                ->showRecordCount(),
+                ->showPerPage(10, [10, 20, 50, 100])
+                ->showRecordCount()
+                ->pagination('components.pagination'),
         ];
     }
 
@@ -134,7 +138,7 @@ final class AdminTable extends PowerGridComponent
         return User::query()
             ->join('roles', 'users.role_id', '=', 'roles.id')
             ->join('positions', 'users.position_id', '=', 'positions.id')
-            ->join('kelompoks', 'users.kelompok_id', '=', 'kelompoks.id')
+            ->leftJoin('kelompoks', 'users.kelompok_id', '=', 'kelompoks.id')
             ->select('users.*', 'roles.name as role', 'positions.name as position', 'kelompoks.name as kelompok_name')
             ->when(Auth::user(), function ($query) {
                 return $this->filteradmin($query);
@@ -193,7 +197,7 @@ final class AdminTable extends PowerGridComponent
                 ->route('admin.edit', ['ids' => 'id']),
 
             Button::make('destroy', 'Delete')
-                    ->class('bg-red-500 hover:bg-red-600 hover:underline rounded-full px-4 py-1 text-white my-2')
+                    ->class('delete-btn bg-red-500 hover:bg-red-600 hover:underline rounded-full px-4 py-1 text-white my-2')
                     ->target('')
                     ->route('admin.destroy', ['users' => 'id'])
                     ->method('delete')
@@ -239,12 +243,16 @@ final class AdminTable extends PowerGridComponent
 
             Column::make('Posisi', 'position', 'positions.name')
                 ->searchable()
-                ->makeInputMultiSelect(Position::all(), 'name', 'position_id')
+                ->makeInputSelect(Position::query()->orderBy('name')->get(), 'name', 'position_id')
                 ->sortable(),
 
             Column::make('Role', 'role', 'roles.name')
                 ->searchable()
-                ->makeInputMultiSelect(Role::all(), 'name', 'role_id')
+                ->makeInputSelect(
+                    Role::query()->whereIn('id', [User::SUPERADMIN_ROLE_ID, User::ADMIN_ROLE_ID])->orderBy('name')->get(),
+                    'name',
+                    'role_id'
+                )
                 ->sortable(),
 
             Column::make('Created at', 'created_at', 'users.created_at')

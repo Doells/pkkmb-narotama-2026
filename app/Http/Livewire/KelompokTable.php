@@ -3,9 +3,11 @@
 namespace App\Http\Livewire;
 
 use App\Models\Kelompok;
+use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use PowerComponents\LivewirePowerGrid\Rules\{Rule, RuleActions};
 use PowerComponents\LivewirePowerGrid\Traits\ActionButton;
 use PowerComponents\LivewirePowerGrid\{Button, Column, Exportable, Footer, Header, PowerGrid, PowerGridComponent, PowerGridEloquent};
@@ -25,19 +27,15 @@ final class KelompokTable extends PowerGridComponent
         );
     }
 
-    /* public function header(): array
+    public function header(): array
     {
         return [
             Button::add('bulk-checked')
-                ->caption(__('Hapus'))
-                ->class('bg-red-500 w-4 text-white rounded-lg hover:bg-red-600')
+                ->caption(__('Hapus Terpilih'))
+                ->class('cine-bulk-delete')
                 ->emit('bulkCheckedDelete', []),
-            Button::add('bulk-edit-checked')
-                ->caption(__('Edit'))
-                ->class('bg-green-500 w-4 text-white rounded-lg hover:bg-green-600')
-                ->emit('bulkCheckedEdit', []),
         ];
-    } */
+    }
 
     public function bulkCheckedDelete()
     {
@@ -48,9 +46,16 @@ final class KelompokTable extends PowerGridComponent
                 return $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Pilih data yang ingin dihapus terlebih dahulu.']);
 
             try {
-                Kelompok::whereIn('id', $id)->delete();
+                DB::transaction(function () use ($id): void {
+                    User::whereIn('kelompok_id', $id)->update(['kelompok_id' => null]);
+                    Kelompok::whereIn('id', $id)->delete();
+                });
+                $this->checkboxValues = [];
+                $this->checkboxAll = false;
+                $this->fillData();
                 $this->dispatchBrowserEvent('showToast', ['success' => true, 'message' => 'Data kelompok berhasil dihapus.']);
-            } catch (\Illuminate\Database\QueryException $ex) {
+            } catch (\Throwable $ex) {
+                report($ex);
                 $this->dispatchBrowserEvent('showToast', ['success' => false, 'message' => 'Data gagal dihapus, kemungkinan ada data lain yang menggunakan data tersebut.']);
             }
         }
@@ -87,8 +92,9 @@ final class KelompokTable extends PowerGridComponent
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
-                ->showPerPage()
-                ->showRecordCount(),
+                ->showPerPage(10, [10, 20, 50, 100])
+                ->showRecordCount()
+                ->pagination('components.pagination'),
         ];
     }
 
@@ -203,7 +209,7 @@ final class KelompokTable extends PowerGridComponent
                  ->route('kelompok.edit', ['id' => 'id']),
 
             Button::make('destroy', 'Delete')
-                ->class('bg-red-500 hover:bg-red-600 hover:underline rounded-full px-4 py-1 text-white my-2')
+                ->class('delete-btn bg-red-500 hover:bg-red-600 hover:underline rounded-full px-4 py-1 text-white my-2')
                 ->target('')
                 ->route('kelompok.destroy', ['kelompok' => 'id'])
                 ->method('delete')

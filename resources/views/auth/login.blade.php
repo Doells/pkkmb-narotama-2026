@@ -1,54 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     @include('includes.landing.meta')
-
     @include('partials.fonts')
     @include('partials.tailwindstyles')
-    @stack('style')
-
-    <title>Login | PKKMB Narotama 2023</title>
-
-    @stack('before-style')
-
+    <title>Login Peserta | PKKMB Narotama 2026</title>
     @include('includes.landing.style')
-
-    @stack('after-style')
 </head>
-<body class="antialiased font-poppins">
-    <div class="relative">
-        <section class="bg-black">
-            <div class="w-full h-screen flex flex-col items-center justify-center px-6 py-8 mx-auto">
-                <div class="w-full bg-white/30 backdrop-blur-lg  rounded-lg shadow-lg dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-                    <a href="{{ route('index-landing') }}" class="flex items-center justify-center mb-6 text-2xl font-semibold text-white pt-10 px-5">
-                        <img class="items-center" src="{{ asset('/src/img/hero/logo.png') }}" alt="logo">    
-                    </a>
-                    <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        @include('partials.loginalerts')
-                        <h1 class="text-xl font-bold leading-tight tracking-tight text-white md:text-2xl ">
-                            Silahkan Masuk
-                        </h1>
-                        <form class="space-y-4 md:space-y-6" action="{{ route('auth.login') }}" method="POST">
-                            @csrf
-                            <div>
-                                <label for="nim" class="block mb-2 text-sm font-medium text-white ">NIM</label>
-                                <input type="number" name="nim" id="nim" class="peer bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 @error('nim') focus:ring-red-600 focus:border-red-600  @enderror" placeholder="NIM" required="">
-                            </div>
-                            <div>
-                                <label for="password" class="block mb-2 text-sm font-medium text-white ">Password</label>
-                                <input type="password" name="password" id="password" placeholder="••••••••" class="peer bg-gray-50 border border-gray-300 text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 @error('password') focus:ring-red-600 focus:border-red-600  @enderror" required="">
-                            </div>
-                            <button type="submit" class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Masuk</button>
-                            <div class="w-full flex items-center bg-slate-500 rounded-md text-white">
-                                <a href="{{ route('index-landing') }}" type="button" class="w-full bg-gray-200 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Kembali</a>
-                            </div>
-                        </form>
+<body class="cine-page">
+    <main class="cine-login-page">
+        <section class="cine-login-art">
+            <a href="{{ route('index-landing') }}" class="cine-login-brand"><img src="{{ asset('pkkmblogo-transparent.png') }}?v=2" alt="Logo PKKMB Narotama 2026"></a>
+            <div class="cine-grain" aria-hidden="true"></div>
+            <div class="cine-login-copy">
+                <div class="cine-eyebrow">RUANG PESERTA</div>
+                <h1>Scene-mu<br><em>dimulai di sini.</em></h1>
+                <p>Akses informasi kelompok, tugas peserta, presensi, dan pengumuman khusus melalui satu ruang yang sama.</p>
+            </div>
+            <div class="cine-login-ticket"><span>PKKMB</span><b>2026</b><small>ADMIT ONE • GARDA DEPAN</small></div>
+        </section>
+
+        <section class="cine-login-panel">
+            <div class="cine-login-box">
+                <a href="{{ route('index-landing') }}" class="cine-back">← KEMBALI KE BERANDA</a>
+                <div class="cine-login-title"><small>SELAMAT DATANG</small><h2>Login Peserta</h2><p>Gunakan NIM dan kata sandi yang telah diberikan oleh panitia.</p></div>
+
+                @if(session()->has('loginError'))
+                    <div class="cine-alert error" role="alert">{{ session('loginError') }}</div>
+                @endif
+
+                <form action="{{ route('auth.login') }}" method="POST">
+                    @csrf
+                    <div class="cine-field">
+                        <label for="nim">Nomor Induk Mahasiswa</label>
+                        <div class="cine-input"><span>№</span><input type="number" name="nim" id="nim" value="{{ old('nim') }}" placeholder="Masukkan NIM" required autofocus autocomplete="username"></div>
+                        @error('nim')<p class="cine-error">{{ $message }}</p>@enderror
                     </div>
-                </div>
+                    <div class="cine-field">
+                        <label for="password">Kata Sandi</label>
+                        <div class="cine-input"><span>●</span><input type="password" name="password" id="password" placeholder="Masukkan kata sandi" required autocomplete="current-password"></div>
+                        @error('password')<p class="cine-error">{{ $message }}</p>@enderror
+                    </div>
+                    <button type="submit" class="cine-submit">Masuk ke Ruang Peserta <span>→</span></button>
+                </form>
             </div>
         </section>
-    </div>
-    
-    <script type="module" src="{{ asset('js/auth/login.js') }}"></script>
+    </main>
 </body>
 </html>

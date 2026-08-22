@@ -42,6 +42,12 @@ module.exports = {
         },
         current: 'currentColor',
         transparent: 'transparent',
+        'cine-navy': '#073B5C',
+        'cine-blue': '#27A9E8',
+        'cine-mint': '#50D6B2',
+        'cine-cream': '#FFF9E8',
+        'cine-yellow': '#FFC83D',
+        'cine-coral': '#FF5A4F',
         white: '#FFFFFF',
         realblack: '#000000',
         black: '#1C2434',
@@ -316,6 +322,6 @@ module.exports = {
     },
   },
   plugins: [
-      require('flowbite/plugin')
+    require('flowbite/plugin')
   ],
 }

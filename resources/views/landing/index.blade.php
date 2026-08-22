@@ -1,192 +1,69 @@
 @extends('layouts.landing.base')
 
 @section('content')
-<div class="relative">
-    <section id="hero" class="lg:h-screen w-full bg-black lg:relative flex items-center">
-        <img src="{{ asset('/src/img/hero/bg_landing.png') }}" alt=""
-            class="lg:block absolute mt-0 ml-0 h-screen w-full object-cover filter grayscale" data-aos="fade-zoom-in"
-            data-aos-easing="ease-in-back" data-aos-delay="1000" data-aos-duration="1000" data-aos-offset="0">
-
-        <div class="lg:absolute w-full h-screen flex flex-col items-center text-center pt-56 lg:pt-36">
-            <img src="{{ asset('/src/img/logo/logo.png') }}" alt=""
-                class=" py-1 px-3 lg:px-6 rounded-lg mb-5 opacity-100" data-aos="fade-down" data-aos-easing="linear"
-                data-aos-delay="1500" data-aos-duration="1000" width="266" height="112">
-
-            <div class="relative" data-aos="fade-down" data-aos-easing="linear" data-aos-delay="1000"
-                data-aos-duration="1000">
-                <h2 id="title1"
-                    class="text-white text-xl lg:text-4xl font-extrabold mb-0 text-glow relative z-10">
-                    PENGGAWA NAROTAMA
-                </h2>
-
-                <!-- Gambar sebagai background di tengah-tengah -->
-                <img src="{{ asset('/src/img/hero/mask_group.png') }}"
-                    class="absolute inset-0 mx-auto my-auto w-full h-auto opacity-100 z-0 lg:w-full"
-                    alt="mask_group.png">
-
-                <h2 id="title2"
-                    class="text-white text-xl lg:text-4xl font-extrabold mb-5 text-glow relative z-10">
-                    MUDA BESTARI DAN KUAT
-                </h2>
-            </div>
-
-            <div class="" data-aos="fade-up" data-aos-easing="linear" data-aos-duration="2500">
-                <h3 id="text1" class="text-white text-sm lg:text-lg font-light">Inilah saatnya untuk beraksi
-                </h3>
-                <h3 id="text2" class="text-white text-sm lg:text-lg font-light">Jadilah bagian dari perubahan
-                    yang luar biasa</h3>
-            </div>
-        </div>
-
-
-        <div class="absolute w-full h-screen flex flex-col items-center text-center pt-80" data-aos="fade-zoom-in"
-            data-aos-easing="ease-in-back" data-aos-delay="2000" data-aos-duration="1000" data-aos-offset="0">
+<main>
+    <section class="cine-hero" id="beranda">
+        <div class="cine-grain" aria-hidden="true"></div>
+        <div class="cine-container cine-hero-grid">
             <div>
-                <a href="#dashboard">
-                    <button
-                        class="text-black font-bold text-base lg:text-xl mt-48 lg:mt-44 py-1 lg:py-2 px-6 lg:px-7 bg-white rounded-full shadow-sm z-50">
-                        Mulai
-                    </button>
-                </a>
+                <div class="cine-eyebrow">PKKMB UNIVERSITAS NAROTAMA 2026</div>
+                <h1>Cine<span>Action</span></h1>
+                <p class="cine-tagline">Mahakarya Garda Depan,<br>Mengukir Dampak untuk Negeri.</p>
+                <p class="cine-lead">Langkah pertama menuju perjalanan baru. Temukan teman, pengalaman, dan semangat untuk menjadi bagian dari Garda Depan Narotama.</p>
+                <div class="cine-actions">
+                    <a class="cine-button cine-button-primary" href="{{ route('informasi-landing') }}">Jelajahi Informasi <b>→</b></a>
+                    <a class="cine-button cine-button-outline" href="#jadwal">Lihat Jadwal</a>
+                </div>
+            </div>
+
+            <div class="cine-visual" aria-label="Ilustrasi tiket PKKMB 2026">
+                <div class="cine-spot one"></div><div class="cine-spot two"></div>
+                <div class="cine-film"><span>WELCOME</span></div>
+                <div class="cine-ticket">
+                    <div class="cine-ticket-head"><small>ADMIT ONE</small><strong>NAROTAMA</strong></div>
+                    <div class="cine-ticket-main">
+                        <span>THE FIRST SCENE</span>
+                        <strong>PKKMB<br>2026</strong>
+                        <div class="cine-ticket-meta"><span>01—03 SEP</span><span>SURABAYA</span></div>
+                    </div>
+                    <div class="cine-ticket-stub"><span>GARDA DEPAN</span><b>26</b></div>
+                </div>
+                <div class="cine-badge"><b>3</b><span>HARI<br>BERAKSI</span></div>
+            </div>
+        </div>
+        <div class="cine-ticker" aria-hidden="true"><span>ORIENTASI</span> ✦ <span>KOLABORASI</span> ✦ <span>INSPIRASI</span> ✦ <span>AKSI NYATA</span> ✦ <span>GARDA DEPAN</span></div>
+    </section>
+
+    <section class="cine-section">
+        <div class="cine-container cine-intro-grid">
+            <div><div class="cine-kicker">MULAI CERITAMU</div><h2 class="cine-title">Satu langkah kecil.<br><em>Dampak yang besar.</em></h2></div>
+            <div class="cine-intro-copy"><p>PKKMB bukan sekadar pengenalan kampus. Ini adalah babak pembuka untuk mengenali potensi, membangun koneksi, dan memulai karya yang berdampak.</p><a href="{{ route('informasi-landing') }}#pengenalan" class="cine-text-link">Baca tentang PKKMB ↗</a></div>
+        </div>
+    </section>
+
+    <section class="cine-section cine-info">
+        <div class="cine-container">
+            <div class="cine-section-head"><div><div class="cine-kicker">INFORMASI PESERTA</div><h2 class="cine-title">Semua yang perlu<br>kamu siapkan.</h2></div><p>Empat panduan utama untuk memastikan perjalanan pertamamu dimulai dengan percaya diri.</p></div>
+            <div class="cine-info-grid">
+                <a href="{{ route('informasi-landing') }}#pengenalan" class="cine-info-card blue"><small>01</small><div class="cine-info-icon">▶</div><h3>Pengenalan PKKMB</h3><p>Kenali tema, rangkaian kegiatan, dan hal penting sebelum hari pelaksanaan.</p><span class="cine-card-link">Buka informasi <b>↗</b></span></a>
+                <a href="{{ route('informasi-landing') }}#pedoman" class="cine-info-card yellow"><small>02</small><div class="cine-info-icon">≡</div><h3>Pedoman Peserta</h3><p>Panduan lengkap, tata tertib, perlengkapan, dan ketentuan peserta.</p><span class="cine-card-link">Buka informasi <b>↗</b></span></a>
+                <a href="{{ route('informasi-landing') }}#seragam" class="cine-info-card coral"><small>03</small><div class="cine-info-icon">◆</div><h3>Ketentuan Seragam</h3><p>Lihat pakaian dan atribut yang perlu disiapkan untuk setiap rangkaian acara.</p><span class="cine-card-link">Buka informasi <b>↗</b></span></a>
+                <a href="{{ route('informasi-landing') }}#panitia" class="cine-info-card mint"><small>04</small><div class="cine-info-icon">●</div><h3>Kenali Panitia</h3><p>Temukan koordinator dan narahubung yang siap membantu mahasiswa baru.</p><span class="cine-card-link">Buka informasi <b>↗</b></span></a>
             </div>
         </div>
     </section>
 
-    <section id="dashboard" class="h-screen w-full bg-[#000000] justify-center">
-      <div class="">
-        <img src="{{ asset('/src/img/hero/2/clip_path_group.png') }}" alt="clip_path_group.png"
-            class="absolute mt-0 ml-0 object-cover " data-aos="fade-zoom-in" data-aos-easing="ease-in-back"
-            data-aos-duration="2000" data-aos-offset="0">
-        <div class="flex justify-end mb-15">
-            <img src="{{ asset('/src/img/hero/2/pkkmb_2024.png') }}" alt="pkkmb_2024.png"
-                class="absolute object-cover mt-0 mr-0 pt-56 lg:pt-18 z-0 w-3/4 lg:w-1/2" data-aos="fade-up"
-                data-aos-easing="linear" data-aos-delay="3000" data-aos-duration="1000">
-        </div>
-        <div class="grid grid-cols-2">
-            <div class="flex justify-start pt-56 lg:pt-16">
-                <img src="{{ asset('/src/img/hero/2/group.png') }}" alt="group.png"
-                    class="absolute object-cover w-full mt-0 ml-0 z-0" data-aos="fade-up"
-                    data-aos-easing="linear" data-aos-delay="3000" data-aos-duration="1000">
+    <section class="cine-section" id="jadwal">
+        <div class="cine-container cine-schedule">
+            <div><div class="cine-kicker">LINIMASA KEGIATAN</div><h2 class="cine-title">Tandai<br><em>tanggalnya.</em></h2><p style="max-width:340px;color:#557282;line-height:1.7;margin-top:35px">Jadwal dapat berubah. Pantau informasi terbaru melalui website dan kanal resmi PKKMB.</p></div>
+            <div>
+                <article class="cine-agenda"><div class="cine-date"><b>24</b><span>AGU</span></div><div><small>01</small><h3>Technical Meeting</h3><p>Zoom Meeting</p></div><span>↗</span></article>
+                <article class="cine-agenda"><div class="cine-date mint"><b>28</b><span>AGU</span></div><div><small>02</small><h3>Pra-PKKMB</h3><p>Universitas Narotama</p></div><span>↗</span></article>
+                <article class="cine-agenda"><div class="cine-date yellow"><b>01</b><span>SEP</span></div><div><small>03</small><h3>PKKMB 2026</h3><p>Kampus Universitas Narotama</p></div><span>↗</span></article>
             </div>
-            <div class="flex justify-end pt-56 lg:pt-16">
-                <img src="{{ asset('/src/img/hero/2/foto.png') }}" alt="foto.png" width="50" height="50"
-                    class="absolute object-cover w-1/4 mt-0 mr-0 border-2 border-r-0 border-[#FFC300] pt-2 pl-2 pb-2"
-                    data-aos="fade-up" data-aos-easing="linear" data-aos-delay="3000" data-aos-duration="1000">
-            </div>
-        </div>
-        <div class="absolute h-screen">
-            <div class="flex flex-col text-center lg:pt-10 pl-10 lg:pl-10 w-[300px] lg:w-full">
-                <div class="flex gap-4">
-                    <div class="w-[100px] border border-t-2 border-[#FFC300] mb-5">
-
-                    </div>
-                    <div class="w-[30px] border border-t-2 border-[#FFC300] mb-5">
-
-                    </div>
-                </div>
-                <h2 id="title1" class="text-white text-lg lg:text-6xl font-extrabold mb-0 z-50"
-                    data-aos="fade-down" data-aos-easing="linear" data-aos-delay="1100" data-aos-duration="1000">
-                    MULAI DUNIAMU
-                </h2>
-                <h2 id="title2" class="text-white text-lg lg:text-3xl font-bold mb-5 z-50" data-aos="fade-down"
-                    data-aos-easing="linear" data-aos-delay="1000" data-aos-duration="1000">
-                    UNTUK PERUBAHAN YANG LUAR BIASA
-                </h2>
-                <div class="" data-aos="fade-up" data-aos-easing="linear" data-aos-delay="1300"
-                    data-aos-duration="1000">
-                    <h3 id="text1" class="text-white text-sm lg:text-base font-light">Saatnya mulai beraksi
-                    </h3>
-                    <h3 id="text2" class="text-white text-sm lg:text-base font-light mb-7">Buat pengalamanmu
-                        menjadi lebih berharga</h3>
-                </div>
-
-                <div>
-                    <a href="{{ route('home-presences.indexuserdashboard') }}"
-                        class="text-black py-1 lg:py-2 px-6 lg:px-7 bg-white rounded-full" data-aos="fade-zoom-in"
-                        data-aos-easing="ease-in-back" data-aos-delay="2500" data-aos-duration="1000">
-                        Masuk
-                    </a>
-                </div>
-            </div>
-        </div>          
-      </div>
-    </section>
-
-    <section id="information" class="h-screen w-full bg-[#000000]">
-        <img src="{{ asset('/src/img/hero/3/foto.png') }}" alt="3/foto.png"
-            class="absolute mt-0 ml-0 object-cover filter grayscale z-0 pt-56 lg:pt-0" data-aos="fade-zoom-in"
-            data-aos-easing="ease-in-back" data-aos-duration="1000" data-aos-delay="2000" data-aos-offset="200">
-        <div class="pt-56 lg:pt-0" data-aos="fade-up" data-aos-anchor-placement="bottom-bottom" data-aos-delay="1000"
-            data-aos-offset="500">
-            <img src="{{ asset('/src/img/hero/3/clip_path_group.png') }}" alt="clip_path_group.png"
-                class="absolute mt-40 ml-0 object-cover filter grayscale z-0">
-        </div>
-        
-        <div class="grid grid-cols-2 lg:pt-18">
-          <div class="w-1/4 ml-5 lg:ml-20">
-            <img src="{{ asset('/src/img/hero/3/sijagad_halo.png') }}" alt="3/sijagad_halo.png"
-            class="absolute opacity-100 z-20 w-[84px] h-[120px] lg:w-[330px] lg:h-[510px] -ml-5 mt-10 lg:pt-15" data-aos="fade-zoom-in"
-            data-aos-easing="ease-in-back" data-aos-duration="1000" data-aos-delay="2000" data-aos-offset="200">
-            <img src="{{ asset('/src/img/hero/3/group_20.png') }}" alt="3/group_20.png"
-            class="absolute opacity-100 lg:ml-30 w-[124px] h-[153px] lg:w-[400px] lg:h-[547px] z-0" data-aos="fade-zoom-in"
-            data-aos-easing="ease-in-back" data-aos-duration="1000" data-aos-delay="2000" data-aos-offset="200">
-          </div>
-          <div class="w-[370px] lg:w-full absolute flex justify-end lg:pt-35 text-center">
-              <div>
-                  <div class="border-r-2 border-[#FFC300] pr-5 lg:mr-10">
-                    <h2 id="title1" class="text-white text-[12px] lg:text-5xl font-extrabold mb-0 lg:mb-1"
-                        data-aos="fade-right" data-aos-easing="linear" data-aos-delay="2100"
-                        data-aos-duration="1000">
-                        PERBANYAK INFORMASI
-                    </h2>
-                    <h2 id="title2" class="text-white text-[12px] lg:text-3xl font-bold mb-2 lg:mb-7"
-                        data-aos="fade-right" data-aos-easing="linear" data-aos-delay="2000"
-                        data-aos-duration="1000">
-                        MEMBUATMU MENJADI LEBIH LUAS
-                    </h2>
-                    <div class="max-w-screen-sm lg:max-w-screen-xl" data-aos="fade-right" data-aos-easing="linear"
-                        data-aos-delay="2300" data-aos-duration="1000">
-                        <h3 id="text1" class="text-white text-base lg:text-lg font-light">Informasi
-                            akan membantumu</h3>
-                        <h3 id="text2" class="text-white text-base lg:text-lg font-light mb-5 lg:mb-7">
-                            Informasi akan menjadi penuntunmu</h3>
-                    </div>
-                  </div>
-
-                  <a href="{{ route('informasi-landing') }}" data-aos="fade-zoom-in"
-                      data-aos-easing="ease-in-back" data-aos-delay="2500" data-aos-duration="1000">
-                      <button
-                          class="text-black font-bold text-base lg:text-lg py-1 lg:py-2 px-5 lg:px-9 bg-white border-2 border-white rounded-full shadow-xl">
-                          Cari Informasi
-                      </button>
-                  </a>
-              </div>
-          </div>
         </div>
     </section>
 
-    {{-- <section id="news" class="">
-
-  </section> --}}
-    <script>
-        document.querySelector('#nav-toggle').onclick = () => {
-            document.querySelectorAll('#nav-content').forEach(element => {
-                if (element.style.display === '') element.style.display = 'flex'
-                else element.style.display = ''
-            })
-        }
-    </script>
-
-    @stack('before-script')
-
-    @include('includes.landing.script')
-
-    @stack('after-script')
-
-    @stack('javascript')
-    @include('partials.scripts')
-</div>
+    <section class="cine-cta"><div class="cine-container cine-cta-inner"><div><small>SUDAH SIAP?</small><h2>Masuk ke ruang<br>peserta PKKMB.</h2></div>@auth<a href="{{ route('home-presences.indexuserdashboard') }}" class="cine-button cine-button-dark">Buka Dashboard <b>→</b></a>@else<a href="{{ route('auth.login') }}" class="cine-button cine-button-dark">Login Peserta <b>→</b></a>@endauth</div></section>
+</main>
 @endsection
-
-@push('javascript')
-@endpush
