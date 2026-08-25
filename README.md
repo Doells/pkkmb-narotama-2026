@@ -251,7 +251,6 @@ File berikut tidak boleh dimasukkan ke Git:
 
 ```text
 .env
-.env.example2
 vendor/
 node_modules/
 storage/logs/*.log
