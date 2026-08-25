@@ -13,8 +13,14 @@ use Illuminate\Support\Facades\Auth;
 class LandingController extends Controller
 {
     public function viewindex() {
+        $latestNews = News::with('thumbnail_news')
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
+
         return view('landing.index', [
-            "title" => "Beranda"
+            "title" => "Beranda",
+            "latestNews" => $latestNews,
         ]);
     }
 

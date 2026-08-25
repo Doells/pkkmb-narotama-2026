@@ -245,6 +245,27 @@ html {
     place-items: center
 }
 
+.cine-hero-mascot {
+    position: absolute;
+    bottom: -10px;
+    right: -20px;
+    height: 110%;
+    z-index: 10;
+    pointer-events: none;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
+    animation: floatMascot 4s ease-in-out infinite alternate;
+}
+
+@keyframes floatMascot {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-15px);
+    }
+}
+
 .cine-spot {
     position: absolute;
     top: -130px;
@@ -585,7 +606,7 @@ html {
 
 .cine-agenda {
     display: grid;
-    grid-template-columns: 78px 1fr auto;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
     gap: 24px;
     padding: 20px 0;
@@ -593,14 +614,16 @@ html {
 }
 
 .cine-date {
-    width: 67px;
+    min-width: 67px;
     height: 67px;
+    padding: 0 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: 14px;
-    background: var(--cine-blue)
+    border-radius: 18px;
+    background: var(--cine-blue);
+    flex-shrink: 0
 }
 
 .cine-date.mint {
@@ -612,7 +635,12 @@ html {
 }
 
 .cine-date b {
-    font-size: 22px
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: -.05em;
+    line-height: 1;
+    margin-bottom: 3px;
+    white-space: nowrap;
 }
 
 .cine-date span {
@@ -641,6 +669,29 @@ html {
 
 .cine-cta {
     padding: 25px 0 100px
+}
+
+.cine-peek-mascot {
+    position: absolute;
+    bottom: 96%;
+    right: 50px;
+    height: 160px;
+    z-index: -1;
+    pointer-events: none;
+    transform-origin: bottom center;
+    animation: peekBounce 3s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
+}
+
+@keyframes peekBounce {
+
+    0%,
+    100% {
+        transform: translateY(0) scaleY(1);
+    }
+
+    50% {
+        transform: translateY(-8px) scaleY(1.03);
+    }
 }
 
 .cine-cta-inner {
@@ -977,6 +1028,116 @@ html {
     color: #6c8390;
     margin: auto 0 0
 }
+
+/* ---------- News cards ---------- */
+
+.cine-news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px
+}
+
+.cine-news-card {
+    background: #fff;
+    border-radius: 18px;
+    border: 1px solid var(--cine-line);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: .25s;
+    box-shadow: 0 4px 16px rgba(7, 59, 92, .06)
+}
+
+.cine-news-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 32px rgba(7, 59, 92, .12);
+    border-color: var(--cine-yellow)
+}
+
+.cine-news-thumb {
+    height: 200px;
+    overflow: hidden;
+    background: var(--cine-navy)
+}
+
+.cine-news-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .35s
+}
+
+.cine-news-card:hover .cine-news-thumb img {
+    transform: scale(1.06)
+}
+
+.cine-news-thumb-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--cine-navy), #0d5a85);
+    font-size: 48px
+}
+
+.cine-news-body {
+    padding: 22px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1
+}
+
+.cine-news-date {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--cine-coral);
+    margin-bottom: 10px
+}
+
+.cine-news-title {
+    font-size: 19px;
+    font-weight: 900;
+    line-height: 1.25;
+    margin: 0 0 10px;
+    color: var(--cine-navy);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden
+}
+
+.cine-news-excerpt {
+    font-size: 13px;
+    line-height: 1.65;
+    color: #5a7482;
+    margin: 0 0 18px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden
+}
+
+.cine-news-link {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 900;
+    color: var(--cine-blue);
+    text-transform: uppercase;
+    letter-spacing: .06em
+}
+
+.cine-news-card:hover .cine-news-link {
+    color: var(--cine-coral)
+}
+
+/* ---------- /News cards ---------- */
 
 .cine-footer {
     background: var(--cine-dark);
@@ -1387,6 +1548,10 @@ html {
         grid-template-columns: 1fr
     }
 
+    .cine-news-grid {
+        grid-template-columns: 1fr
+    }
+
     .cine-info-card {
         min-height: 310px
     }
@@ -1547,3 +1712,105 @@ html {
 .cine-team-actions .cine-button {
     min-width: 250px;
 }
+
+/* Dedicated Mascot Showcase Styles */
+.cine-mascot {
+    background: linear-gradient(180deg, var(--cine-navy) 0%, var(--cine-dark) 100%);
+    border-top: 1px solid rgba(255, 200, 61, 0.1);
+    border-bottom: 1px solid rgba(255, 200, 61, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.cine-mascot::after {
+    content: "";
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(39, 169, 232, 0.1) 0%, transparent 60%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.cine-mascot-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.cine-mascot-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.cine-mascot-visual img {
+    height: 480px;
+    object-fit: contain;
+    filter: drop-shadow(0 25px 45px rgba(0, 0, 0, 0.4));
+    animation: mascotFloat 5s ease-in-out infinite alternate;
+}
+
+@keyframes mascotFloat {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-12px);
+    }
+}
+
+.cine-mascot .cine-title {
+    color: #ffffff;
+}
+
+.cine-mascot .cine-kicker {
+    color: var(--cine-yellow);
+}
+
+.cine-mascot .cine-kicker:before {
+    background: var(--cine-yellow);
+}
+
+.cine-mascot-desc {
+    font-size: 19px;
+    line-height: 1.7;
+    color: #ccecff;
+    margin-top: 25px;
+}
+
+@media (max-width: 1024px) {
+    .cine-mascot-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+    }
+
+    .cine-mascot-visual img {
+        height: 380px;
+    }
+
+    .cine-mascot-desc {
+        font-size: 17px;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 600px) {
+    .cine-mascot-visual img {
+        height: 280px;
+    }
+}
+/* Panitia Poster Grid */
+.cine-poster-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 40px; margin-bottom: 50px; }
+.cine-poster { background: #fff; border-radius: 20px; overflow: hidden; display: block; filter: drop-shadow(0 15px 35px rgba(0,0,0,0.1)); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease; }
+.cine-poster:hover { transform: translateY(-10px); filter: drop-shadow(0 25px 45px rgba(0,0,0,0.2)); z-index: 2; }
+.cine-poster img { display: block; width: 100%; height: auto; aspect-ratio: 3/4; object-fit: cover; }
+@media(max-width: 900px) { .cine-poster-grid { grid-template-columns: repeat(2, 1fr); } }
+@media(max-width: 600px) { .cine-poster-grid { grid-template-columns: 1fr; } }

@@ -32,26 +32,19 @@
         </div>
     </section>
 
-    @php
-        $teams = [
-            ['name' => 'Dr. Tahegga Primananda Alfath, S.H., M.H.', 'title' => 'Ketua Panitia Pengarah Universitas'],
-            ['name' => 'Fredy Pradana Putra', 'title' => 'Anggota Panitia Pengarah Universitas'],
-            ['name' => 'Muhammad Syaiful', 'title' => 'Ketua Panitia Pengarah Mahasiswa'],
-            ['name' => 'Ilda Annisa Afifah', 'title' => 'Anggota Panitia Pengarah Mahasiswa'],
-            ['name' => 'Juliana Fitria', 'title' => 'Ketua Pelaksana'],
-        ];
-    @endphp
     <section class="cine-detail cine-team-section" id="panitia">
         <div class="cine-container">
             <div class="cine-team-head"><div><span class="cine-detail-index mint">04</span><div class="cine-kicker">KENALI PANITIA</div><h2>Teman pertama<br>di langkah barumu.</h2></div><p>Panitia dan pendamping siap membantu agar pengalaman PKKMB-mu berjalan aman, nyaman, dan menyenangkan.</p></div>
-            <div class="cine-team-grid">
-                @foreach($teams as $person)
-                    @php
-                        $parts = preg_split('/\s+/', trim($person['name']));
-                        $initials = strtoupper(substr($parts[0] ?? 'P', 0, 1) . substr($parts[1] ?? '', 0, 1));
-                    @endphp
-                    <article class="cine-person"><div class="cine-avatar"><b>{{ $initials }}</b><small>PKKMB 26</small></div><h3>{{ $person['name'] }}</h3><p>{{ $person['title'] }}</p></article>
-                @endforeach
+            <div class="cine-poster-grid">
+                <a href="{{ route('informasi-panitia') }}" class="cine-poster">
+                    <img src="{{ asset('img/panitia/divisi-nardam.jpg') }}" alt="Divisi Naradamping">
+                </a>
+                <a href="{{ route('informasi-panitia') }}" class="cine-poster">
+                    <img src="{{ asset('img/panitia/divisi-humas.jpg') }}" alt="Divisi Hubungan Masyarakat">
+                </a>
+                <a href="{{ route('informasi-panitia') }}" class="cine-poster">
+                    <img src="{{ asset('img/panitia/divisi-perkap.jpg') }}" alt="Divisi Perlengkapan">
+                </a>
             </div>
             <div class="cine-team-actions">
                 <a href="{{ route('informasi-panitia') }}" class="cine-button cine-button-primary">

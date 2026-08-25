@@ -1,1 +1,65 @@
-@extends('layouts.landing.base')@section('content')    <!-- Page Header -->    <section class="w-full bg-cine-navy pt-[168px] pb-[64px]">        <div class="max-w-[1180px] mx-auto px-[24px] text-center lg:text-left">            <span class="inline-block text-cine-yellow font-bold text-xs tracking-widest uppercase mb-4">Pusat Informasi</span>            <h1 class="text-4xl lg:text-5xl font-black text-cine-cream mb-4 tracking-tighter">Berita & Informasi</h1>            <p class="text-base text-cine-cream/80 font-medium max-w-[600px] mx-auto lg:mx-0 leading-relaxed">                Ikuti terus perkembangan informasi terbaru mengenai Pelaksanaan Pengenalan Kehidupan Kampus Mahasiswa Baru Universitas Narotama 2026.            </p>        </div>    </section>    <section class="w-full bg-cine-cream min-h-[500px] py-[56px] lg:py-[88px]">        <div class="max-w-[1180px] mx-auto px-[24px]">            @if (count($newss))                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px]">                    @forelse ($newss as $item)                        <a href="{{ route('detail-informasi-berita', $item->id) }}" class="flex flex-col bg-white rounded-[24px] border border-cine-navy/10 shadow-sm hover:shadow-md hover:border-cine-yellow transition-all p-[24px]">                            <!-- No Thumbnail Rule -->                            <div class="mb-[16px]">                                <span class="bg-cine-navy/5 text-cine-navy/60 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">                                    {{ $item->created_at ? $item->created_at->format('d M Y') : 'TERBARU' }}                                </span>                            </div>                            <h2 class="font-black text-cine-navy text-xl mb-3 leading-snug line-clamp-2">                                {{ $item->title ?? 'Judul Berita' }}                            </h2>                            <div class="flex-grow">                                <p class="font-medium text-sm text-cine-navy/70 mb-6 leading-relaxed line-clamp-3">                                    @php                                        $text = $item->description ?? '';                                        echo strip_tags($text);                                    @endphp                                </p>                            </div>                            <span class="inline-flex items-center text-sm font-bold text-cine-blue uppercase tracking-wide mt-auto">                                Baca Berita                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>                            </span>                        </a>                    @empty                        {{-- empty --}}                    @endforelse                </div>            @else                <div class="w-full flex items-center justify-center pt-[40px]">                    <div class="w-full max-w-[640px] p-[40px] rounded-[24px] bg-white border border-cine-navy/10 text-center shadow-sm">                        <div class="w-16 h-16 bg-cine-yellow rounded-full flex items-center justify-center mx-auto mb-6 text-cine-navy font-black text-2xl shadow-sm">!</div>                        <h2 class="mb-2 text-2xl font-black text-cine-navy tracking-tight">                            Belum Ada Berita                        </h2>                        <p class="text-base text-cine-navy/70 font-medium leading-relaxed">                            Pembaruan informasi PKKMB 2026 akan segera kami publikasikan.                        </p>                    </div>                </div>            @endif        </div>    </section>@endsection
+@extends('layouts.landing.base')
+
+@section('content')
+    <!-- Page Header -->
+    <section class="w-full bg-cine-navy pt-[168px] pb-[64px]">
+        <div class="max-w-[1180px] mx-auto px-[24px] text-center lg:text-left">
+            <span class="inline-block text-cine-yellow font-bold text-xs tracking-widest uppercase mb-4">Pusat Informasi</span>
+            <h1 class="text-4xl lg:text-5xl font-black text-cine-cream mb-4 tracking-tighter">Berita & Informasi</h1>
+            <p class="text-base text-cine-cream/80 font-medium max-w-[600px] mx-auto lg:mx-0 leading-relaxed">
+                Ikuti terus perkembangan informasi terbaru mengenai Pelaksanaan Pengenalan Kehidupan Kampus Mahasiswa Baru Universitas Narotama 2026.
+            </p>
+        </div>
+    </section>
+
+    <section class="w-full bg-cine-cream min-h-[500px] py-[56px] lg:py-[88px]">
+        <div class="max-w-[1180px] mx-auto px-[24px]">
+            @if (count($newss))
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px]">
+                    @forelse ($newss as $item)
+                        <a href="{{ route('detail-informasi-berita', $item->id) }}" class="flex flex-col bg-white rounded-[24px] border border-cine-navy/10 shadow-sm hover:shadow-md hover:border-cine-yellow transition-all p-[24px]">
+                            <!-- No Thumbnail Rule -->
+                            <div class="mb-[16px]">
+                                <span class="bg-cine-navy/5 text-cine-navy/60 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+                                    {{ $item->created_at ? $item->created_at->format('d M Y') : 'TERBARU' }}
+                                </span>
+                            </div>
+                            <h2 class="font-black text-cine-navy text-xl mb-3 leading-snug line-clamp-2">
+                                {{ $item->title ?? 'Judul Berita' }}
+                            </h2>
+                            <div class="flex-grow">
+                                <p class="font-medium text-sm text-cine-navy/70 mb-6 leading-relaxed line-clamp-3">
+                                    @php
+                                        $text = $item->description ?? '';
+                                        echo strip_tags($text);
+                                    @endphp
+                                </p>
+                            </div>
+                            <span class="inline-flex items-center text-sm font-bold text-cine-blue uppercase tracking-wide mt-auto">
+                                Baca Berita
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </span>
+                        </a>
+                    @empty
+                        {{-- empty --}}
+                    @endforelse
+                </div>
+            @else
+                <div class="w-full flex items-center justify-center pt-[40px]">
+                    <div class="w-full max-w-[640px] p-[40px] rounded-[24px] bg-white border border-cine-navy/10 text-center shadow-sm">
+                        <img style="height:200px;margin: 0 auto -25px;display:block;transform:translateY(8px)" src="{{ asset('img/mascot/mascot-peek-trans.png') }}" alt="Maskot Peeking">
+                        
+                        <div class="w-16 h-16 bg-cine-yellow rounded-full flex items-center justify-center mx-auto mb-6 text-cine-navy font-black text-2xl shadow-sm" style="display:none;">!</div>
+                        
+                        <h2 class="mb-2 text-2xl font-black text-cine-navy tracking-tight mt-6">
+                            Belum Ada Berita
+                        </h2>
+                        <p class="text-base text-cine-navy/70 font-medium leading-relaxed">
+                            Pembaruan informasi PKKMB 2026 akan segera kami publikasikan.
+                        </p>
+                    </div>
+                </div>
+            @endif
+        </div>
+    </section>
+@endsection
