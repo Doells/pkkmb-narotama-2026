@@ -27,7 +27,7 @@ $teams = [
     ['name' => 'Pinkan Wardah Aulia', 'title' => 'Anggota Divisi Dokumentasi & Teknologi Informasi', 'link' => 'https://www.instagram.com/pnkwra/'],
     ['name' => 'Maulana Adrian Saputra', 'title' => 'Koordinator Divisi Perlengkapan', 'link' => 'https://www.instagram.com/adriaansapp/'],
     ['name' => 'Achmad Farros Robihansyah', 'title' => 'Anggota Divisi Perlengkapan', 'link' => 'https://www.instagram.com/faizz.yh_/'],
-    ['name' => 'Muhamad Haris Al-Aziz', 'title' => 'Anggota Divisi Perlengkapan', 'link' => 'https://www.instagram.com//'],
+    ['name' => 'Muhamad Haris Al-Aziz', 'title' => 'Anggota Divisi Perlengkapan', 'link' => 'https://www.instagram.com/haris_alazis/'],
     ['name' => 'Lina Sefiyatiningsih', 'title' => 'Anggota Divisi Perlengkapan', 'link' => 'https://www.instagram.com/buihkentut/'],
     ['name' => 'Muhammad Sofi', 'title' => 'Anggota Divisi Perlengkapan', 'link' => 'https://www.instagram.com/_mhmmdsofi/'],
     ['name' => 'Wida Humairoh Primarani', 'title' => 'Koordinator Divisi Hubungan Masyarakat', 'link' => 'https://www.instagram.com/wdaprm_/'],
@@ -44,9 +44,9 @@ $teams = [
     ['name' => 'Intan Permata Sari Sinaga', 'title' => 'Anggota Divisi Naradamping', 'link' => 'https://www.instagram.com/intaan_0.0/'],
     ['name' => 'Karina Vellishia', 'title' => 'Koordinator Divisi Logistik dan Kesehatan', 'link' => 'https://www.instagram.com/karinaaaav_/'],
     ['name' => 'Riska Ayu Purnamasari', 'title' => 'Anggota Divisi Logistik dan Kesehatan', 'link' => 'https://www.instagram.com/gizso/'],
-    ['name' => 'Maulana Ahmad Afandi', 'title' => 'Anggota Divisi Logistik dan Kesehatan', 'link' => 'https://www.instagram.com//'],
+    ['name' => 'Maulana Ahmad Afandi', 'title' => 'Anggota Divisi Logistik dan Kesehatan', 'link' => 'https://www.instagram.com/innsencc_/'],
     ['name' => 'Fanny Leonora Lekito', 'title' => 'Anggota Divisi Logistik dan Kesehatan', 'link' => 'https://www.instagram.com/fannylekitoo_/'],
-    ['name' => 'Herlin Diana', 'title' => 'Anggota Divisi Logistik dan Kesehatan', 'link' => 'https://www.instagram.com//'],
+    ['name' => 'Herlin Diana', 'title' => 'Anggota Divisi Logistik dan Kesehatan', 'link' => 'https://www.instagram.com/ilenbily/'],
     ['name' => 'Nabilah Dwi Ramadhani', 'title' => 'Anggota Divisi Logistik dan Kesehatan', 'link' => 'https://www.instagram.com/_nbilahdwi/'],
 ];
 @endphp
