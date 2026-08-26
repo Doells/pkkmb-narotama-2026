@@ -21,8 +21,15 @@
 
     <!-- Main Content -->
     <section class="w-full bg-cine-cream min-h-[500px] py-[56px] lg:py-[88px]">
-        <div class="max-w-[800px] mx-auto px-[24px] bg-white rounded-[24px] p-[32px] lg:p-[48px] border border-cine-navy/10 shadow-sm">
-            <article class="prose prose-lg lg:prose-xl max-w-none text-cine-navy text-justify leading-relaxed">
+        <div class="max-w-[800px] mx-auto px-[24px] bg-white rounded-[24px] overflow-hidden border border-cine-navy/10 shadow-sm">
+            @if($news->thumbnail_news && $news->thumbnail_news->count() > 0)
+                <div class="w-full h-[300px] md:h-[400px] bg-cine-navy/5 relative">
+                    <img src="{{ asset('storage/' . $news->thumbnail_news->first()->thumbnail) }}" alt="{{ $news->title }}" class="w-full h-full object-cover">
+                </div>
+            @endif
+            
+            <div class="p-[32px] lg:p-[48px]">
+                <article class="prose prose-lg lg:prose-xl max-w-none text-cine-navy text-justify leading-relaxed">
                 <p class="first-letter:text-6xl first-letter:font-black first-letter:text-cine-blue first-letter:mr-3 first-letter:float-left first-line:uppercase first-line:tracking-widest">
                     {{ $news->description ?? 'Konten berita tidak tersedia.' }}
                 </p>
