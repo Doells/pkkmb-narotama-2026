@@ -2,10 +2,20 @@
 
 @section('content')
 <main>
-    <section class="cine-page-hero">
-        <div class="cine-container cine-page-hero-inner">
-            <div><div class="cine-eyebrow">PUSAT INFORMASI PESERTA</div><h1>Siapkan dirimu.<br><em>Mulai aksimu.</em></h1><p>Temukan semua panduan yang dibutuhkan untuk mengikuti rangkaian PKKMB Universitas Narotama 2026.</p></div>
-            <div class="cine-page-number">01<span>/04</span></div>
+    <section class="cine-page-hero" style="position: relative;">
+        <div class="cine-container cine-page-hero-inner" style="position: relative;">
+            <div style="position: relative; z-index: 10;">
+                <div class="cine-eyebrow">PUSAT INFORMASI PESERTA</div>
+                <h1>Siapkan dirimu.<br><em>Mulai aksimu.</em></h1>
+                <p>Temukan semua panduan yang dibutuhkan untuk mengikuti rangkaian PKKMB Universitas Narotama 2026.</p>
+            </div>
+            
+            <!-- 3D Popcorn Asset, absolutely positioned to not break the grid -->
+            <div style="position: absolute; right: 5%; top: 50%; transform: translateY(-50%); pointer-events: none; mix-blend-mode: screen;">
+                <img src="{{ asset('img/mascot/popcorn-3d.jpg') }}" alt="Popcorn 3D" style="max-height: 280px; mix-blend-mode: screen;" />
+            </div>
+
+
         </div>
     </section>
 
@@ -35,16 +45,42 @@
     <section class="cine-detail cine-team-section" id="panitia">
         <div class="cine-container">
             <div class="cine-team-head"><div><span class="cine-detail-index mint">04</span><div class="cine-kicker">KENALI PANITIA</div><h2>Teman pertama<br>di langkah barumu.</h2></div><p>Panitia dan pendamping siap membantu agar pengalaman PKKMB-mu berjalan aman, nyaman, dan menyenangkan.</p></div>
-            <div class="cine-poster-grid">
-                <a href="{{ route('informasi-panitia') }}" class="cine-poster">
-                    <img src="{{ asset('img/panitia/divisi-nardam.jpg') }}" alt="Divisi Naradamping">
-                </a>
-                <a href="{{ route('informasi-panitia') }}" class="cine-poster">
-                    <img src="{{ asset('img/panitia/divisi-humas.jpg') }}" alt="Divisi Hubungan Masyarakat">
-                </a>
-                <a href="{{ route('informasi-panitia') }}" class="cine-poster">
-                    <img src="{{ asset('img/panitia/divisi-perkap.jpg') }}" alt="Divisi Perlengkapan">
-                </a>
+            <div class="cine-marquee-container">
+                <div class="cine-marquee-track">
+                    <!-- Set 1 -->
+                    <a href="{{ route('informasi-panitia') }}" class="cine-poster">
+                        <img src="{{ asset('img/panitia/divisi-nardam.jpg') }}" alt="Divisi Naradamping">
+                    </a>
+                    <a href="{{ route('informasi-panitia') }}" class="cine-poster">
+                        <img src="{{ asset('img/panitia/divisi-humas.jpg') }}" alt="Divisi Hubungan Masyarakat">
+                    </a>
+                    <a href="{{ route('informasi-panitia') }}" class="cine-poster">
+                        <img src="{{ asset('img/panitia/divisi-perkap.jpg') }}" alt="Divisi Perlengkapan">
+                    </a>
+                    <a href="{{ route('informasi-panitia') }}" class="cine-poster">
+                        <img src="{{ asset('img/panitia/poster_logistik.jpg') }}" alt="Divisi Logistik dan Kesehatan">
+                    </a>
+                    <a href="{{ route('informasi-panitia') }}" class="cine-poster">
+                        <img src="{{ asset('img/panitia/poster_ketua.jpg') }}" alt="Divisi Kesekretariatan">
+                    </a>
+                    
+                    <!-- Set 2 (Duplicate for infinite seamless loop) -->
+                    <a href="{{ route('informasi-panitia') }}" class="cine-poster">
+                        <img src="{{ asset('img/panitia/divisi-nardam.jpg') }}" alt="Divisi Naradamping">
+                    </a>
+                    <a href="{{ route('informasi-panitia') }}" class="cine-poster">
+                        <img src="{{ asset('img/panitia/divisi-humas.jpg') }}" alt="Divisi Hubungan Masyarakat">
+                    </a>
+                    <a href="{{ route('informasi-panitia') }}" class="cine-poster">
+                        <img src="{{ asset('img/panitia/divisi-perkap.jpg') }}" alt="Divisi Perlengkapan">
+                    </a>
+                    <a href="{{ route('informasi-panitia') }}" class="cine-poster">
+                        <img src="{{ asset('img/panitia/poster_logistik.jpg') }}" alt="Divisi Logistik dan Kesehatan">
+                    </a>
+                    <a href="{{ route('informasi-panitia') }}" class="cine-poster">
+                        <img src="{{ asset('img/panitia/poster_ketua.jpg') }}" alt="Divisi Kesekretariatan">
+                    </a>
+                </div>
             </div>
             <div class="cine-team-actions">
                 <a href="{{ route('informasi-panitia') }}" class="cine-button cine-button-primary">

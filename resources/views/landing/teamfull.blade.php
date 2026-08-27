@@ -52,14 +52,43 @@ $teams = [
 @endphp
 
     <!-- Page Header -->
-    <section class="w-full bg-cine-navy pt-[168px] pb-[64px]">
-        <div class="max-w-[1180px] mx-auto px-[24px] text-center lg:text-left">
-            <span class="inline-block text-cine-yellow font-bold text-xs tracking-widest uppercase mb-4">Pusat Informasi</span>
-            <h1 class="text-4xl lg:text-5xl font-black text-cine-cream mb-4 tracking-tighter">Kepanitiaan PKKMB 2026</h1>
-            <p class="text-base text-cine-cream/80 font-medium max-w-[600px] mx-auto lg:mx-0 leading-relaxed">
-                Seluruh jajaran struktural mahasiswa dan panitia universitas yang bertugas mensukseskan pelaksanaan CineAction Universitas Narotama.
-            </p>
+    <section class="w-full bg-cine-navy pb-[40px] lg:pb-[64px] relative overflow-hidden" style="padding-top: 100px;">
+        <div class="max-w-[1180px] mx-auto px-[24px] flex flex-col lg:flex-row items-center justify-between gap-[40px]">
+            <div class="w-full lg:w-3/5 text-center lg:text-left z-10">
+                <span class="inline-block text-cine-yellow font-bold text-xs tracking-widest uppercase mb-4">Pusat Informasi</span>
+                <h1 class="text-4xl lg:text-5xl font-black text-cine-cream mb-4 tracking-tighter">Kepanitiaan PKKMB 2026</h1>
+                <p class="text-base text-cine-cream/80 font-medium max-w-[600px] mx-auto lg:mx-0 leading-relaxed">
+                    Seluruh jajaran struktural mahasiswa dan panitia universitas yang bertugas mensukseskan pelaksanaan CineAction Universitas Narotama.
+                </p>
+            </div>
+            
+            <div style="width: 40%; display: flex; justify-content: flex-end; align-items: center; position: relative; z-index: 10;">
+                <!-- Modern Minimalist Movie Ticket Decoration -->
+                <div style="display: flex; background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; overflow: hidden; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); transform: rotate(2deg) translateY(-10px); width: 340px; height: 140px;">
+                    <!-- Ticket Stub -->
+                    <div style="width: 25%; background: rgba(39, 169, 232, 0.8); display: flex; flex-direction: column; justify-content: center; align-items: center; border-right: 2px dashed rgba(255,255,255,0.3); position: relative;">
+                        <!-- Cutout holes -->
+                        <div style="position: absolute; left: -10px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; background: #073B5C; border-radius: 50%;"></div>
+                        <div style="position: absolute; right: -11px; top: -10px; width: 20px; height: 20px; background: #073B5C; border-radius: 50%;"></div>
+                        <div style="position: absolute; right: -11px; bottom: -10px; width: 20px; height: 20px; background: #073B5C; border-radius: 50%;"></div>
+                        
+                        <span style="transform: rotate(-90deg); color: #FFF; font-weight: 800; font-size: 14px; letter-spacing: 4px; text-transform: uppercase; white-space: nowrap;">Admit One</span>
+                    </div>
+                    <!-- Ticket Main Body -->
+                    <div style="width: 75%; padding: 20px 24px; display: flex; flex-direction: column; justify-content: center;">
+                        <span style="font-size: 10px; color: #FFC83D; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 4px;">PKKMB Festival</span>
+                        <h3 style="margin: 0; font-size: 26px; color: #FFF; font-weight: 900; letter-spacing: -0.5px; line-height: 1;">CineAction</h3>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: rgba(255,255,255,0.6); font-size: 12px; font-weight: 600;">Est. 2026</span>
+                            <span style="background: rgba(255, 200, 61, 0.2); color: #FFC83D; font-size: 10px; padding: 4px 8px; border-radius: 4px; font-weight: 700;">VIP PASS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- Decorative Glow -->
+        <div style="position: absolute; top: 50%; left: 75%; transform: translate(-50%, -50%); width: 800px; height: 800px; background: rgba(39, 169, 232, 0.1); border-radius: 50%; filter: blur(80px); pointer-events: none;"></div>
     </section>
 
     <!-- Main Grid -->

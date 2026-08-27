@@ -1807,10 +1807,103 @@ html {
         height: 280px;
     }
 }
+
 /* Panitia Poster Grid */
-.cine-poster-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 40px; margin-bottom: 50px; }
-.cine-poster { background: #fff; border-radius: 20px; overflow: hidden; display: block; filter: drop-shadow(0 15px 35px rgba(0,0,0,0.1)); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease; }
-.cine-poster:hover { transform: translateY(-10px); filter: drop-shadow(0 25px 45px rgba(0,0,0,0.2)); z-index: 2; }
-.cine-poster img { display: block; width: 100%; height: auto; aspect-ratio: 3/4; object-fit: cover; }
-@media(max-width: 900px) { .cine-poster-grid { grid-template-columns: repeat(2, 1fr); } }
-@media(max-width: 600px) { .cine-poster-grid { grid-template-columns: 1fr; } }
+.cine-poster-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 40px;
+    margin-bottom: 50px;
+}
+
+.cine-poster {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    display: block;
+    filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.1));
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
+}
+
+.cine-poster:hover {
+    transform: translateY(-10px);
+    filter: drop-shadow(0 25px 45px rgba(0, 0, 0, 0.2));
+    z-index: 2;
+}
+
+.cine-poster img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+}
+
+@media(max-width: 900px) {
+    .cine-poster-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 600px) {
+    .cine-poster-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Infinite Auto-Scroll Marquee for Posters */
+@keyframes scrolling-posters {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.cine-marquee-container {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    margin-top: 40px;
+    margin-bottom: 50px;
+    padding-bottom: 25px;
+}
+
+.cine-marquee-track {
+    display: flex;
+    width: max-content;
+    animation: scrolling-posters 25s linear infinite;
+    gap: 30px;
+}
+
+.cine-marquee-track:hover {
+    animation-play-state: paused;
+}
+
+.cine-marquee-track .cine-poster {
+    flex: 0 0 280px;
+    margin: 0;
+}
+
+@media(max-width: 900px) {
+    .cine-marquee-track .cine-poster {
+        flex: 0 0 240px;
+    }
+}
+
+@media(max-width: 600px) {
+    .cine-marquee-track .cine-poster {
+        flex: 0 0 200px;
+        gap: 20px;
+    }
+
+    .cine-marquee-track {
+        gap: 20px;
+        animation-duration: 15s;
+    }
+}
