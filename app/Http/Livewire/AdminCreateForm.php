@@ -30,8 +30,8 @@ class AdminCreateForm extends Component
              'nim' => '', 
              'password' => '', 
              'role_id' => User::USER_ROLE_ID, 
-             'position_id' => $this->positions->first()->id, 
-             'kelompok_id' => $this->positions->first()->id,
+             'position_id' => $this->positions->first()->id ?? null, 
+             'kelompok_id' => $this->kelompoks->first()->id ?? null,
              'prodi' => '',
              'fakultas' => '',
             ]
@@ -63,7 +63,7 @@ class AdminCreateForm extends Component
         // cara lebih cepat, dan kemungkinan data role tidak akan diubah/ditambah
         $roleIdRuleIn = join(',', $this->roles->pluck('id')->toArray());
         $positionIdRuleIn = join(',', $this->positions->pluck('id')->toArray());
-        $kelompokIdRuleIn = join(',', $this->positions->pluck('id')->toArray());
+        $kelompokIdRuleIn = join(',', $this->kelompoks->pluck('id')->toArray());
     
         // setidaknya input pertama yang hanya required,
         // karena nanti akan difilter apakah input kedua dan input selanjutnya apakah berisi
