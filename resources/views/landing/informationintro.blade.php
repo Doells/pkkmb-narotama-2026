@@ -117,7 +117,7 @@
     <section class="cine-detail" id="kegiatan" style="background: #000; color: #fff;">
         <div class="cine-container">
             <div class="cine-team-head" style="margin-bottom: 40px; text-align: left;">
-                <div><span class="cine-detail-index" style="color: #fff; border-color: rgba(255,255,255,0.3);">05</span><div class="cine-kicker">KEGIATAN & TIMELINE</div><h2>Dokumentasi <br><em>Garda Depan.</em></h2></div>
+                <div><span class="cine-detail-index" style="color: #fff; border-color: rgba(255,255,255,0.3);">05</span><div class="cine-kicker">KEGIATAN & TIMELINE</div><h2>Kegiatan <br><em>Garda Depan.</em></h2></div>
                 <p style="color: #aaa; max-width: 550px; line-height: 1.8; font-size: 15px;">Saksikan seluruh rangkaian perjalanan dari awal persiapan hingga momen puncak penutupan. Pantau jadwal pergerakan secara terperinci (timeline) dan temukan rekam jejak langkah mahasiswa baru dalam menghadapi tantangan, merajut kolaborasi, hingga mengukir memori tak terlupakan bersama keluarga besar Garda Depan 2026.</p>
             </div>
             
@@ -130,54 +130,404 @@
 
                 <!-- Poster 1 (Gambar 2 - TM) -->
                 <div style="position: relative; border-radius: 4px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,1);">
-                    <img src="{{ asset('img/panitia/kegiatantm.png') }}" alt="Technical Meeting Placeholder" style="width: 100%; height: auto; display: block; filter: contrast(1.1) saturate(1.2);">
-                    <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px 20px 20px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);">
+                    <img src="{{ asset('img/panitia/kegiatantm.png') }}" alt="Technical Meeting Placeholder" class="cine-zoomable" style="width: 100%; height: auto; display: block; filter: contrast(1.1) saturate(1.2); cursor: zoom-in; transition: transform 0.3s ease;">
+                    <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px 20px 20px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); pointer-events: none;">
                         <span style="color: #e50914; font-weight: bold; font-family: monospace; font-size: 13px; letter-spacing: 3px;">TM 01</span>
                     </div>
                 </div>
 
                 <!-- Poster 2 (Gambar 3 - Pra PKKMB) -->
                 <div style="position: relative; border-radius: 4px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,1);">
-                    <img src="{{ asset('img/panitia/kegiatanprapkkmb.png') }}" alt="Pra PKKMB Placeholder" style="width: 100%; height: auto; display: block; filter: contrast(1.1) saturate(1.2);">
-                    <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px 20px 20px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);">
+                    <img src="{{ asset('img/panitia/kegiatanprapkkmb.png') }}" alt="Pra PKKMB Placeholder" class="cine-zoomable" style="width: 100%; height: auto; display: block; filter: contrast(1.1) saturate(1.2); cursor: zoom-in; transition: transform 0.3s ease;">
+                    <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px 20px 20px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); pointer-events: none;">
                         <span style="color: rgba(255,255,255,0.7); font-family: monospace; font-size: 13px; letter-spacing: 3px;">PRA TAKE 02</span>
                     </div>
                 </div>
                 
                 <!-- Poster 3 (Gambar 4 - Day 1) -->
                 <div style="position: relative; border-radius: 4px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,1);">
-                    <img src="{{ asset('img/panitia/kegiatanpkkmbday1.png') }}" alt="PKKMB Day 1 Placeholder" style="width: 100%; height: auto; display: block; filter: contrast(1.1) saturate(1.2);">
-                    <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px 20px 20px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);">
+                    <img src="{{ asset('img/panitia/kegiatanpkkmbday1.png') }}" alt="PKKMB Day 1 Placeholder" class="cine-zoomable" style="width: 100%; height: auto; display: block; filter: contrast(1.1) saturate(1.2); cursor: zoom-in; transition: transform 0.3s ease;">
+                    <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px 20px 20px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); pointer-events: none;">
                         <span style="color: rgba(255,255,255,0.7); font-family: monospace; font-size: 13px; letter-spacing: 3px;">DAY 1 SCENE</span>
                     </div>
                 </div>
 
                 <!-- Poster 4 (Gambar 5 - Day 2) -->
                 <div style="position: relative; border-radius: 4px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,1);">
-                    <img src="{{ asset('img/panitia/kegiatanpkkmbday2.png') }}" alt="PKKMB Day 2 Placeholder" style="width: 100%; height: auto; display: block; filter: contrast(1.1) saturate(1.2);">
-                    <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px 20px 20px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);">
+                    <img src="{{ asset('img/panitia/kegiatanpkkmbday2.png') }}" alt="PKKMB Day 2 Placeholder" class="cine-zoomable" style="width: 100%; height: auto; display: block; filter: contrast(1.1) saturate(1.2); cursor: zoom-in; transition: transform 0.3s ease;">
+                    <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px 20px 20px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); pointer-events: none;">
                         <span style="color: rgba(255,255,255,0.7); font-family: monospace; font-size: 13px; letter-spacing: 3px;">DAY 2 FINAL</span>
                     </div>
                 </div>
 
                 <!-- Poster 5 (Day 3) -->
                 <div style="position: relative; border-radius: 4px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,1);">
-                    <img src="{{ asset('img/panitia/kegiatanpkkmbday3.png') }}" alt="PKKMB Day 3 Placeholder" style="width: 100%; height: auto; display: block; filter: contrast(1.1) saturate(1.2);">
-                    <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px 20px 20px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);">
+                    <img src="{{ asset('img/panitia/kegiatanpkkmbday3.png') }}" alt="PKKMB Day 3 Placeholder" class="cine-zoomable" style="width: 100%; height: auto; display: block; filter: contrast(1.1) saturate(1.2); cursor: zoom-in; transition: transform 0.3s ease;">
+                    <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px 20px 20px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); pointer-events: none;">
                         <span style="color: rgba(255,255,255,0.7); font-family: monospace; font-size: 13px; letter-spacing: 3px;">DAY 3 THRILLER</span>
                     </div>
                 </div>
 
                 <!-- Poster 6 (Day 4) -->
                 <div style="position: relative; border-radius: 4px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,1);">
-                    <img src="{{ asset('img/panitia/kegiatanpkkmbday4.png') }}" alt="PKKMB Day 4 Placeholder" style="width: 100%; height: auto; display: block; filter: contrast(1.1) saturate(1.2);">
-                    <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px 20px 20px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);">
+                    <img src="{{ asset('img/panitia/kegiatanpkkmbday4.png') }}" alt="PKKMB Day 4 Placeholder" class="cine-zoomable" style="width: 100%; height: auto; display: block; filter: contrast(1.1) saturate(1.2); cursor: zoom-in; transition: transform 0.3s ease;">
+                    <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px 20px 20px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); pointer-events: none;">
                         <span style="color: rgba(255,255,255,0.7); font-family: monospace; font-size: 13px; letter-spacing: 3px;">DAY 4 EPILOGUE</span>
+                    </div>
+                </div>
+
+
+                <!-- Poster 8 (Webinar 1) -->
+                <div style="position: relative; border-radius: 4px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,1);">
+                    <img src="{{ asset('img/panitia/kegiatanwebinar1.jpg') }}" alt="Webinar Nasional AHY" class="cine-zoomable" style="width: 100%; height: auto; display: block; filter: contrast(1.05) saturate(1.1); cursor: zoom-in; transition: transform 0.3s ease;">
+                    <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px 20px 20px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); pointer-events: none;">
+                        <span style="color: rgba(255,255,255,0.7); font-family: monospace; font-size: 13px; letter-spacing: 3px;">WEBINAR NASIONAL I</span>
+                    </div>
+                </div>
+
+                <!-- Poster 9 (Webinar 2) -->
+                <div style="position: relative; border-radius: 4px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,1);">
+                    <img src="{{ asset('img/panitia/kegiatanwebinar2.jpg') }}" alt="Webinar Nasional Astronacci" class="cine-zoomable" style="width: 100%; height: auto; display: block; filter: contrast(1.05) saturate(1.1); cursor: zoom-in; transition: transform 0.3s ease;">
+                    <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px 20px 20px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); pointer-events: none;">
+                        <span style="color: rgba(255,255,255,0.7); font-family: monospace; font-size: 13px; letter-spacing: 3px;">WEBINAR NASIONAL II</span>
                     </div>
                 </div>
 
             </div>
         </div>
+
+        <!-- Lightbox Modal -->
+        <div id="imageLightbox" style="display: none; position: fixed; z-index: 10000; padding: 40px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.95); cursor: zoom-out; backdrop-filter: blur(8px); align-items: center; justify-content: center;" onclick="if(event.target === this || event.target.id === 'lightboxContent') this.style.display='none'">
+            <span style="position: absolute; top: 20px; right: 40px; color: #fff; font-size: 50px; font-weight: bold; cursor: pointer; transition: 0.3s; z-index: 10001;" onclick="document.getElementById('imageLightbox').style.display='none'" onmouseover="this.style.color='#f00'" onmouseout="this.style.color='#fff'">&times;</span>
+            
+            <div id="lightboxContent" style="display: flex; gap: 40px; max-width: 90vw; border-radius: 12px; cursor: default; animation: zoomIn 0.3s ease; flex-wrap: wrap; justify-content: center; align-items: flex-start;">
+                <img id="lightboxImage" style="max-height: 85vh; max-width: 100%; object-fit: contain; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.8);">
+                
+                <div id="lightboxSchedule" style="display: none; background: #1a1a1a; padding: 30px; border-radius: 12px; color: #fff; text-align: left; max-width: 550px; flex: 1 1 350px; overflow-y: auto; max-height: 85vh; box-shadow: 0 10px 40px rgba(0,0,0,0.8); cursor: auto;">
+                    <!-- Schedule Injected by JS -->
+                </div>
+            </div>
+        </div>
+
+        <style>
+            @keyframes zoomIn {
+                from {transform: scale(0.9); opacity: 0;}
+                to {transform: scale(1); opacity: 1;}
+            }
+            .cine-zoomable:hover {
+                transform: scale(1.03);
+            }
+        </style>
+        <script>
+            const scheduleTM = `
+                <h3 style="margin-top: 0; border-bottom: 2px solid #e50914; padding-bottom: 10px; margin-bottom: 20px; font-size: 20px; font-weight: bold; font-family: sans-serif;">Jadwal Technical Meeting (01 September 2026)</h3>
+                <table style="width: 100%; border-collapse: collapse; font-family: sans-serif; font-size: 13.5px; line-height: 1.5;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #555;"><th style="text-align:left; padding-bottom:10px; color: #fff;">Waktu</th><th style="text-align:left; padding-bottom:10px; color: #fff;">Acara</th><th style="text-align:left; padding-bottom:10px; color: #fff;">Tempat</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top; width: 100px;">08.00–09.00</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Registrasi</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">09.00–09.05</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Opening Ceremony</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">09.05–09.15</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Indonesia Raya & Mars Narotama</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">09.15–09.20</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Doa</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">09.20–09.25</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Sambutan Ketua Pelaksana</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">09.25–09.55</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Presentasi Naradamping</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">09.55–10.25</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Pembagian Kelompok</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">10.25–10.55</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Perkenalan & Closing</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">10.55–11.10</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Menuju Kelas</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">11.10–11.40</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Ishoma</td><td style="padding: 10px 0; color: #bbb;">Masjid Baiturrahman</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">11.40–13.00</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Penggawa Time</td><td style="padding: 10px 0; color: #bbb;">Kelas Masing-Masing Penggawa</td></tr>
+                        <tr><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">13.00–13.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Clear Area</td><td style="padding: 10px 0; color: #bbb;">Universitas Narotama</td></tr>
+                    </tbody>
+                </table>
+            `;
+            
+            const schedulePraPKKMB = `
+                <h3 style="margin-top: 0; border-bottom: 2px solid #e50914; padding-bottom: 10px; margin-bottom: 20px; font-size: 20px; font-weight: bold; font-family: sans-serif;">Jadwal Pra-PKKMB</h3>
+                
+                <h4 style="color: #e50914; font-size: 15px; margin: 0 0 10px 0;">HARI KE-1 (07 September 2026)</h4>
+                <table style="width: 100%; border-collapse: collapse; font-family: sans-serif; font-size: 13.5px; line-height: 1.5; margin-bottom: 30px;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #555;"><th style="text-align:left; padding-bottom:5px; color: #fff;">Waktu</th><th style="text-align:left; padding-bottom:5px; color: #fff;">Acara</th><th style="text-align:left; padding-bottom:5px; color: #fff;">Tempat</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top; width: 100px;">08.00–08.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Kedatangan</td><td style="padding: 10px 0; color: #bbb;">Selasar Gedung E & F</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">08.30–11.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Campus Tour</td><td style="padding: 10px 0; color: #bbb;">Universitas Narotama</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">11.30–12.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Ishoma</td><td style="padding: 10px 0; color: #bbb;">Masjid Baiturrahman</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">12.30–13.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Quality Time</td><td style="padding: 10px 0; color: #bbb;">Kelas F3.04, F3.01, E2.01, E2.04</td></tr>
+                        <tr><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">13.30–14.00</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Clear Area</td><td style="padding: 10px 0; color: #bbb;">Universitas Narotama</td></tr>
+                    </tbody>
+                </table>
+
+                <h4 style="color: #e50914; font-size: 15px; margin: 0 0 10px 0;">HARI KE-2 (08 September 2026)</h4>
+                <table style="width: 100%; border-collapse: collapse; font-family: sans-serif; font-size: 13.5px; line-height: 1.5; margin-bottom: 30px;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #555;"><th style="text-align:left; padding-bottom:5px; color: #fff;">Waktu</th><th style="text-align:left; padding-bottom:5px; color: #fff;">Acara</th><th style="text-align:left; padding-bottom:5px; color: #fff;">Tempat</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top; width: 100px;">08.00–08.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Kedatangan</td><td style="padding: 10px 0; color: #bbb;">Selasar Gedung E & F</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">08.30–11.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Quality Time</td><td style="padding: 10px 0; color: #bbb;">Selasar Gedung E & F</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">11.30–12.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Ishoma</td><td style="padding: 10px 0; color: #bbb;">Masjid Baiturrahman</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">12.30–13.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Quality Time</td><td style="padding: 10px 0; color: #bbb;">Kelas Penggawa</td></tr>
+                        <tr><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">13.30–14.00</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Clear Area</td><td style="padding: 10px 0; color: #bbb;">Universitas Narotama</td></tr>
+                    </tbody>
+                </table>
+
+                <h4 style="color: #e50914; font-size: 15px; margin: 0 0 10px 0;">HARI KE-3 (09 September 2026)</h4>
+                <table style="width: 100%; border-collapse: collapse; font-family: sans-serif; font-size: 13.5px; line-height: 1.5; margin-bottom: 30px;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #555;"><th style="text-align:left; padding-bottom:5px; color: #fff;">Waktu</th><th style="text-align:left; padding-bottom:5px; color: #fff;">Acara</th><th style="text-align:left; padding-bottom:5px; color: #fff;">Tempat</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top; width: 100px;">08.00–08.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Kedatangan</td><td style="padding: 10px 0; color: #bbb;">Selasar Gedung E & F</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">08.30–11.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Quality Time</td><td style="padding: 10px 0; color: #bbb;">Selasar Gedung E & F</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">11.30–12.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Ishoma</td><td style="padding: 10px 0; color: #bbb;">Masjid Baiturrahman</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">12.30–13.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Quality Time</td><td style="padding: 10px 0; color: #bbb;">Kelas Penggawa</td></tr>
+                        <tr><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">13.30–14.00</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Clear Area</td><td style="padding: 10px 0; color: #bbb;">Universitas Narotama</td></tr>
+                    </tbody>
+                </table>
+
+                <h4 style="color: #e50914; font-size: 15px; margin: 0 0 10px 0;">HARI KE-4 (10 September 2026)</h4>
+                <table style="width: 100%; border-collapse: collapse; font-family: sans-serif; font-size: 13.5px; line-height: 1.5; margin-bottom: 10px;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #555;"><th style="text-align:left; padding-bottom:5px; color: #fff;">Waktu</th><th style="text-align:left; padding-bottom:5px; color: #fff;">Acara</th><th style="text-align:left; padding-bottom:5px; color: #fff;">Tempat</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top; width: 100px;">08.00–08.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Kedatangan</td><td style="padding: 10px 0; color: #bbb;">Selasar Gedung E & F</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">08.30–11.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Social Project</td><td style="padding: 10px 0; color: #bbb;">Lokasi Sospro</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">11.30–12.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Ishoma</td><td style="padding: 10px 0; color: #bbb;">Masjid Baiturrahman</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">12.30–13.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Quality Time</td><td style="padding: 10px 0; color: #bbb;">Kelas Penggawa</td></tr>
+                        <tr><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">13.30–14.00</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Clear Area</td><td style="padding: 10px 0; color: #bbb;">Universitas Narotama</td></tr>
+                    </tbody>
+                </table>
+            `;
+            
+            const scheduleDay1 = `
+                <h3 style="margin-top: 0; border-bottom: 2px solid #e50914; padding-bottom: 10px; margin-bottom: 20px; font-size: 20px; font-weight: bold; font-family: sans-serif;">PKKMB Hari Ke-1 &mdash; 14 September 2026</h3>
+                <table style="width: 100%; border-collapse: collapse; font-family: sans-serif; font-size: 13.5px; line-height: 1.5;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #555;"><th style="text-align:left; padding-bottom:10px; color: #fff;">Waktu</th><th style="text-align:left; padding-bottom:10px; color: #fff;">Acara</th><th style="text-align:left; padding-bottom:10px; color: #fff;">Pemateri</th><th style="text-align:left; padding-bottom:10px; color: #fff;">Tempat</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top; width: 90px;">06.00–06.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Registrasi Peserta</td><td style="padding: 10px 10px 10px 0; color: #bbb;">&mdash;</td><td style="padding: 10px 0; color: #bbb;">Selasar Gedung E & F</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">06.30–07.00</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Inspeksi Naradamping</td><td style="padding: 10px 10px 10px 0; color: #bbb;">&mdash;</td><td style="padding: 10px 0; color: #bbb;">Selasar Gedung E & F</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">07.00–08.00</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Penggawa Time</td><td style="padding: 10px 10px 10px 0; color: #bbb;">&mdash;</td><td style="padding: 10px 0; color: #bbb;">Gedung E & F</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">08.00–08.20</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Loading Peserta</td><td style="padding: 10px 10px 10px 0; color: #bbb;">&mdash;</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">08.20–08.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Pre Test PKKMB</td><td style="padding: 10px 10px 10px 0; color: #bbb;">&mdash;</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">08.30–09.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Ice Breaking</td><td style="padding: 10px 10px 10px 0; color: #bbb;">&mdash;</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">09.30–11.35</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Opening & Pembukaan PKKMB</td><td style="padding: 10px 10px 10px 0; color: #bbb;">&mdash;</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">11.40–12.10</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">ISHOMA</td><td style="padding: 10px 10px 10px 0; color: #bbb;">&mdash;</td><td style="padding: 10px 0; color: #bbb;">Masjid Baiturrachmah</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">12.10–13.10</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Sistem Pendidikan Tinggi di Indonesia</td><td style="padding: 10px 10px 10px 0; color: #bbb;">Dr. Moh. Saleh, S.H., M.H.</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">13.10–14.10</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Kenarotamaan & Jiwa Pro Patria</td><td style="padding: 10px 10px 10px 0; color: #bbb;">Dr. Miftakhul Huda, S.H., M.H.</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">14.10–15.10</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Karakter, Integritas & Pencegahan Kekerasan</td><td style="padding: 10px 10px 10px 0; color: #bbb;">Dr. Nynda Fatmawati Octa Rina, S.H., M.H., M.Kn.</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">15.10–15.40</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">ISHOMA</td><td style="padding: 10px 10px 10px 0; color: #bbb;">&mdash;</td><td style="padding: 10px 0; color: #bbb;">Masjid Baiturrachmah</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">15.40–16.00</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Sosialisasi Keuangan</td><td style="padding: 10px 10px 10px 0; color: #bbb;">Miftahul Rachman, S.M., M.M.</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">16.00–16.15</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Sosialisasi LSP</td><td style="padding: 10px 10px 10px 0; color: #bbb;">Varia Virdinia Virdaus, S.Hum., M.A.</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">16.15–16.20</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Penutupan PKKMB Hari Pertama</td><td style="padding: 10px 10px 10px 0; color: #bbb;">&mdash;</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">16.20–16.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Presensi Peserta</td><td style="padding: 10px 10px 10px 0; color: #bbb;">&mdash;</td><td style="padding: 10px 0; color: #bbb;">Selasar Gedung E & F</td></tr>
+                        <tr><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">16.30–17.00</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Kepulangan Peserta</td><td style="padding: 10px 10px 10px 0; color: #bbb;">&mdash;</td><td style="padding: 10px 0; color: #bbb;">Universitas Narotama</td></tr>
+                    </tbody>
+                </table>
+            `;
+
+            const scheduleDay2 = `
+                <h3 style="margin-top: 0; border-bottom: 2px solid #e50914; padding-bottom: 10px; margin-bottom: 20px; font-size: 20px; font-weight: bold; font-family: sans-serif;">PKKMB Hari Ke-2 &mdash; 15 September 2026</h3>
+                <table style="width: 100%; border-collapse: collapse; font-family: sans-serif; font-size: 13.5px; line-height: 1.5;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #555;"><th style="text-align:left; padding-bottom:10px; color: #fff;">Waktu</th><th style="text-align:left; padding-bottom:10px; color: #fff;">Acara</th><th style="text-align:left; padding-bottom:10px; color: #fff;">Koordinator</th><th style="text-align:left; padding-bottom:10px; color: #fff;">Tempat</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top; width: 90px;">08.00–08.05</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Opening Ceremony</td><td style="padding: 10px 10px 10px 0; color: #bbb;">&mdash;</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">08.05–09.05</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Kampus Berdampak</td><td style="padding: 10px 10px 10px 0; color: #bbb;">Dr. Ir. Adi Prawito, M.M., M.T., IPM.</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">09.05–09.25</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Sosialisasi LPPM</td><td style="padding: 10px 10px 10px 0; color: #bbb;">Made Kamisutara, S.T., M.Kom.</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">09.25–09.45</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Sosialisasi UPT Bahasa & Kerja Sama LN</td><td style="padding: 10px 10px 10px 0; color: #bbb;">Ani Wulandari, S.S., M.M.</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">09.45–10.00</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Persiapan Webinar</td><td style="padding: 10px 10px 10px 0; color: #bbb;">&mdash;</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">10.00–11.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Webinar: Pancasila & Bela Negara</td><td style="padding: 10px 10px 10px 0; color: #bbb;">Dr. H. Agus Harimurti Yudhoyono, M.Sc., M.P.A., M.A.</td><td style="padding: 10px 0; color: #bbb;">Zoom Meeting</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">11.30–12.00</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">ISHOMA</td><td style="padding: 10px 10px 10px 0; color: #bbb;">&mdash;</td><td style="padding: 10px 0; color: #bbb;">Masjid Baiturrachmah</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">12.00–13.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Webinar: Teknologi & AI</td><td style="padding: 10px 10px 10px 0; color: #bbb;">Asst. Prof. Dr. Gema Goeyardi, CAT, CFTe, MFTA, MCFI, ATP</td><td style="padding: 10px 0; color: #bbb;">Zoom Meeting</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">13.30–13.40</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Loading Peserta</td><td style="padding: 10px 10px 10px 0; color: #bbb;">&mdash;</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">13.40–13.45</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Ice Breaking</td><td style="padding: 10px 10px 10px 0; color: #bbb;">&mdash;</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">13.45–14.45</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">LPDP & Peluang Pendidikan</td><td style="padding: 10px 10px 10px 0; color: #bbb;">LPDP</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">14.45–15.00</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">ISHOMA</td><td style="padding: 10px 10px 10px 0; color: #bbb;">&mdash;</td><td style="padding: 10px 0; color: #bbb;">Masjid Baiturrachmah</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">15.00–15.15</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Sosialisasi Kiwoom Sekuritas</td><td style="padding: 10px 10px 10px 0; color: #bbb;">PT. Kiwoom Sekuritas Indonesia</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">15.15–15.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Sosialisasi Perpustakaan</td><td style="padding: 10px 10px 10px 0; color: #bbb;">Rizky Tri Mayasari, S.IIP.</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">15.30–15.45</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Sosialisasi BRAR</td><td style="padding: 10px 10px 10px 0; color: #bbb;">Asep Kurniawan, S.M., M.M.</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">15.45–16.05</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Sosialisasi Pemasaran</td><td style="padding: 10px 10px 10px 0; color: #bbb;">Lutfi Putra Hakim Maulidin, S.Kom.</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">16.05–16.20</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Sosialisasi DKATS</td><td style="padding: 10px 10px 10px 0; color: #bbb;">Amalia Prastika Sari, S.Pd.</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">16.20–16.40</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Sosialisasi BUSPRO</td><td style="padding: 10px 10px 10px 0; color: #bbb;">Wahyugara Damarjati, S.E., M.M.</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">16.40–16.45</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Closing Ceremony</td><td style="padding: 10px 10px 10px 0; color: #bbb;">&mdash;</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">16.45–17.00</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Presensi</td><td style="padding: 10px 10px 10px 0; color: #bbb;">&mdash;</td><td style="padding: 10px 0; color: #bbb;">Selasar Gedung E & F</td></tr>
+                        <tr><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">17.00–17.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Clear Area</td><td style="padding: 10px 10px 10px 0; color: #bbb;">&mdash;</td><td style="padding: 10px 0; color: #bbb;">Universitas Narotama</td></tr>
+                    </tbody>
+                </table>
+            `;
+
+            const scheduleDay3 = `
+                <h3 style="margin-top: 0; border-bottom: 2px solid #e50914; padding-bottom: 10px; margin-bottom: 20px; font-size: 20px; font-weight: bold; font-family: sans-serif;">PKKMB Hari Ke-3 &mdash; 16 September 2026</h3>
+                <table style="width: 100%; border-collapse: collapse; font-family: sans-serif; font-size: 13.5px; line-height: 1.5;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #555;"><th style="text-align:left; padding-bottom:10px; color: #fff;">Waktu</th><th style="text-align:left; padding-bottom:10px; color: #fff;">Acara</th><th style="text-align:left; padding-bottom:10px; color: #fff;">Tempat</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top; width: 100px;">06.00–06.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Registrasi Peserta</td><td style="padding: 10px 0; color: #bbb;">Selasar Gedung E & F</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">06.30–07.00</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Inspeksi Naradamping</td><td style="padding: 10px 0; color: #bbb;">Selasar Gedung E & F</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">07.00–07.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Ice Breaking</td><td style="padding: 10px 0; color: #bbb;">Selasar Gedung E & F</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">07.30–08.00</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Perkenalan Panitia Fakultas</td><td style="padding: 10px 0; color: #bbb;">Selasar Gedung E & F</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">08.00–08.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Loading Peserta</td><td style="padding: 10px 0; color: #bbb;">Selasar Gedung E & F</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">08.30–12.00</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Sesi Fakultas</td><td style="padding: 10px 0; color: #bbb;">Ruangan Fakultas</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">12.00–12.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">ISHOMA</td><td style="padding: 10px 0; color: #bbb;">Masjid Baiturrachmah</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">12.30–15.40</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Sesi Fakultas</td><td style="padding: 10px 0; color: #bbb;">Ruangan Fakultas</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">15.40–16.10</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">ISHOMA</td><td style="padding: 10px 0; color: #bbb;">Masjid Baiturrachmah</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">16.10–16.25</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Presensi Peserta</td><td style="padding: 10px 0; color: #bbb;">Selasar Gedung E & F</td></tr>
+                        <tr><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">16.25–16.40</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Clear Area</td><td style="padding: 10px 0; color: #bbb;">Universitas Narotama</td></tr>
+                    </tbody>
+                </table>
+            `;
+
+            const scheduleDay4 = `
+                <h3 style="margin-top: 0; border-bottom: 2px solid #e50914; padding-bottom: 10px; margin-bottom: 20px; font-size: 20px; font-weight: bold; font-family: sans-serif;">PKKMB Hari Ke-4 &mdash; 17 September 2026</h3>
+                <table style="width: 100%; border-collapse: collapse; font-family: sans-serif; font-size: 13.5px; line-height: 1.5;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid #555;"><th style="text-align:left; padding-bottom:10px; color: #fff;">Waktu</th><th style="text-align:left; padding-bottom:10px; color: #fff;">Acara</th><th style="text-align:left; padding-bottom:10px; color: #fff;">Tempat</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top; width: 100px;">06.00–06.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Registrasi Peserta</td><td style="padding: 10px 0; color: #bbb;">Selasar Gedung E & F</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">06.30–07.00</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Inspeksi Naradamping</td><td style="padding: 10px 0; color: #bbb;">Selasar Gedung E & F</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">07.00–08.00</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Senam Pagi</td><td style="padding: 10px 0; color: #bbb;">Selasar Gedung E & F</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">08.00–08.15</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Loading Peserta</td><td style="padding: 10px 0; color: #bbb;">Selasar Gedung E & F</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">08.15–12.00</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Sesi Fakultas</td><td style="padding: 10px 0; color: #bbb;">Ruangan Fakultas</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">12.00–12.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">ISHOMA</td><td style="padding: 10px 0; color: #bbb;">Masjid Baiturrachmah</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">12.30–14.50</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Sesi Fakultas</td><td style="padding: 10px 0; color: #bbb;">Ruangan Fakultas</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">14.50–15.20</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">ISHOMA</td><td style="padding: 10px 0; color: #bbb;">Masjid Baiturrachmah</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">15.20–17.00</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Perkenalan BEM & UKM</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">17.00–17.10</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Post Test</td><td style="padding: 10px 0; color: #bbb;">Conference Hall Lt. 2</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">17.10–18.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Persiapan Ekshibisi</td><td style="padding: 10px 0; color: #bbb;">Selasar Gedung E & F</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">18.30–21.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Ekshibisi</td><td style="padding: 10px 0; color: #bbb;">Selasar Gedung E & F</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">21.30–22.00</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Pembagian Sertifikat</td><td style="padding: 10px 0; color: #bbb;">Ruangan Fakultas</td></tr>
+                        <tr style="border-bottom: 1px solid #333;"><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">22.00–22.15</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Kepulangan Peserta</td><td style="padding: 10px 0; color: #bbb;">Universitas Narotama</td></tr>
+                        <tr><td style="padding: 10px 10px 10px 0; color: #aaa; vertical-align: top;">22.15–22.30</td><td style="padding: 10px 10px 10px 0; font-weight: 500;">Clear Area</td><td style="padding: 10px 0; color: #bbb;">Universitas Narotama</td></tr>
+                    </tbody>
+                </table>
+            `;
+
+            const infoWebnas1 = `
+                <h3 style="margin-top: 0; border-bottom: 2px solid #e50914; padding-bottom: 10px; margin-bottom: 20px; font-size: 20px; font-weight: bold; font-family: sans-serif;">Pancasila & Bela Negara (Webnas 1)</h3>
+                
+                <div style="font-family: sans-serif; font-size: 13.5px; line-height: 1.6; color: #bbb;">
+                    <p style="margin: 0 0 15px 0;">
+                        <strong style="color: #fff;">Tema:</strong><br>
+                        Garda Depan Negeri: Pancasila, Kebhinekaan, Jati Diri, dan Bela Negara di Masa Kini
+                    </p>
+                    
+                    <p style="margin: 0 0 15px 0;">
+                        <strong style="color: #fff;">Pemateri:</strong><br>
+                        Dr. H. Agus Harimurti Yudhoyono, M.Sc., M.P.A., M.A.
+                    </p>
+                    
+                    <div style="display: flex; gap: 20px; margin: 0 0 15px 0;">
+                        <div>
+                            <strong style="color: #fff;">Tempat:</strong><br>
+                            Zoom Meeting
+                        </div>
+                        <div>
+                            <strong style="color: #fff;">Tanggal:</strong><br>
+                            15 September 2026
+                        </div>
+                    </div>
+                
+                    <p style="margin: 0 0 10px 0;">
+                        <strong style="color: #fff;">Deskripsi Singkat:</strong><br>
+                        Membahas pentingnya Pancasila, kebhinekaan, jati diri, dan bela negara bagi mahasiswa dalam menghadapi perkembangan teknologi, globalisasi, dan perubahan sosial. Mahasiswa diajak menjaga persatuan, menaati aturan, melestarikan budaya, berprestasi, serta memberikan kontribusi positif bagi masyarakat.
+                    </p>
+                </div>
+            `;
+
+            const infoWebnas2 = `
+                <h3 style="margin-top: 0; border-bottom: 2px solid #e50914; padding-bottom: 10px; margin-bottom: 20px; font-size: 20px; font-weight: bold; font-family: sans-serif;">Teknologi & AI (Webnas 2)</h3>
+                
+                <div style="font-family: sans-serif; font-size: 13.5px; line-height: 1.6; color: #bbb;">
+                    <p style="margin: 0 0 15px 0;">
+                        <strong style="color: #fff;">Tema:</strong><br>
+                        Di Balik Layar AI: Mengenal Teknologi yang Mengubah Cara Kita Berkarya
+                    </p>
+                    
+                    <p style="margin: 0 0 15px 0;">
+                        <strong style="color: #fff;">Pemateri:</strong><br>
+                        Asst. Prof. Dr. Gema Goeyardi, CAT, CFTe, MFTA, MCFI, ATP
+                    </p>
+                    
+                    <div style="display: flex; gap: 20px; margin: 0 0 15px 0;">
+                        <div>
+                            <strong style="color: #fff;">Tempat:</strong><br>
+                            Zoom Meeting
+                        </div>
+                        <div>
+                            <strong style="color: #fff;">Tanggal:</strong><br>
+                            15 September 2026
+                        </div>
+                    </div>
+                
+                    <p style="margin: 0 0 10px 0;">
+                        <strong style="color: #fff;">Deskripsi Singkat:</strong><br>
+                        Mengenal konsep dasar AI, pemanfaatannya dalam menghasilkan karya, serta peluangnya di dunia akademik dan profesional. Peserta juga diajak menggunakan AI secara kritis, kreatif, dan bertanggung jawab dengan tetap memperhatikan etika dan orisinalitas.
+                    </p>
+                </div>
+            `;
+
+            document.querySelectorAll('.cine-zoomable').forEach(img => {
+                img.addEventListener('click', function() {
+                    const lightbox = document.getElementById('imageLightbox');
+                    const lightboxImg = document.getElementById('lightboxImage');
+                    const lightboxSchedule = document.getElementById('lightboxSchedule');
+                    
+                    lightbox.style.display = 'flex';
+                    lightboxImg.src = this.src;
+                    
+                    // Reset styling container back to default
+                    lightboxSchedule.style.maxWidth = '550px';
+
+                    if (this.src.includes('kegiatantm.png')) {
+                        lightboxSchedule.style.display = 'block';
+                        lightboxSchedule.innerHTML = scheduleTM;
+                        lightboxImg.style.maxWidth = '500px'; 
+                    } else if(this.src.includes('kegiatanprapkkmb.png')) {
+                        lightboxSchedule.style.display = 'block';
+                        lightboxSchedule.innerHTML = schedulePraPKKMB;
+                        lightboxImg.style.maxWidth = '500px'; 
+                    } else if(this.src.includes('kegiatanpkkmbday1.png')) {
+                        lightboxSchedule.style.display = 'block';
+                        lightboxSchedule.innerHTML = scheduleDay1;
+                        lightboxSchedule.style.maxWidth = '650px'; // Give more space for 4 columns
+                        lightboxImg.style.maxWidth = '400px'; // Shrink the image relatively
+                    } else if(this.src.includes('kegiatanpkkmbday2.png')) {
+                        lightboxSchedule.style.display = 'block';
+                        lightboxSchedule.innerHTML = scheduleDay2;
+                        lightboxSchedule.style.maxWidth = '650px'; // Give more space for 4 columns
+                        lightboxImg.style.maxWidth = '400px'; 
+                    } else if(this.src.includes('kegiatanpkkmbday3.png')) {
+                        lightboxSchedule.style.display = 'block';
+                        lightboxSchedule.innerHTML = scheduleDay3;
+                        lightboxImg.style.maxWidth = '500px'; 
+                    } else if(this.src.includes('kegiatanpkkmbday4.png')) {
+                        lightboxSchedule.style.display = 'block';
+                        lightboxSchedule.innerHTML = scheduleDay4;
+                        lightboxImg.style.maxWidth = '500px'; 
+                    } else if(this.src.includes('kegiatanwebinar1.jpg')) {
+                        lightboxSchedule.style.display = 'block';
+                        lightboxSchedule.innerHTML = infoWebnas1;
+                        lightboxImg.style.maxWidth = '400px'; // make the poster a bit smaller to match text size natively
+                    } else if(this.src.includes('kegiatanwebinar2.jpg')) {
+                        lightboxSchedule.style.display = 'block';
+                        lightboxSchedule.innerHTML = infoWebnas2;
+                        lightboxImg.style.maxWidth = '400px'; 
+                    } else {
+                        lightboxSchedule.style.display = 'none';
+                        lightboxSchedule.innerHTML = '';
+                        lightboxImg.style.maxWidth = '100%';
+                    }
+                });
+            });
+        </script>
     </section>
     <section class="cine-partners" style="display: flex; justify-content: center; margin-bottom: 60px; margin-top: 10px; padding: 0 20px;">
         <div style="background: #fff; padding: 25px 60px; border-radius: 100px; display: flex; gap: 50px; align-items: center; box-shadow: 0 15px 40px rgba(0,0,0,0.15); flex-wrap: wrap; justify-content: center;">

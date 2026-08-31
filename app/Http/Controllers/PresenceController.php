@@ -214,6 +214,7 @@ class PresenceController extends Controller
             ->where('presence_date', $byDate)
             ->get(['presence_date', 'user_id']);
             
+        $positionIds = $attendance->positions->pluck('id')->toArray();
 
         // Get participants or committee members based on position_id
         if ($presences->isEmpty()) {
@@ -222,11 +223,12 @@ class PresenceController extends Controller
                 "not_presence_date" => $byDate,
                 "users" => User::query()
                     ->with('position')
+                    ->whereIn('position_id', $positionIds)
                     ->get()
                     ->toArray(),
             ];
         } else {
-            $notPresentData = $this->getNotPresentStudents($presences);
+            $notPresentData = $this->getNotPresentStudents($presences, $positionIds);
         }
 
         return view('dashboard.admin.presences.not-present', [
@@ -236,7 +238,7 @@ class PresenceController extends Controller
         ]);
     }
 
-    private function getNotPresentStudents($presences)
+    private function getNotPresentStudents($presences, $positionIds)
     {
         $uniquePresenceDates = $presences->unique("presence_date")->pluck('presence_date');
         $uniquePresenceDatesAndCompactTheUserIds = $uniquePresenceDates->map(function ($date) use ($presences) {
@@ -253,6 +255,7 @@ class PresenceController extends Controller
                     "users" => User::query()
                         ->with('position')
                         ->whereNotIn('id', $presence['user_ids'])
+                        ->whereIn('position_id', $positionIds)
                         ->get()
                         ->toArray()
                 ];

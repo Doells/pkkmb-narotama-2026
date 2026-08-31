@@ -99,22 +99,22 @@
                                 @csrf
                                 <input type="hidden" name="user_id" value="{{ $user['id'] }}">
                                 <input type="hidden" name="presence_date" value="{{ $data['not_presence_date'] }}">
-                                <button class="bg-green-100 text-green-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded hover:underline" type="submit">Hadir</button>
+                                <button class="bg-green-600 text-white hover:bg-green-700 text-sm font-medium mr-2 px-3 py-1 rounded transition-colors" type="submit">Hadir</button>
                             </form>
 
                             {{-- Permission Modal Button --}}
-                            <button data-modal-target="permissionFormModal{{ $user['id'] }}" data-modal-toggle="permissionFormModal{{ $user['id'] }}"  class="bg-yellow-100 text-yellow-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded hover:underline" type="button" >Izin</button>
+                            <button data-modal-target="permissionFormModal{{ $user['id'] }}" data-modal-toggle="permissionFormModal{{ $user['id'] }}"  class="bg-yellow-600 hover:bg-yellow-700 text-white transition-colors text-sm font-medium mr-2 px-3 py-1 rounded" type="button" >Izin</button>
                             <!-- Main modal -->
                             <div id="permissionFormModal{{ $user['id'] }}" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
                                 <div class="relative w-full max-w-2xl max-h-full">
                                     <!-- Modal content -->
-                                    <div class="relative bg-white rounded-lg shadow">
+                                    <div class="relative rounded-lg shadow" style="background-color: var(--cine-surface) !important; border: 1px solid var(--cine-border) !important;">
                                         <!-- Modal header -->
-                                        <div class="flex items-start justify-between p-4 border-b rounded-t">
-                                            <h3 class="text-xl font-semibold text-gray-900">
+                                        <div class="flex items-start justify-between p-4 border-b rounded-t" style="border-color: var(--cine-border) !important;">
+                                            <h3 class="text-xl font-semibold" style="color: #fff !important;">
                                                 Formulir Alasan Izin
                                             </h3>
-                                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center" data-modal-hide="permissionFormModal{{ $user['id'] }}">
+                                            <button type="button" class="text-gray-400 bg-transparent hover:text-white rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center" data-modal-hide="permissionFormModal{{ $user['id'] }}">
                                                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                                                 </svg>
@@ -128,14 +128,14 @@
                                             <input type="hidden" name="presence_date" value="{{ $data['not_presence_date'] }}">
                                             <div class="p-6 space-y-6">
                                                 <div>
-                                                    <label for="permission_reason" class="block mb-2 text-sm font-medium text-gray-900">Alasan Izin Atas Nama {{ $user['name'] }}</label>
-                                                    <input type="text" name="permission_reason" id="permission_reason" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Alasan Izin" required>
+                                                    <label for="permission_reason" class="block mb-2 text-sm font-medium" style="color: #fff !important;">Alasan Izin Atas Nama {{ $user['name'] }}</label>
+                                                    <input type="text" name="permission_reason" id="permission_reason" class="border text-sm rounded-lg block w-full p-2.5" style="background-color: var(--cine-surface-2) !important; border-color: var(--cine-border) !important; color: white !important;" placeholder="Ketik alasan di sini..." required>
                                                 </div>
                                             </div>
                                             <!-- Modal footer -->
-                                            <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                                                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
-                                                <button data-modal-hide="permissionFormModal{{ $user['id'] }}" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Cancel</button>
+                                            <div class="flex items-center p-6 space-x-2 border-t rounded-b" style="border-color: var(--cine-border) !important;">
+                                                <button type="submit" class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-colors">Submit</button>
+                                                <button data-modal-hide="permissionFormModal{{ $user['id'] }}" type="button" class="text-white hover:text-gray-300 font-medium px-5 py-2.5" style="border: 1px solid var(--cine-border) !important; border-radius: 8px;">Batal</button>
                                             </div>
                                         </form>
                                     </div>

@@ -60,9 +60,9 @@
                                         <td class="px-6 py-4">{{ $attendance->date }}</td>
                                         <td class="px-6 py-4">
                                             @if($attendance->date == now()->toDateString())
-                                                <div class="text-center bg-blue-100 text-blue-800 text-xs font-medium px-1 py-0.5 rounded-full">Belum Hadir</div>
+                                                <div class="text-center bg-blue-600 text-white text-xs font-medium px-2 py-1 rounded-full">Belum Hadir</div>
                                             @else
-                                                <div class="text-center bg-red-100 text-red-800 text-xs font-medium px-1 py-0.5 rounded-full">Tidak Hadir</div>
+                                                <div class="text-center bg-red-600 text-white text-xs font-medium px-2 py-1 rounded-full">Tidak Hadir</div>
                                             @endif
                                         </td>
                                     @else
@@ -70,9 +70,9 @@
                                         <td class="px-6 py-4">{{ $histo->presence_enter_time }}</td>
                                         <td class="px-6 py-4">
                                             @if ($histo->is_permission)
-                                                <div class="text-center bg-yellow-100 text-yellow-800 text-xs font-medium px-1 py-0.5 rounded-full">Izin</div>
+                                                <div class="text-center bg-yellow-600 text-white text-xs font-medium px-2 py-1 rounded-full">Izin</div>
                                             @else
-                                                <div class="text-center bg-green-100 text-green-800 text-xs font-medium px-1 py-0.5 rounded-full">Hadir</div>
+                                                <div class="text-center bg-green-600 text-white text-xs font-medium px-2 py-1 rounded-full">Hadir</div>
                                             @endif
                                         </td>
                                         @if ($histo->is_permission === 0)
@@ -84,9 +84,9 @@
                                                 @endphp
                                                 
                                                 @if ($waktuMasuk->between($waktuTepatWaktu, $waktuAkhirTepatWaktu))
-                                                    <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">Tepat Waktu</span>
+                                                    <span class="bg-green-600 text-white text-xs font-medium mr-2 px-2.5 py-1 rounded-full">Tepat Waktu</span>
                                                 @else
-                                                    <span class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">Terlambat</span> 
+                                                    <span class="bg-red-600 text-white text-xs font-medium mr-2 px-2.5 py-1 rounded-full">Terlambat</span> 
                                                 @endif
                                             </td>
                                         @else

@@ -1712,3 +1712,65 @@ button.cine-pg-page:hover {
         animation-iteration-count: 1 !important;
     }
 }
+
+/* Modal Scanner QR-Code Overrides */
+#reader {
+    color: var(--cine-text-2) !important;
+    padding: 15px;
+}
+
+#reader div {
+    background-color: transparent !important;
+    color: var(--cine-text-2) !important;
+}
+
+#reader a {
+    color: var(--cine-mint) !important;
+    text-decoration: none;
+    font-size: 0.9em;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+#reader img {
+    filter: invert(1) opacity(0.5);
+    /* Supaya logo/ikon bawaan library menjadi putih */
+}
+
+#reader a:hover {
+    color: var(--cine-coral) !important;
+    text-decoration: underline;
+}
+
+#reader button {
+    background-color: var(--cine-surface-2) !important;
+    border: 1px solid var(--cine-border) !important;
+    color: var(--cine-text) !important;
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+    margin-top: 15px !important;
+    cursor: pointer !important;
+    font-weight: 600 !important;
+    font-size: 0.85rem !important;
+    transition: all 0.2s ease !important;
+}
+
+#reader button:hover {
+    background-color: var(--cine-surface-3) !important;
+    color: #fff !important;
+}
+
+#reader select {
+    background-color: var(--cine-surface-2) !important;
+    border: 1px solid var(--cine-border) !important;
+    color: var(--cine-text) !important;
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+    margin-top: 5px !important;
+    max-width: 100% !important;
+    outline: none !important;
+}
+
+#reader select:focus {
+    border-color: var(--cine-mint) !important;
+}
