@@ -14,8 +14,8 @@ Aplikasi menyediakan halaman informasi publik serta dashboard berbasis peran unt
 - Informasi pengenalan PKKMB.
 - Pedoman kegiatan.
 - Informasi seragam.
-- Jadwal kegiatan.
-- Susunan panitia.
+- Susunan panitia (dengan grid responsif & animasi film).
+- Dokumentasi kegiatan & timeline (dengan layout *cinematic film strip* adaptif).
 - Berita dan pengumuman.
 - Halaman login peserta dan administrator.
 
