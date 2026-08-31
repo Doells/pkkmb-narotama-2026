@@ -34,6 +34,37 @@
         <div class="cine-ticker" aria-hidden="true"><span>ORIENTASI</span> ✦ <span>KOLABORASI</span> ✦ <span>INSPIRASI</span> ✦ <span>AKSI NYATA</span> ✦ <span>GARDA DEPAN</span></div>
     </section>
 
+    <section style="width: 100%; padding: 40px 20px 0 20px; background: #fff; text-align: center;">
+        <div style="max-width: 1200px; margin: 0 auto; border-radius: 15px; overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,0.3); border: 1px solid rgba(0,0,0,0.05); position: relative; background: #000;">
+            <!-- Cinematic Widescreen Letterbox (Top) and Viewfinder -->
+            <div style="height: 40px; background: #000; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 0 30px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="display: inline-block; width: 10px; height: 10px; background: #e50914; border-radius: 50%; box-shadow: 0 0 10px rgba(229,9,20,0.8); animation: pulse 2s infinite;"></span>
+                    <span style="color: #fff; font-family: monospace; font-size: 14px; font-weight: bold; letter-spacing: 3px;">REC</span>
+                </div>
+                <span style="color: #fff; font-family: monospace; font-size: 13px; opacity: 0.6; letter-spacing: 2px;">24FPS • 4K</span>
+            </div>
+            
+            <div style="position: relative;">
+                <!-- Film Grain Overlay -->
+                <div style="position: absolute; inset: 0; background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E'); opacity: 0.05; pointer-events: none; z-index: 2;"></div>
+                
+                <img src="{{ asset('img/hero-bg.jpg') }}" alt="PKKMB 2026 Cerita Baru Dimulai" style="width: 100%; height: auto; display: block; filter: contrast(1.05) saturate(1.1); position: relative; z-index: 1;">
+                
+                <!-- Epic Movie Credits Footer Overlay -->
+                <div style="position: absolute; bottom: -8px; left: 0; right: 0; padding: 50px 20px 10px 20px; background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 40%, transparent 100%); z-index: 3;">
+                    <p style="color: rgba(255,255,255,0.4); font-size: clamp(8px, 1vw, 12px); font-family: 'Arial Narrow', 'Helvetica Neue', Helvetica, sans-serif; letter-spacing: 4px; text-transform: uppercase; margin: 0 auto; max-width: 900px; line-height: 1.8; transform: scaleY(1.1);">
+                        UNIVERSITAS NAROTAMA <span style="font-size: 0.8em; vertical-align: middle;">PRESENTS A</span> GARDA DEPAN <span style="font-size: 0.8em; vertical-align: middle;">PRODUCTION</span> "PKKMB 2026" <span style="font-size: 0.8em; vertical-align: middle;">STARRING THE NEW GENERATION OF</span> MAHASISWA BARU <br> 
+                        <span style="font-size: 0.8em; vertical-align: middle;">DIRECTED BY</span> KEMAHASISWAAN &nbsp;•&nbsp; <span style="font-size: 0.8em; vertical-align: middle;">PRODUCED BY</span> PANITIA PENGARAH &nbsp;•&nbsp; <span style="font-size: 0.8em; vertical-align: middle;">VISUALS BY</span> DOKUMENTASI DAN TI
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Cinematic Widescreen Letterbox (Bottom) -->
+            <div style="height: 40px; background: #000; width: 100%;"></div>
+        </div>
+    </section>
+
     <section class="cine-section">
         <div class="cine-container cine-intro-grid">
             <div><div class="cine-kicker">MULAI CERITAMU</div><h2 class="cine-title">Satu langkah kecil.<br><em>Dampak yang besar.</em></h2></div>
@@ -43,12 +74,13 @@
 
     <section class="cine-section cine-info">
         <div class="cine-container">
-            <div class="cine-section-head"><div><div class="cine-kicker">INFORMASI PESERTA</div><h2 class="cine-title">Semua yang perlu<br>kamu siapkan.</h2></div><p>Empat panduan utama untuk memastikan perjalanan pertamamu dimulai dengan percaya diri.</p></div>
+            <div class="cine-section-head"><div><div class="cine-kicker">INFORMASI PESERTA</div><h2 class="cine-title">Semua yang perlu<br>kamu siapkan.</h2></div><p>Lima panduan utama untuk memastikan perjalanan pertamamu dimulai dengan percaya diri.</p></div>
             <div class="cine-info-grid">
                 <a href="{{ route('informasi-landing') }}#pengenalan" class="cine-info-card blue"><small>01</small><div class="cine-info-icon">▶</div><h3>Pengenalan PKKMB</h3><p>Kenali tema, rangkaian kegiatan, dan hal penting sebelum hari pelaksanaan.</p><span class="cine-card-link">Buka informasi <b>↗</b></span></a>
                 <a href="{{ route('informasi-landing') }}#pedoman" class="cine-info-card yellow"><small>02</small><div class="cine-info-icon">≡</div><h3>Pedoman Peserta</h3><p>Panduan lengkap, tata tertib, perlengkapan, dan ketentuan peserta.</p><span class="cine-card-link">Buka informasi <b>↗</b></span></a>
                 <a href="{{ route('informasi-landing') }}#seragam" class="cine-info-card coral"><small>03</small><div class="cine-info-icon">◆</div><h3>Ketentuan Seragam</h3><p>Lihat pakaian dan atribut yang perlu disiapkan untuk setiap rangkaian acara.</p><span class="cine-card-link">Buka informasi <b>↗</b></span></a>
                 <a href="{{ route('informasi-landing') }}#panitia" class="cine-info-card mint"><small>04</small><div class="cine-info-icon">●</div><h3>Kenali Panitia</h3><p>Temukan koordinator dan narahubung yang siap membantu mahasiswa baru.</p><span class="cine-card-link">Buka informasi <b>↗</b></span></a>
+                <a href="{{ route('informasi-landing') }}#kegiatan" class="cine-info-card" style="grid-column: 1 / -1; background-color: #222; border-color: #444;"><small style="color: #bbb;">05</small><div class="cine-info-icon" style="color: #fff;">★</div><h3 style="color: #fff;">Kegiatan & Timeline</h3><p style="color: #aaa;">Lihat cuplikan dokumentasi kegiatan dan timeline mahasiswa baru PKKMB.</p><span class="cine-card-link" style="color: #fff;">Buka informasi <b>↗</b></span></a>
             </div>
         </div>
     </section>

@@ -800,6 +800,46 @@ body.cine-admin-app .cine-admin-content .text-danger {
     color: var(--cine-text-2) !important;
 }
 
+/* Fallback for legacy Bootstrap classes used in some views */
+.cine-admin-content .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    transition: all 0.15s ease-in-out;
+}
+
+.cine-admin-content .btn-sm {
+    padding: 6px 14px;
+    font-size: 0.8125rem;
+}
+
+.cine-admin-content .btn-light,
+.cine-admin-content .btn-outline-secondary {
+    background: var(--cine-surface-2) !important;
+    border-color: rgba(217, 234, 241, 0.12) !important;
+    color: var(--cine-text-2) !important;
+}
+
+.cine-admin-content .btn-light:hover,
+.cine-admin-content .btn-outline-secondary:hover {
+    background: var(--cine-surface-3) !important;
+    border-color: rgba(217, 234, 241, 0.25) !important;
+    color: var(--cine-text) !important;
+}
+
+.cine-admin-content .btn svg,
+.cine-admin-content .btn .feather {
+    width: 16px;
+    height: 16px;
+}
+
 .cine-admin-content .cine-bulk-delete {
     display: inline-flex !important;
     align-items: center;

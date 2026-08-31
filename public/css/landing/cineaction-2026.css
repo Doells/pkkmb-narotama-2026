@@ -789,7 +789,7 @@ html {
 
 .cine-tabs-inner {
     display: grid;
-    grid-template-columns: repeat(4, 1fr)
+    grid-template-columns: repeat(5, 1fr)
 }
 
 .cine-tabs a {
@@ -1589,7 +1589,7 @@ html {
     }
 
     .cine-tabs-inner {
-        width: 600px
+        width: 750px
     }
 
     .cine-tabs a {
@@ -1877,7 +1877,7 @@ html {
 .cine-marquee-track {
     display: flex;
     width: max-content;
-    animation: scrolling-posters 25s linear infinite;
+    animation: scrolling-posters 45s linear infinite;
     gap: 30px;
 }
 
