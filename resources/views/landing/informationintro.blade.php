@@ -556,8 +556,37 @@
             });
         </script>
     </section>
+    <style>
+        .cine-partners-inner {
+            background: #fff; 
+            padding: 25px 60px; 
+            border-radius: 100px; 
+            display: flex; 
+            gap: 50px; 
+            align-items: center; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15); 
+            flex-wrap: wrap; 
+            justify-content: center;
+        }
+        @media (max-width: 768px) {
+            .cine-partners-inner {
+                padding: 20px 25px;
+                gap: 25px;
+                border-radius: 30px;
+            }
+            .cine-partners-inner img {
+                height: 50px !important;
+            }
+            .cine-partners-inner img[alt="Kemahasiswaan"] {
+                height: 45px !important;
+            }
+            .cine-partners-inner img[alt="PKKMB Narotama"] {
+                height: 60px !important;
+            }
+        }
+    </style>
     <section class="cine-partners" style="display: flex; justify-content: center; margin-bottom: 60px; margin-top: 10px; padding: 0 20px;">
-        <div style="background: #fff; padding: 25px 60px; border-radius: 100px; display: flex; gap: 50px; align-items: center; box-shadow: 0 15px 40px rgba(0,0,0,0.15); flex-wrap: wrap; justify-content: center;">
+        <div class="cine-partners-inner">
             <img src="{{ asset('img/logo/tutwuri.png') }}" alt="Tut Wuri Handayani" style="height: 70px; object-fit: contain;">
             <img src="{{ asset('img/logo/diktisaintek.png') }}" alt="Diktisaintek Berdampak" style="height: 70px; object-fit: contain;">
             <img src="{{ asset('img/logo/narotama.png') }}" alt="Universitas Narotama" style="height: 70px; object-fit: contain;">
