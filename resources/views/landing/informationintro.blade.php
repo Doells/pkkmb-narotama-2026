@@ -176,7 +176,7 @@
                     </div>
                 </div>
 
-
+{{--
                 <!-- Poster 8 (Webinar 1) -->
                 <div style="position: relative; border-radius: 4px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,1);">
                     <img src="{{ asset('img/panitia/kegiatanwebinar1.jpg') }}" alt="Webinar Nasional AHY" class="cine-zoomable" style="width: 100%; height: auto; display: block; filter: contrast(1.05) saturate(1.1); cursor: zoom-in; transition: transform 0.3s ease;">
@@ -192,7 +192,7 @@
                         <span style="color: rgba(255,255,255,0.7); font-family: monospace; font-size: 13px; letter-spacing: 3px;">WEBINAR NASIONAL II</span>
                     </div>
                 </div>
-
+--}}
             </div>
         </div>
 
