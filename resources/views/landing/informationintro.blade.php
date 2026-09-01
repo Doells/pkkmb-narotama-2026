@@ -217,6 +217,33 @@
             .cine-zoomable:hover {
                 transform: scale(1.03);
             }
+            @media (max-width: 768px) {
+                #imageLightbox {
+                    padding: 15px !important;
+                }
+                #lightboxContent {
+                    gap: 15px !important;
+                }
+                #lightboxImage {
+                    max-height: 40vh !important;
+                }
+                #lightboxSchedule {
+                    padding: 15px !important;
+                    max-height: 45vh !important;
+                    box-sizing: border-box !important;
+                    width: 100% !important;
+                    border-radius: 8px !important;
+                    font-size: 13px !important;
+                }
+                #lightboxSchedule h3 {
+                    font-size: 16px !important;
+                }
+                #imageLightbox > span {
+                    top: 10px !important;
+                    right: 20px !important;
+                    font-size: 40px !important;
+                }
+            }
         </style>
         <script>
             const scheduleTM = `
