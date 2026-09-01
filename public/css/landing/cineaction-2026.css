@@ -712,7 +712,13 @@ html {
     font-size: 180px;
     font-weight: 900;
     opacity: .07;
-    line-height: 1
+    line-height: 1;
+    pointer-events: none;
+}
+
+.cine-cta .cine-button {
+    position: relative;
+    z-index: 10;
 }
 
 .cine-cta h2 {
