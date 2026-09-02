@@ -4,7 +4,11 @@
     @include('includes.landing.meta')
     @include('partials.fonts')
     @include('partials.tailwindstyles')
-    <title>{{ $title ?? 'PKKMB 2026' }} | PKKMB Universitas Narotama 2026</title>
+    @if(isset($title) && $title === 'Beranda')
+        <title>PKKMB Narotama 2026 | Universitas Narotama</title>
+    @else
+        <title>{{ $title ?? 'PKKMB 2026' }} | PKKMB Universitas Narotama 2026</title>
+    @endif
     @include('includes.landing.style')
     @stack('style')
 </head>
