@@ -28,9 +28,8 @@
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 
-<link rel="icon" type="image/png" href="{{ asset('pkkmblogo-transparent.png') }}?v={{ filemtime(public_path('pkkmblogo-transparent.png')) }}">
-<link rel="shortcut icon" type="image/png" href="{{ asset('pkkmblogo-transparent.png') }}?v={{ filemtime(public_path('pkkmblogo-transparent.png')) }}">
-<link rel="apple-touch-icon" href="{{ asset('pkkmblogo-transparent.png') }}?v={{ filemtime(public_path('pkkmblogo-transparent.png')) }}">
+<link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+<link rel="apple-touch-icon" href="{{ asset('favicon.png') }}">
 
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
