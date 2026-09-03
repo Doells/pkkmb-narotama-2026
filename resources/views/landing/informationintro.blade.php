@@ -31,14 +31,14 @@
     <section class="cine-detail alt" id="pedoman">
         <div class="cine-container cine-detail-grid">
             <div><span class="cine-detail-index yellow">02</span><div class="cine-kicker">PEDOMAN PESERTA</div><h2>Datang siap.<br>Pulang berkesan.</h2></div>
-            <div class="cine-doc"><iframe src="{{ asset('/src/document/buku_pedoman_pkkmb2023.pdf') }}" title="Buku Pedoman PKKMB"></iframe><div class="cine-doc-action"><span><small>DOKUMEN PESERTA</small><b>Buku Pedoman PKKMB</b></span><a href="{{ asset('/src/document/buku_pedoman_pkkmb2023.pdf') }}" download class="cine-button cine-button-dark">Unduh PDF <b>↓</b></a></div></div>
+            <div class="cine-doc"><iframe src="{{ asset('/src/document/buku_pedoman_pkkmb2026.pdf') }}" title="Buku Pedoman PKKMB"></iframe><div class="cine-doc-action"><span><small>DOKUMEN PESERTA</small><b>Buku Pedoman PKKMB</b></span><a href="{{ asset('/src/document/buku_pedoman_pkkmb2023.pdf') }}" download class="cine-button cine-button-dark">Unduh PDF <b>↓</b></a></div></div>
         </div>
     </section>
 
     <section class="cine-detail" id="seragam">
         <div class="cine-container cine-detail-grid">
             <div><span class="cine-detail-index coral">03</span><div class="cine-kicker">KETENTUAN SERAGAM</div><h2>Rapi, nyaman,<br>dan siap beraksi.</h2></div>
-            <div class="cine-doc"><iframe src="{{ asset('/src/document/seragam_peserta_pkkm2023.pdf') }}" title="Ketentuan Seragam PKKMB"></iframe><div class="cine-doc-action"><span><small>DOKUMEN PESERTA</small><b>Ketentuan Seragam PKKMB</b></span><a href="{{ asset('/src/document/seragam_peserta_pkkm2023.pdf') }}" download class="cine-button cine-button-dark">Unduh PDF <b>↓</b></a></div></div>
+            <div class="cine-doc"><iframe src="{{ asset('/src/document/seragam_peserta_pkkm2026.pdf') }}" title="Ketentuan Seragam PKKMB"></iframe><div class="cine-doc-action"><span><small>DOKUMEN PESERTA</small><b>Ketentuan Seragam PKKMB</b></span><a href="{{ asset('/src/document/seragam_peserta_pkkm2023.pdf') }}" download class="cine-button cine-button-dark">Unduh PDF <b>↓</b></a></div></div>
         </div>
     </section>
 
