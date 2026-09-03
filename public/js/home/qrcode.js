@@ -322,7 +322,7 @@ function initScannerFlow() {
 
 
 // ======================================================
-// EVENT LISTENER MODAL BOOTSTRAP / FLOWBITE
+// EVENT LISTENER MODAL (FLOWBITE VIA MUTATIONOBSERVER)
 // ======================================================
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -336,30 +336,28 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    // A: Handle Bootstrap Event
-    modal.addEventListener("shown.bs.modal", function () {
-        console.log("[QR] Modal scanner terbuka");
-        setTimeout(function () {
-            initScannerFlow();
-        }, 500);
-    });
+    var initDone = false;
 
-    modal.addEventListener("hidden.bs.modal", function () {
-        console.log("[QR] Modal scanner tertutup");
-        stopCamera();
-    });
-
-    // B: Fallback Flowbite Event (berdasarkan atribut class hidden)
+    // Flowbite toggle modal dengan menambah/hapus class "hidden"
     var observer = new MutationObserver(function () {
         var isHidden = modal.classList.contains("hidden");
 
-        if (!isHidden) {
+        if (!isHidden && !initDone) {
+            initDone = true;
             console.log("[QR] Modal scanner terbuka");
             setTimeout(function () {
                 initScannerFlow();
             }, 500);
-        } else {
+        } else if (isHidden && initDone) {
+            initDone = false;
+            console.log("[QR] Modal scanner tertutup");
             stopCamera();
+
+            // Bersihkan dropdown kamera agar tidak menumpuk saat modal dibuka lagi
+            var selector = document.getElementById("qr-camera-selector");
+            if (selector) {
+                selector.remove();
+            }
         }
     });
 
