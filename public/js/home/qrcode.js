@@ -2,81 +2,126 @@ let html5QRCodeScanner = null;
 
 // Function yang dieksekusi ketika scanner berhasil membaca QR Code
 function onScanSuccess(decodedText, decodedResult) {
-    // Mendapatkan elemen form dan field
     const codeField = document.getElementById("code-field");
-    
+
     if (codeField) {
-        // Isi field dengan data dari QR code
         codeField.value = decodedText;
     }
-    
-    // Membersihkan scan area (hentikan kamera) ketika sudah berhasil
+
+    const form = document.getElementById("kirim-presensi");
+
     if (html5QRCodeScanner) {
-        html5QRCodeScanner.clear().then(() => {
-            console.log("Scanner berhasil dihentikan setelah QR terbaca.");
-            // Submit form setelah scanner berhenti sepenuhnya
-            document.getElementById('kirim-presensi').submit();
-        }).catch(error => {
-            console.error("Gagal menghentikan scanner: ", error);
-            // Fallback: tetap submit jika gagal stop
-            document.getElementById('kirim-presensi').submit();
-        });
+        html5QRCodeScanner.clear()
+            .then(() => {
+                console.log("Scanner berhasil dihentikan setelah QR terbaca.");
+
+                if (form) {
+                    form.submit();
+                }
+            })
+            .catch(error => {
+                console.error("Gagal menghentikan scanner:", error);
+
+                if (form) {
+                    form.submit();
+                }
+            });
     } else {
-        document.getElementById('kirim-presensi').submit();
+        if (form) {
+            form.submit();
+        }
     }
 }
 
-// Fungsi untuk memulai dan membuat objek scanner baru jika belum ada
+// Mulai scanner
 function startScanner() {
-    if (!html5QRCodeScanner) {
-        html5QRCodeScanner = new Html5QrcodeScanner(
-            "reader", {
-                fps: 10,
-                qrbox: { width: 250, height: 250 },
-                formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
-                rememberLastUsedCamera: true,
-                supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA]
-            },
-            /* verbose= */ false
-        );
-        html5QRCodeScanner.render(onScanSuccess);
+    // Jangan buat scanner baru kalau sudah ada
+    if (html5QRCodeScanner) {
+        return;
     }
+
+    const reader = document.getElementById("reader");
+
+    if (!reader) {
+        console.error("Element #reader tidak ditemukan.");
+        return;
+    }
+
+    // Bersihkan isi reader terlebih dahulu
+    reader.innerHTML = "";
+
+    html5QRCodeScanner = new Html5QrcodeScanner(
+        "reader",
+        {
+            fps: 10,
+            qrbox: {
+                width: 250,
+                height: 250
+            },
+            formatsToSupport: [
+                Html5QrcodeSupportedFormats.QR_CODE
+            ],
+            rememberLastUsedCamera: true,
+            supportedScanTypes: [
+                Html5QrcodeScanType.SCAN_TYPE_CAMERA
+            ]
+        },
+        false
+    );
+
+    html5QRCodeScanner.render(
+        onScanSuccess,
+        onScanError
+    );
+
+    console.log("QR Scanner berhasil dimulai.");
 }
 
-// Fungsi untuk menghentikan dan mereset memori scanner
+// Error saat proses scan
+function onScanError(errorMessage) {
+    // Jangan tampilkan error scan terus-menerus ke console
+}
+
+// Hentikan scanner
 function stopScanner() {
-    if (html5QRCodeScanner) {
-        html5QRCodeScanner.clear().then(() => {
+    if (!html5QRCodeScanner) {
+        return;
+    }
+
+    html5QRCodeScanner.clear()
+        .then(() => {
+            console.log("QR Scanner berhasil dihentikan.");
             html5QRCodeScanner = null;
-        }).catch(err => {
-            console.error("Gagal menghentikan scanner secara paksa:", err);
+
+            const reader = document.getElementById("reader");
+
+            if (reader) {
+                reader.innerHTML = "";
+            }
+        })
+        .catch(error => {
+            console.error("Gagal menghentikan QR Scanner:", error);
             html5QRCodeScanner = null;
         });
-    }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    const scannerModal = document.getElementById('scannerModal');
-    
-    if (scannerModal) {
-        // Obeservasi modul scanner, eksekusi jika kelas HTML-nya berubah
-        const observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-                if (mutation.attributeName === "class") {
-                    const classList = scannerModal.classList;
-                    // Jika modal tidak memiliki kelas 'hidden' (berarti sedang terbuka)
-                    if (!classList.contains("hidden")) {
-                        startScanner();
-                    } else {
-                        // Jika modal sedang ditutup, matikan kamera
-                        stopScanner();
-                    }
-                }
-            });
-        });
+    const scannerModal = document.getElementById("scannerModal");
 
-        observer.observe(scannerModal, {
-            attributes: true
-        });
+    if (!scannerModal) {
+        console.error("Element #scannerModal tidak ditemukan.");
+        return;
     }
+
+    // Bootstrap Modal: ketika modal sudah terbuka
+    scannerModal.addEventListener("shown.bs.modal", function () {
+        console.log("Modal scanner dibuka.");
+        startScanner();
+    });
+
+    // Bootstrap Modal: ketika modal sudah ditutup
+    scannerModal.addEventListener("hidden.bs.modal", function () {
+        console.log("Modal scanner ditutup.");
+        stopScanner();
+    });
 });
