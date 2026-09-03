@@ -2,12 +2,15 @@
  * QR Code Scanner — PKKMB Narotama 2026
  * public/js/home/qrcode.js
  *
- * Implementasi Final untuk Optimalisasi Decoding QR Padat & Resolusi Tinggi.
+ * Flowbite modal. Html5Qrcode langsung.
+ * Trigger: click pada tombol data-modal-toggle="scannerModal".
+ * Tidak menggunakan Bootstrap event atau MutationObserver.
  */
 
 var scanner = null;
 var starting = false;
 var scanProcessed = false;
+var initialized = false;
 
 
 // ======================================================
@@ -27,45 +30,58 @@ function onScanSuccess(decodedText, decodedResult) {
     var codeField = document.getElementById("code-field");
     var form = document.getElementById("kirim-presensi");
 
-    if (!codeField || !form) {
-        console.error("[QR] Element presensi tidak ditemukan.");
+    if (!codeField) {
+        console.error("[QR] #code-field tidak ditemukan.");
+        scanProcessed = false;
+        return;
+    }
+
+    if (!form) {
+        console.error("[QR] #kirim-presensi tidak ditemukan.");
         scanProcessed = false;
         return;
     }
 
     codeField.value = decodedText;
 
-    console.log("[QR] CODE FIELD:", codeField.value);
+    console.log("[QR] CODE FIELD TERISI:", codeField.value);
+
+    if (!scanner) {
+        form.submit();
+        return;
+    }
 
     scanner.stop()
         .then(function () {
+            console.log("[QR] Scanner dihentikan.");
             return scanner.clear();
         })
         .then(function () {
             scanner = null;
-            console.log("[QR] Presensi dikirim otomatis.");
+            starting = false;
+            console.log("[QR] SUBMIT PRESENSI OTOMATIS");
             form.submit();
         })
         .catch(function (error) {
-            console.error("[QR] Gagal menghentikan scanner:", error);
+            console.error("[QR] Error stop scanner:", error);
             scanner = null;
-            // Tetap submit agar presensi tidak putus
+            starting = false;
             form.submit();
         });
 }
 
 
 // ======================================================
-// ERROR SCAN
+// ERROR SCAN (diabaikan)
 // ======================================================
 
-function onScanError(errorMessage) {
-    // Sengaja diabaikan agar console tidak penuh per frame
+function onScanError() {
+    // Sengaja kosong agar console tidak penuh
 }
 
 
 // ======================================================
-// MULAI KAMERA BERDASARKAN ID
+// MULAI KAMERA
 // ======================================================
 
 function startCamera(cameraId) {
@@ -89,8 +105,8 @@ function startCamera(cameraId) {
     starting = true;
     scanProcessed = false;
 
-    console.log("[QR] Scanner mulai");
-    console.log("[QR] Camera selected:", cameraId);
+    console.log("[QR] KAMERA DIPILIH:", cameraId);
+    console.log("[QR] SCANNER START");
 
     scanner = new Html5Qrcode("reader", {
         formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
@@ -102,11 +118,10 @@ function startCamera(cameraId) {
         {
             fps: 15,
 
-            // Perbesar ukuran region box decoding agar pixel density terjangkau
             qrbox: function (viewfinderWidth, viewfinderHeight) {
                 var size = Math.min(
                     viewfinderWidth * 0.85,
-                    viewfinderHeight * 0.65,
+                    viewfinderHeight * 0.85,
                     450
                 );
                 return {
@@ -118,22 +133,14 @@ function startCamera(cameraId) {
             aspectRatio: 1.0,
             disableFlip: false,
 
-            // Paksa penggunaan HTML5 native decoder
-            experimentalFeatures: {
-                useBarCodeDetectorIfSupported: false
+            videoConstraints: {
+                facingMode: { ideal: "environment" },
+                width: { ideal: 1920 },
+                height: { ideal: 1080 }
             },
 
-            // Konfigurasi prioritas resolusi & facing mode
-            videoConstraints: {
-                facingMode: {
-                    ideal: "environment"
-                },
-                width: {
-                    ideal: 1920
-                },
-                height: {
-                    ideal: 1080
-                }
+            experimentalFeatures: {
+                useBarCodeDetectorIfSupported: false
             }
         },
         onScanSuccess,
@@ -141,13 +148,12 @@ function startCamera(cameraId) {
     )
         .then(function () {
             starting = false;
-            console.log("[QR] Camera resolution: 1080p target requested");
-            console.log("[QR] Scanner started");
+            console.log("[QR] SCANNER AKTIF");
         })
         .catch(function (error) {
             starting = false;
             scanner = null;
-            console.error("[QR] Scanner gagal:", error);
+            console.error("[QR] SCANNER GAGAL:", error);
         });
 }
 
@@ -156,26 +162,23 @@ function startCamera(cameraId) {
 // STOP KAMERA
 // ======================================================
 
-function stopCamera() {
+function stopScanner() {
 
     if (!scanner) {
         return;
     }
-
-    console.log("[QR] STOP KAMERA");
 
     scanner.stop()
         .then(function () {
             return scanner.clear();
         })
         .then(function () {
-            console.log("[QR] Kamera dihentikan.");
+            console.log("[QR] Scanner dihentikan.");
             scanner = null;
             starting = false;
             scanProcessed = false;
         })
-        .catch(function (error) {
-            console.error("[QR] Gagal stop kamera:", error);
+        .catch(function () {
             scanner = null;
             starting = false;
             scanProcessed = false;
@@ -184,7 +187,7 @@ function stopCamera() {
 
 
 // ======================================================
-// GANTI KAMERA & UI DROPDOWN
+// GANTI KAMERA
 // ======================================================
 
 function switchCamera(cameraId) {
@@ -195,7 +198,6 @@ function switchCamera(cameraId) {
                 return scanner.clear();
             })
             .then(function () {
-                console.log("[QR] Kamera lama dihentikan.");
                 scanner = null;
                 starting = false;
                 scanProcessed = false;
@@ -213,12 +215,22 @@ function switchCamera(cameraId) {
 }
 
 
+// ======================================================
+// BUAT DROPDOWN KAMERA
+// ======================================================
+
 function buildCameraUI(cameras) {
 
     var reader = document.getElementById("reader");
 
     if (!reader) {
         return;
+    }
+
+    // Bersihkan dropdown lama jika ada
+    var oldSelector = document.getElementById("qr-camera-selector");
+    if (oldSelector) {
+        oldSelector.remove();
     }
 
     reader.innerHTML = "";
@@ -262,14 +274,11 @@ function buildCameraUI(cameras) {
 
     select.addEventListener("change", function () {
         var selectedId = this.value;
-
-        if (!selectedId) {
-            return;
-        }
-
+        if (!selectedId) return;
         switchCamera(selectedId);
     });
 
+    // Jika hanya 1 kamera, langsung gunakan
     if (cameras.length === 1) {
         select.value = cameras[0].id;
         console.log("[QR] Hanya 1 kamera, langsung digunakan.");
@@ -279,25 +288,37 @@ function buildCameraUI(cameras) {
 
 
 // ======================================================
-// INISIALISASI AWAL (PERMISSION & GET CAMERAS)
+// INISIALISASI: PERMISSION → GET CAMERAS → BUILD UI
 // ======================================================
 
-function initScannerFlow() {
+function initScanner() {
 
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        console.error("[QR] Browser tidak mendukung akses kamera.");
+    if (initialized) {
         return;
     }
 
-    console.log("[QR] Meminta permission kamera");
+    initialized = true;
 
-    navigator.mediaDevices.getUserMedia({
-        video: true
-    })
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        console.error("[QR] Browser tidak mendukung akses kamera.");
+        initialized = false;
+        return;
+    }
+
+    if (typeof Html5Qrcode === "undefined") {
+        console.error("[QR] Library Html5Qrcode tidak terload.");
+        initialized = false;
+        return;
+    }
+
+    console.log("[QR] MEMINTA PERMISSION KAMERA");
+
+    navigator.mediaDevices.getUserMedia({ video: true })
         .then(function (stream) {
 
-            console.log("[QR] Permission kamera berhasil");
+            console.log("[QR] PERMISSION KAMERA BERHASIL");
 
+            // Stop stream dummy, Html5Qrcode akan buat sendiri
             stream.getTracks().forEach(function (track) {
                 track.stop();
             });
@@ -306,64 +327,73 @@ function initScannerFlow() {
         })
         .then(function (cameras) {
 
-            console.log("[QR] Daftar kamera:", cameras);
+            console.log("[QR] KAMERA DITEMUKAN:", cameras);
 
             if (!cameras || cameras.length === 0) {
-                console.error("[QR] Kamera tidak ditemukan");
+                console.error("[QR] KAMERA TIDAK DITEMUKAN");
+                initialized = false;
                 return;
             }
 
             buildCameraUI(cameras);
         })
         .catch(function (error) {
-            console.error("[QR] Permission kamera gagal:", error);
+            console.error("[QR] PERMISSION GAGAL:", error);
+            initialized = false;
         });
 }
 
 
 // ======================================================
-// EVENT LISTENER MODAL (FLOWBITE VIA MUTATIONOBSERVER)
+// EVENT: KLIK TOMBOL SCANNER (FLOWBITE)
 // ======================================================
 
 document.addEventListener("DOMContentLoaded", function () {
 
     console.log("[QR] SCRIPT AKTIF");
 
-    var modal = document.getElementById("scannerModal");
+    // Tombol buka modal scanner
+    document.addEventListener("click", function (event) {
 
-    if (!modal) {
-        console.error("[QR] #scannerModal tidak ditemukan.");
-        return;
-    }
+        var button = event.target.closest(
+            '[data-modal-toggle="scannerModal"]'
+        );
 
-    var initDone = false;
-
-    // Flowbite toggle modal dengan menambah/hapus class "hidden"
-    var observer = new MutationObserver(function () {
-        var isHidden = modal.classList.contains("hidden");
-
-        if (!isHidden && !initDone) {
-            initDone = true;
-            console.log("[QR] Modal scanner terbuka");
-            setTimeout(function () {
-                initScannerFlow();
-            }, 500);
-        } else if (isHidden && initDone) {
-            initDone = false;
-            console.log("[QR] Modal scanner tertutup");
-            stopCamera();
-
-            // Bersihkan dropdown kamera agar tidak menumpuk saat modal dibuka lagi
-            var selector = document.getElementById("qr-camera-selector");
-            if (selector) {
-                selector.remove();
-            }
+        if (!button) {
+            return;
         }
+
+        console.log("[QR] TOMBOL SCANNER DIKLIK");
+
+        // Tunggu Flowbite selesai membuka modal
+        setTimeout(function () {
+            initScanner();
+        }, 500);
     });
 
-    observer.observe(modal, {
-        attributes: true,
-        attributeFilter: ["class"]
+    // Tombol tutup modal scanner
+    document.addEventListener("click", function (event) {
+
+        var hideButton = event.target.closest(
+            '[data-modal-hide="scannerModal"]'
+        );
+
+        if (!hideButton) {
+            return;
+        }
+
+        console.log("[QR] TOMBOL TUTUP SCANNER DIKLIK");
+
+        stopScanner();
+
+        // Reset agar bisa init ulang saat modal dibuka kembali
+        initialized = false;
+
+        // Bersihkan dropdown
+        var selector = document.getElementById("qr-camera-selector");
+        if (selector) {
+            selector.remove();
+        }
     });
 
 });
