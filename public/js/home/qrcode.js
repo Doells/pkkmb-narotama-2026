@@ -1,6 +1,6 @@
 let html5QRCodeScanner = null;
 
-// Function yang dieksekusi ketika scanner berhasil membaca QR Code
+// Function ketika QR berhasil terbaca
 function onScanSuccess(decodedText, decodedResult) {
     const codeField = document.getElementById("code-field");
 
@@ -19,7 +19,7 @@ function onScanSuccess(decodedText, decodedResult) {
                     form.submit();
                 }
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error("Gagal menghentikan scanner:", error);
 
                 if (form) {
@@ -33,9 +33,14 @@ function onScanSuccess(decodedText, decodedResult) {
     }
 }
 
+// Error scan - sengaja tidak ditampilkan terus menerus
+function onScanError(errorMessage) {
+    // Tidak perlu melakukan apa-apa
+}
+
 // Mulai scanner
 function startScanner() {
-    // Jangan buat scanner baru kalau sudah ada
+    // Jangan membuat scanner lebih dari satu
     if (html5QRCodeScanner) {
         return;
     }
@@ -47,10 +52,21 @@ function startScanner() {
         return;
     }
 
-    // Bersihkan isi reader terlebih dahulu
+    // Pastikan library html5-qrcode sudah tersedia
+    if (
+        typeof window.Html5QrcodeScanner === "undefined" ||
+        typeof window.Html5QrcodeSupportedFormats === "undefined"
+    ) {
+        console.error("Library html5-qrcode belum tersedia.");
+        return;
+    }
+
+    console.log("Memulai QR Scanner...");
+
+    // Bersihkan reader terlebih dahulu
     reader.innerHTML = "";
 
-    html5QRCodeScanner = new Html5QrcodeScanner(
+    html5QRCodeScanner = new window.Html5QrcodeScanner(
         "reader",
         {
             fps: 10,
@@ -59,12 +75,9 @@ function startScanner() {
                 height: 250
             },
             formatsToSupport: [
-                Html5QrcodeSupportedFormats.QR_CODE
+                window.Html5QrcodeSupportedFormats.QR_CODE
             ],
-            rememberLastUsedCamera: true,
-            supportedScanTypes: [
-                Html5QrcodeScanType.SCAN_TYPE_CAMERA
-            ]
+            rememberLastUsedCamera: true
         },
         false
     );
@@ -74,12 +87,7 @@ function startScanner() {
         onScanError
     );
 
-    console.log("QR Scanner berhasil dimulai.");
-}
-
-// Error saat proses scan
-function onScanError(errorMessage) {
-    // Jangan tampilkan error scan terus-menerus ke console
+    console.log("QR Scanner berhasil dibuat.");
 }
 
 // Hentikan scanner
@@ -92,20 +100,15 @@ function stopScanner() {
         .then(() => {
             console.log("QR Scanner berhasil dihentikan.");
             html5QRCodeScanner = null;
-
-            const reader = document.getElementById("reader");
-
-            if (reader) {
-                reader.innerHTML = "";
-            }
         })
-        .catch(error => {
-            console.error("Gagal menghentikan QR Scanner:", error);
+        .catch((error) => {
+            console.error("Gagal menghentikan scanner:", error);
             html5QRCodeScanner = null;
         });
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+
     const scannerModal = document.getElementById("scannerModal");
 
     if (!scannerModal) {
@@ -113,15 +116,41 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    // Bootstrap Modal: ketika modal sudah terbuka
+    console.log("QR Code script aktif.");
+
+    /*
+     * Bootstrap event
+     */
     scannerModal.addEventListener("shown.bs.modal", function () {
-        console.log("Modal scanner dibuka.");
-        startScanner();
+        console.log("Modal scanner terbuka.");
+        setTimeout(function () {
+            startScanner();
+        }, 300);
     });
 
-    // Bootstrap Modal: ketika modal sudah ditutup
     scannerModal.addEventListener("hidden.bs.modal", function () {
         console.log("Modal scanner ditutup.");
         stopScanner();
     });
+
+    /*
+     * Fallback:
+     * Pantau perubahan class modal.
+     * Ini menjaga kompatibilitas dengan sistem modal yang sekarang.
+     */
+    const observer = new MutationObserver(function () {
+        if (!scannerModal.classList.contains("hidden")) {
+            setTimeout(function () {
+                startScanner();
+            }, 300);
+        } else {
+            stopScanner();
+        }
+    });
+
+    observer.observe(scannerModal, {
+        attributes: true,
+        attributeFilter: ["class"]
+    });
+
 });
