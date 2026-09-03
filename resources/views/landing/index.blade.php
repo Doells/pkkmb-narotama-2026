@@ -177,7 +177,7 @@
             @auth
                 <a href="{{ route('home-presences.indexuserdashboard') }}" class="cine-button cine-button-dark">Buka Dashboard <b>→</b></a>
             @else
-                <a href="{{ route('auth.login') }}" class="cine-button cine-button-dark">Login Peserta <b>→</b></a>
+                <a href="{{ route('auth.login') }}" class="cine-button cine-button-dark">Login <b>→</b></a>
             @endauth
         </div>
     </section>
