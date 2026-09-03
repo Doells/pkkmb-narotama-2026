@@ -2,9 +2,7 @@
  * QR Code Scanner — PKKMB Narotama 2026
  * public/js/home/qrcode.js
  *
- * Implementasi Final & Robust untuk Decoding QR.
- * Menggunakan getUserMedia untuk permission awal.
- * Disable BarcodeDetector Android (harus html5-qrcode decoder).
+ * Implementasi Final untuk Optimalisasi Decoding QR Padat & Resolusi Tinggi.
  */
 
 var scanner = null;
@@ -29,30 +27,23 @@ function onScanSuccess(decodedText, decodedResult) {
     var codeField = document.getElementById("code-field");
     var form = document.getElementById("kirim-presensi");
 
-    if (!codeField) {
-        console.error("[QR] #code-field tidak ditemukan.");
-        scanProcessed = false;
-        return;
-    }
-
-    if (!form) {
-        console.error("[QR] #kirim-presensi tidak ditemukan.");
+    if (!codeField || !form) {
+        console.error("[QR] Element presensi tidak ditemukan.");
         scanProcessed = false;
         return;
     }
 
     codeField.value = decodedText;
 
-    console.log("[QR] Code field terisi:", codeField.value);
+    console.log("[QR] CODE FIELD:", codeField.value);
 
     scanner.stop()
         .then(function () {
-            console.log("[QR] Kamera dihentikan.");
             return scanner.clear();
         })
         .then(function () {
             scanner = null;
-            console.log("[QR] Mengirim presensi otomatis.");
+            console.log("[QR] Presensi dikirim otomatis.");
             form.submit();
         })
         .catch(function (error) {
@@ -65,11 +56,11 @@ function onScanSuccess(decodedText, decodedResult) {
 
 
 // ======================================================
-// ERROR SCAN (Sengaja kosong agar console bersih)
+// ERROR SCAN
 // ======================================================
 
 function onScanError(errorMessage) {
-    // Tidak dilog per frame
+    // Sengaja diabaikan agar console tidak penuh per frame
 }
 
 
@@ -99,9 +90,8 @@ function startCamera(cameraId) {
     scanProcessed = false;
 
     console.log("[QR] Scanner mulai");
-    console.log("[QR] Kamera dipilih:", cameraId);
+    console.log("[QR] Camera selected:", cameraId);
 
-    // Pastikan formatsToSupport dilempar di config global Html5Qrcode
     scanner = new Html5Qrcode("reader", {
         formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
         verbose: false
@@ -111,14 +101,39 @@ function startCamera(cameraId) {
         cameraId,
         {
             fps: 15,
-            qrbox: {
-                width: 280,
-                height: 280
+
+            // Perbesar ukuran region box decoding agar pixel density terjangkau
+            qrbox: function (viewfinderWidth, viewfinderHeight) {
+                var size = Math.min(
+                    viewfinderWidth * 0.85,
+                    viewfinderHeight * 0.65,
+                    450
+                );
+                return {
+                    width: Math.floor(size),
+                    height: Math.floor(size)
+                };
             },
+
             aspectRatio: 1.0,
             disableFlip: false,
+
+            // Paksa penggunaan HTML5 native decoder
             experimentalFeatures: {
-                useBarCodeDetectorIfSupported: false // Wajib false khusus untuk case HP tertentu
+                useBarCodeDetectorIfSupported: false
+            },
+
+            // Konfigurasi prioritas resolusi & facing mode
+            videoConstraints: {
+                facingMode: {
+                    ideal: "environment"
+                },
+                width: {
+                    ideal: 1920
+                },
+                height: {
+                    ideal: 1080
+                }
             }
         },
         onScanSuccess,
@@ -126,7 +141,8 @@ function startCamera(cameraId) {
     )
         .then(function () {
             starting = false;
-            console.log("[QR] Scanner berhasil aktif");
+            console.log("[QR] Camera resolution: 1080p target requested");
+            console.log("[QR] Scanner started");
         })
         .catch(function (error) {
             starting = false;
@@ -205,7 +221,6 @@ function buildCameraUI(cameras) {
         return;
     }
 
-    // Bersihkan reader
     reader.innerHTML = "";
 
     var container = document.createElement("div");
@@ -245,7 +260,6 @@ function buildCameraUI(cameras) {
     container.appendChild(select);
     reader.parentNode.insertBefore(container, reader);
 
-    // Event select ganti kamera
     select.addEventListener("change", function () {
         var selectedId = this.value;
 
@@ -256,7 +270,6 @@ function buildCameraUI(cameras) {
         switchCamera(selectedId);
     });
 
-    // Jika kamera cuma 1
     if (cameras.length === 1) {
         select.value = cameras[0].id;
         console.log("[QR] Hanya 1 kamera, langsung digunakan.");
@@ -278,7 +291,6 @@ function initScannerFlow() {
 
     console.log("[QR] Meminta permission kamera");
 
-    // 1. Tembak permintaan getUserMedia kamera terlebih dahulu
     navigator.mediaDevices.getUserMedia({
         video: true
     })
@@ -286,12 +298,10 @@ function initScannerFlow() {
 
             console.log("[QR] Permission kamera berhasil");
 
-            // Matikan track dummy karena kita serahkan pembacaan ke Html5Qrcode
             stream.getTracks().forEach(function (track) {
                 track.stop();
             });
 
-            // 2. Load Html5Qrcode cameras
             return Html5Qrcode.getCameras();
         })
         .then(function (cameras) {
@@ -344,7 +354,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var isHidden = modal.classList.contains("hidden");
 
         if (!isHidden) {
-            console.log("[QR] Modal scanner terbuka (fallback)");
+            console.log("[QR] Modal scanner terbuka");
             setTimeout(function () {
                 initScannerFlow();
             }, 500);
