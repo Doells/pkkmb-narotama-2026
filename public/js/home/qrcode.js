@@ -1,920 +1,350 @@
 /**
- * QR CODE SCANNER - PKKMB NAROTAMA 2026
- *
- * HANYA untuk:
- * - kamera
- * - pilihan kamera
- * - decoding QR
- * - submit presensi otomatis
- *
- * Tidak mengubah Blade, Controller, Route, Database, atau Nginx.
+ * QR Code Scanner — PKKMB Narotama 2026
+ * Hanya mengatur scanner kamera dan submit hasil scan.
  */
 
-var scanner = null;
-var selectedCameraId = null;
-var isStarting = false;
-var isScanning = false;
-var scanProcessed = false;
-var modalOpened = false;
-
+let scanner = null;
+let scanning = false;
+let scanProcessed = false;
+let selectedCameraId = null;
 
 // ============================================================
-// ELEMENT
+// CALLBACK BERHASIL SCAN
 // ============================================================
 
-function getReader() {
-    return document.getElementById("reader");
-}
+function onScanSuccess(decodedText) {
+    if (scanProcessed) return;
 
-function getForm() {
-    return document.getElementById("kirim-presensi");
-}
-
-function getCodeField() {
-    return document.getElementById("code-field");
-}
-
-
-// ============================================================
-// QR BERHASIL DIBACA
-// ============================================================
-
-function onScanSuccess(decodedText, decodedResult) {
-
-    if (scanProcessed) {
-        return;
-    }
-
-    if (!decodedText) {
-        return;
-    }
+    console.log("[QR] ========================================");
+    console.log("[QR] QR CODE BERHASIL TERBACA!");
+    console.log("[QR] Panjang data:", decodedText.length);
+    console.log("[QR] ========================================");
 
     scanProcessed = true;
 
-    console.log("[QR] ==================================");
-    console.log("[QR] QR TERDETEKSI");
-    console.log("[QR] Panjang data:", decodedText.length);
-    console.log("[QR] Data:", decodedText);
-    console.log("[QR] ==================================");
+    const codeField = document.getElementById("code-field");
+    const form = document.getElementById("kirim-presensi");
 
-    var codeField = getCodeField();
-    var form = getForm();
-
-    if (!codeField) {
-        console.error("[QR] #code-field tidak ditemukan.");
+    if (!codeField || !form) {
+        console.error("[QR] Form atau code-field tidak ditemukan.");
         scanProcessed = false;
         return;
     }
 
-    if (!form) {
-        console.error("[QR] #kirim-presensi tidak ditemukan.");
-        scanProcessed = false;
-        return;
-    }
-
-    // Masukkan hasil scan ke input
     codeField.value = decodedText;
 
-    console.log("[QR] CODE FIELD TERISI");
-    console.log("[QR] Panjang:", codeField.value.length);
-
-    // Hentikan kamera terlebih dahulu
-    stopScanner()
-        .then(function () {
-
-            console.log("[QR] Scanner berhenti.");
-            console.log("[QR] SUBMIT PRESENSI OTOMATIS");
-
-            // Submit ke checkDataQrCode
-            form.submit();
-
-        })
-        .catch(function (error) {
-
-            console.error("[QR] Gagal menghentikan scanner:", error);
-
-            // Tetap submit supaya presensi tidak gagal
-            form.submit();
-        });
+    stopScanner().finally(() => {
+        console.log("[QR] Mengirim data presensi...");
+        form.submit();
+    });
 }
 
-
 // ============================================================
-// ERROR SCAN
+// CALLBACK ERROR SCAN
 // ============================================================
 
 function onScanError(errorMessage) {
-    // Jangan console.log setiap frame.
+    // Jangan spam console.
+    // QR belum terbaca bukan berarti error aplikasi.
 }
-
 
 // ============================================================
 // STOP SCANNER
 // ============================================================
 
-function stopScanner() {
+async function stopScanner() {
+    if (!scanner || !scanning) {
+        scanner = null;
+        scanning = false;
+        return;
+    }
 
-    return new Promise(function (resolve) {
+    try {
+        await scanner.stop();
+        console.log("[QR] Scanner dihentikan.");
+    } catch (error) {
+        console.warn("[QR] Stop scanner:", error);
+    }
 
-        if (!scanner) {
-            isScanning = false;
-            isStarting = false;
-            resolve();
+    scanner = null;
+    scanning = false;
+}
+
+// ============================================================
+// START SCANNER
+// ============================================================
+
+async function startScanner() {
+    if (scanning) {
+        console.log("[QR] Scanner sudah aktif.");
+        return;
+    }
+
+    const reader = document.getElementById("reader");
+
+    if (!reader) {
+        console.error("[QR] Element #reader tidak ditemukan.");
+        return;
+    }
+
+    if (typeof Html5Qrcode === "undefined") {
+        console.error("[QR] Library Html5Qrcode tidak ditemukan.");
+        return;
+    }
+
+    console.log("[QR] ========================================");
+    console.log("[QR] MEMULAI SCANNER");
+    console.log("[QR] ========================================");
+
+    scanProcessed = false;
+
+    // Bersihkan tampilan reader
+    reader.innerHTML = "";
+
+    try {
+        // ----------------------------------------------------
+        // Ambil kamera
+        // ----------------------------------------------------
+
+        let cameras = await Html5Qrcode.getCameras();
+
+        console.log("[QR] Jumlah kamera:", cameras.length);
+        console.log("[QR] Daftar kamera:", cameras);
+
+        if (!cameras || cameras.length === 0) {
+            console.error("[QR] Tidak ada kamera.");
             return;
         }
 
-        var currentScanner = scanner;
+        // Jika sebelumnya sudah memilih kamera
+        if (!selectedCameraId) {
 
-        scanner = null;
-        isScanning = false;
-        isStarting = false;
+            // Prioritaskan kamera belakang / environment
+            const backCamera = cameras.find(camera => {
+                const label = (camera.label || "").toLowerCase();
 
-        currentScanner.stop()
-            .then(function () {
-
-                console.log("[QR] Kamera dihentikan.");
-
-                return currentScanner.clear();
-
-            })
-            .then(function () {
-
-                resolve();
-
-            })
-            .catch(function (error) {
-
-                console.warn(
-                    "[QR] Stop/clear scanner:",
-                    error
+                return (
+                    label.includes("back") ||
+                    label.includes("rear") ||
+                    label.includes("environment") ||
+                    label.includes("belakang")
                 );
-
-                resolve();
             });
-    });
-}
 
-
-// ============================================================
-// MULAI SCANNER
-// ============================================================
-
-function startScanner(cameraId) {
-
-    if (isStarting || isScanning) {
-        console.log("[QR] Scanner sudah berjalan.");
-        return;
-    }
-
-    var reader = getReader();
-
-    if (!reader) {
-        console.error("[QR] #reader tidak ditemukan.");
-        return;
-    }
-
-    if (typeof Html5Qrcode === "undefined") {
-
-        console.error(
-            "[QR] Html5Qrcode tidak tersedia."
-        );
-
-        return;
-    }
-
-    if (!cameraId) {
-        console.error("[QR] Camera ID kosong.");
-        return;
-    }
-
-    isStarting = true;
-    scanProcessed = false;
-
-    selectedCameraId = cameraId;
-
-    // Bersihkan isi reader
-    reader.innerHTML = "";
-
-    console.log("[QR] ==================================");
-    console.log("[QR] MEMULAI SCANNER");
-    console.log("[QR] Camera ID:", cameraId);
-    console.log("[QR] ==================================");
-
-    var newScanner;
-
-    try {
-
-        newScanner = new Html5Qrcode("reader", {
-            verbose: false,
-
-            formatsToSupport: [
-                Html5QrcodeSupportedFormats.QR_CODE
-            ]
-        });
-
-    } catch (error) {
-
-        isStarting = false;
-
-        console.error(
-            "[QR] Gagal membuat scanner:",
-            error
-        );
-
-        return;
-    }
-
-    scanner = newScanner;
-
-    /*
-     * QR kamu sangat padat.
-     *
-     * Kita menggunakan area scan yang besar supaya
-     * decoder mendapatkan pixel sebanyak mungkin.
-     */
-    var config = {
-
-        fps: 20,
-
-        qrbox: function (
-            viewfinderWidth,
-            viewfinderHeight
-        ) {
-
-            var size = Math.min(
-                viewfinderWidth * 0.90,
-                viewfinderHeight * 0.90,
-                500
-            );
-
-            return {
-                width: Math.floor(size),
-                height: Math.floor(size)
-            };
-        },
-
-        aspectRatio: 1.0,
-
-        disableFlip: false,
-
-        /*
-         * Jangan menggunakan BarcodeDetector browser.
-         * Gunakan decoder internal html5-qrcode.
-         */
-        experimentalFeatures: {
-            useBarCodeDetectorIfSupported: false
-        },
-
-        videoConstraints: {
-
-            facingMode: {
-                ideal: "environment"
-            },
-
-            width: {
-                ideal: 1920,
-                min: 640
-            },
-
-            height: {
-                ideal: 1080,
-                min: 480
-            },
-
-            frameRate: {
-                ideal: 30,
-                min: 15
+            if (backCamera) {
+                selectedCameraId = backCamera.id;
+            } else {
+                // Kalau tidak ada label belakang,
+                // gunakan kamera pertama.
+                selectedCameraId = cameras[0].id;
             }
         }
-    };
 
-
-    newScanner.start(
-        cameraId,
-        config,
-        onScanSuccess,
-        onScanError
-    )
-        .then(function () {
-
-            isStarting = false;
-            isScanning = true;
-
-            console.log("[QR] ==================================");
-            console.log("[QR] SCANNER AKTIF");
-            console.log("[QR] Kamera:", cameraId);
-            console.log("[QR] FPS: 20");
-            console.log("[QR] Resolusi target: 1920x1080");
-            console.log("[QR] Decoder: html5-qrcode");
-            console.log("[QR] SIAP MEMBACA QR");
-            console.log("[QR] ==================================");
-
-        })
-        .catch(function (error) {
-
-            isStarting = false;
-            isScanning = false;
-            scanner = null;
-
-            console.error(
-                "[QR] SCANNER GAGAL START:",
-                error
-            );
-
-            /*
-             * Jika constraint kamera terlalu ketat pada device tertentu,
-             * lakukan fallback ke konfigurasi sederhana.
-             */
-            console.log(
-                "[QR] Mencoba fallback kamera..."
-            );
-
-            startScannerFallback(cameraId);
-        });
-}
-
-
-// ============================================================
-// FALLBACK SCANNER
-// ============================================================
-
-function startScannerFallback(cameraId) {
-
-    if (isStarting || isScanning) {
-        return;
-    }
-
-    var reader = getReader();
-
-    if (!reader) {
-        return;
-    }
-
-    if (typeof Html5Qrcode === "undefined") {
-        return;
-    }
-
-    isStarting = true;
-    scanProcessed = false;
-
-    reader.innerHTML = "";
-
-    var fallbackScanner;
-
-    try {
-
-        fallbackScanner = new Html5Qrcode(
-            "reader",
-            {
-                verbose: false,
-
-                formatsToSupport: [
-                    Html5QrcodeSupportedFormats.QR_CODE
-                ]
-            }
+        const selectedCamera = cameras.find(
+            camera => camera.id === selectedCameraId
         );
 
-    } catch (error) {
-
-        isStarting = false;
-
-        console.error(
-            "[QR] Fallback gagal membuat scanner:",
-            error
+        console.log(
+            "[QR] Kamera yang digunakan:",
+            selectedCamera ? selectedCamera.label : selectedCameraId
         );
 
-        return;
-    }
+        // ----------------------------------------------------
+        // Buat scanner
+        // ----------------------------------------------------
 
-    scanner = fallbackScanner;
+        scanner = new Html5Qrcode("reader");
 
-    fallbackScanner.start(
-        cameraId,
-        {
-            fps: 15,
+        // Ukuran QR box dibuat besar karena QR sangat padat
+        const readerWidth = reader.clientWidth || 500;
 
-            qrbox: function (
-                viewfinderWidth,
-                viewfinderHeight
-            ) {
+        const qrBoxSize = Math.min(
+            Math.max(Math.floor(readerWidth * 0.75), 280),
+            500
+        );
 
-                var size = Math.min(
-                    viewfinderWidth * 0.90,
-                    viewfinderHeight * 0.90,
-                    450
-                );
+        console.log("[QR] QR Box:", qrBoxSize);
 
-                return {
-                    width: Math.floor(size),
-                    height: Math.floor(size)
-                };
+        const config = {
+            fps: 30,
+
+            qrbox: {
+                width: qrBoxSize,
+                height: qrBoxSize
             },
 
             aspectRatio: 1.0,
 
-            disableFlip: false
-        },
+            formatsToSupport: [
+                Html5QrcodeSupportedFormats.QR_CODE
+            ],
 
-        onScanSuccess,
-        onScanError
+            disableFlip: false,
 
-    )
-        .then(function () {
+            videoConstraints: {
+                width: {
+                    ideal: 1920
+                },
+                height: {
+                    ideal: 1080
+                }
+            }
+        };
 
-            isStarting = false;
-            isScanning = true;
+        // ----------------------------------------------------
+        // Mulai kamera
+        // ----------------------------------------------------
 
-            console.log(
-                "[QR] FALLBACK SCANNER AKTIF"
-            );
+        await scanner.start(
+            selectedCameraId,
+            config,
+            onScanSuccess,
+            onScanError
+        );
 
-        })
-        .catch(function (error) {
+        scanning = true;
 
-            isStarting = false;
-            isScanning = false;
-            scanner = null;
+        console.log("[QR] ========================================");
+        console.log("[QR] SCANNER AKTIF");
+        console.log("[QR] Kamera:", selectedCameraId);
+        console.log("[QR] FPS: 30");
+        console.log("[QR] Resolusi target: 1920x1080");
+        console.log("[QR] QR Box:", qrBoxSize);
+        console.log("[QR] SIAP MEMBACA QR");
+        console.log("[QR] ========================================");
 
-            console.error(
-                "[QR] FALLBACK SCANNER GAGAL:",
-                error
-            );
-        });
+    } catch (error) {
+
+        console.error("[QR] GAGAL MEMULAI SCANNER:", error);
+
+        scanner = null;
+        scanning = false;
+    }
 }
-
 
 // ============================================================
 // PILIH KAMERA
 // ============================================================
 
-function switchCamera(cameraId) {
-
-    if (!cameraId) {
-        return;
-    }
-
-    console.log(
-        "[QR] Kamera dipilih:",
-        cameraId
-    );
-
-    selectedCameraId = cameraId;
-
-    if (scanner) {
-
-        stopScanner()
-            .then(function () {
-
-                scanProcessed = false;
-
-                startScanner(cameraId);
-
-            });
-
-    } else {
-
-        scanProcessed = false;
-
-        startScanner(cameraId);
-    }
-}
-
-
-// ============================================================
-// UI PILIH KAMERA
-// ============================================================
-
-function createCameraSelector(cameras) {
-
-    var reader = getReader();
-
-    if (!reader) {
-        return;
-    }
-
-    /*
-     * Hapus selector lama.
-     */
-    var oldSelector =
-        document.getElementById("qr-camera-selector");
-
-    if (oldSelector) {
-        oldSelector.remove();
-    }
-
-
-    var container =
-        document.createElement("div");
-
-    container.id =
-        "qr-camera-selector";
-
-    container.style.cssText =
-        "width:100%;padding:12px 0;text-align:center;";
-
-
-    var label =
-        document.createElement("div");
-
-    label.textContent =
-        "Pilih Kamera";
-
-    label.style.cssText =
-        "font-size:16px;font-weight:600;margin-bottom:8px;color:#fff;";
-
-    container.appendChild(label);
-
-
-    var select =
-        document.createElement("select");
-
-    select.id =
-        "qr-camera-select";
-
-    select.style.cssText =
-        "width:90%;max-width:450px;padding:12px;" +
-        "border-radius:10px;" +
-        "font-size:16px;" +
-        "background:#123047;" +
-        "color:#fff;" +
-        "border:1px solid rgba(255,255,255,.3);";
-
-
-    for (
-        var i = 0;
-        i < cameras.length;
-        i++
-    ) {
-
-        var option =
-            document.createElement("option");
-
-        option.value =
-            cameras[i].id;
-
-        option.textContent =
-            cameras[i].label ||
-            ("Kamera " + (i + 1));
-
-        select.appendChild(option);
-    }
-
-
-    container.appendChild(select);
-
-
-    /*
-     * Masukkan selector SEBELUM #reader.
-     */
-    reader.parentNode.insertBefore(
-        container,
-        reader
-    );
-
-
-    select.addEventListener(
-        "change",
-        function () {
-
-            var cameraId =
-                this.value;
-
-            switchCamera(cameraId);
+async function loadCameras() {
+    try {
+        if (typeof Html5Qrcode === "undefined") {
+            console.error("[QR] Html5Qrcode belum tersedia.");
+            return;
         }
-    );
 
+        const cameras = await Html5Qrcode.getCameras();
 
-    /*
-     * Prioritaskan kamera belakang.
-     */
-    var backCamera = null;
+        console.log("[QR] Kamera tersedia:", cameras);
 
-    for (
-        var j = 0;
-        j < cameras.length;
-        j++
-    ) {
+        if (!cameras.length) return;
 
-        var labelText =
-            (
-                cameras[j].label || ""
-            ).toLowerCase();
+        // Cari kamera belakang
+        const backCamera = cameras.find(camera => {
+            const label = (camera.label || "").toLowerCase();
 
-        if (
-            labelText.indexOf("back") !== -1 ||
-            labelText.indexOf("rear") !== -1 ||
-            labelText.indexOf("belakang") !== -1 ||
-            labelText.indexOf("environment") !== -1
-        ) {
-
-            backCamera =
-                cameras[j];
-
-            break;
-        }
-    }
-
-
-    if (backCamera) {
-
-        selectedCameraId =
-            backCamera.id;
-
-        select.value =
-            backCamera.id;
-
-        console.log(
-            "[QR] Kamera belakang ditemukan:",
-            backCamera.label
-        );
-
-        startScanner(
-            backCamera.id
-        );
-
-    } else {
-
-        selectedCameraId =
-            cameras[0].id;
-
-        select.value =
-            cameras[0].id;
-
-        console.log(
-            "[QR] Kamera default:",
-            cameras[0].label
-        );
-
-        startScanner(
-            cameras[0].id
-        );
-    }
-}
-
-
-// ============================================================
-// MINTA PERMISSION + DETEKSI KAMERA
-// ============================================================
-
-function initializeCamera() {
-
-    if (!navigator.mediaDevices ||
-        !navigator.mediaDevices.getUserMedia) {
-
-        console.error(
-            "[QR] Browser tidak mendukung kamera."
-        );
-
-        return;
-    }
-
-    console.log(
-        "[QR] MEMINTA PERMISSION KAMERA"
-    );
-
-
-    navigator.mediaDevices.getUserMedia({
-        video: {
-            facingMode: {
-                ideal: "environment"
-            }
-        },
-        audio: false
-    })
-
-        .then(function (stream) {
-
-            console.log(
-                "[QR] PERMISSION KAMERA BERHASIL"
-            );
-
-            /*
-             * Permission sudah diberikan.
-             * Matikan stream sementara karena Html5Qrcode
-             * akan membuat stream sendiri.
-             */
-            stream.getTracks().forEach(
-                function (track) {
-                    track.stop();
-                }
-            );
-
-
-            return Html5Qrcode.getCameras();
-        })
-
-        .then(function (cameras) {
-
-            console.log(
-                "[QR] JUMLAH KAMERA:",
-                cameras.length
-            );
-
-            console.log(
-                "[QR] DAFTAR KAMERA:",
-                cameras
-            );
-
-
-            if (!cameras ||
-                cameras.length === 0) {
-
-                console.error(
-                    "[QR] KAMERA TIDAK DITEMUKAN"
-                );
-
-                return;
-            }
-
-
-            createCameraSelector(
-                cameras
-            );
-        })
-
-        .catch(function (error) {
-
-            console.error(
-                "[QR] PERMISSION KAMERA GAGAL:",
-                error
-            );
-
-            alert(
-                "Kamera tidak dapat digunakan. " +
-                "Pastikan izin kamera untuk website ini sudah diaktifkan."
+            return (
+                label.includes("back") ||
+                label.includes("rear") ||
+                label.includes("environment") ||
+                label.includes("belakang")
             );
         });
+
+        selectedCameraId = backCamera
+            ? backCamera.id
+            : cameras[0].id;
+
+    } catch (error) {
+        console.error("[QR] Gagal mendapatkan daftar kamera:", error);
+    }
 }
 
-
 // ============================================================
-// TOMBOL SCANNER FLOWBITE
+// MODAL
 // ============================================================
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+document.addEventListener("DOMContentLoaded", function () {
 
-        console.log(
-            "[QR] SCRIPT AKTIF"
+    const scannerModal =
+        document.getElementById("scannerModal");
+
+    if (!scannerModal) {
+        console.error(
+            "[QR] Element #scannerModal tidak ditemukan."
         );
+        return;
+    }
 
+    console.log("[QR] qrcode.js berhasil dimuat.");
 
-        /*
-         * Event delegated.
-         *
-         * Tidak peduli tombol dibuat oleh Blade,
-         * Livewire, atau elemen dinamis.
-         */
-        document.addEventListener(
-            "click",
-            function (event) {
+    // --------------------------------------------------------
+    // Bootstrap modal
+    // --------------------------------------------------------
 
-                var button =
-                    event.target.closest(
-                        '[data-modal-toggle="scannerModal"]'
-                    );
+    scannerModal.addEventListener(
+        "shown.bs.modal",
+        async function () {
 
+            console.log("[QR] MODAL SCANNER DIBUKA");
 
-                if (!button) {
-                    return;
-                }
-
-
-                console.log(
-                    "[QR] TOMBOL SCANNER DIKLIK"
-                );
-
-
-                /*
-                 * Jangan langsung start karena Flowbite
-                 * masih dalam proses membuka modal.
-                 */
-                setTimeout(
-                    function () {
-
-                        var modal =
-                            document.getElementById(
-                                "scannerModal"
-                            );
-
-                        if (!modal) {
-
-                            console.error(
-                                "[QR] #scannerModal tidak ditemukan."
-                            );
-
-                            return;
-                        }
-
-
-                        modalOpened = true;
-
-
-                        /*
-                         * Pastikan #reader ada.
-                         */
-                        var reader =
-                            document.getElementById(
-                                "reader"
-                            );
-
-                        if (!reader) {
-
-                            console.error(
-                                "[QR] #reader tidak ditemukan."
-                            );
-
-                            return;
-                        }
-
-
-                        initializeCamera();
-
-                    },
-                    700
-                );
-            }
-        );
-
-
-        /*
-         * Tombol tutup Flowbite.
-         */
-        document.addEventListener(
-            "click",
-            function (event) {
-
-                var closeButton =
-                    event.target.closest(
-                        '[data-modal-hide="scannerModal"]'
-                    );
-
-
-                if (!closeButton) {
-                    return;
-                }
-
-
-                console.log(
-                    "[QR] MODAL DITUTUP"
-                );
-
-
-                modalOpened = false;
-                scanProcessed = false;
-
-                stopScanner();
-            }
-        );
-
-
-        /*
-         * Fallback:
-         * Jika user menekan tombol X biasa di dalam modal,
-         * stop scanner ketika modal menjadi hidden.
-         */
-        var modal =
-            document.getElementById(
-                "scannerModal"
+            await new Promise(resolve =>
+                setTimeout(resolve, 500)
             );
 
+            await loadCameras();
+            await startScanner();
+        }
+    );
 
-        if (modal) {
+    scannerModal.addEventListener(
+        "hidden.bs.modal",
+        async function () {
 
-            var observer =
-                new MutationObserver(
-                    function () {
+            console.log("[QR] MODAL SCANNER DITUTUP");
 
-                        if (
-                            modal.classList.contains(
-                                "hidden"
-                            )
-                        ) {
+            await stopScanner();
+        }
+    );
 
-                            if (scanner) {
+    // --------------------------------------------------------
+    // Fallback untuk modal yang menggunakan class hidden
+    // --------------------------------------------------------
 
-                                console.log(
-                                    "[QR] MODAL HIDDEN - STOP CAMERA"
-                                );
+    let previousHiddenState =
+        scannerModal.classList.contains("hidden");
 
-                                stopScanner();
-                            }
+    const observer = new MutationObserver(async function () {
 
-                            modalOpened = false;
-                        }
-                    }
-                );
+        const isHidden =
+            scannerModal.classList.contains("hidden");
 
+        // Modal baru dibuka
+        if (previousHiddenState && !isHidden) {
 
-            observer.observe(
-                modal,
-                {
-                    attributes: true,
-                    attributeFilter: ["class"]
-                }
+            console.log("[QR] MODAL DIBUKA (fallback)");
+
+            await new Promise(resolve =>
+                setTimeout(resolve, 500)
             );
+
+            await loadCameras();
+            await startScanner();
         }
 
-    }
-);
+        // Modal ditutup
+        if (!previousHiddenState && isHidden) {
+
+            console.log("[QR] MODAL DITUTUP (fallback)");
+
+            await stopScanner();
+        }
+
+        previousHiddenState = isHidden;
+    });
+
+    observer.observe(scannerModal, {
+        attributes: true,
+        attributeFilter: ["class"]
+    });
+});
