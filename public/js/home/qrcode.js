@@ -1,348 +1,231 @@
 /**
  * QR Code Scanner — PKKMB Narotama 2026
- * File: public/js/home/qrcode.js
+ * public/js/home/qrcode.js
+ *
+ * Pendekatan: Html5Qrcode langsung + polling.
+ * Tidak menggunakan Html5QrcodeScanner, Bootstrap events, atau MutationObserver.
  */
 
-let html5QRCodeScanner = null;
-let scanProcessed = false;
-let scannerStarting = false;
+let scanner = null;
+let starting = false;
+let processed = false;
 
-// ============================================================
-// QR BERHASIL DIBACA
-// ============================================================
-function onScanSuccess(decodedText) {
-    if (scanProcessed) {
-        return;
-    }
-
-    scanProcessed = true;
-
-    console.log("[qrcode.js] QR berhasil dibaca:", decodedText);
-
-    const codeField = document.getElementById("code-field");
-    const form = document.getElementById("kirim-presensi");
-
-    if (codeField) {
-        codeField.value = decodedText;
-    } else {
-        console.error("[qrcode.js] #code-field tidak ditemukan.");
-    }
-
-    if (!html5QRCodeScanner) {
-        if (form) {
-            form.submit();
-        }
-        return;
-    }
-
-    // Hentikan kamera terlebih dahulu
-    html5QRCodeScanner.stop()
-        .then(() => {
-            console.log("[qrcode.js] Kamera berhasil dihentikan.");
-
-            return html5QRCodeScanner.clear();
-        })
-        .then(() => {
-            console.log("[qrcode.js] Scanner berhasil dibersihkan.");
-
-            html5QRCodeScanner = null;
-            scannerStarting = false;
-
-            if (form) {
-                form.submit();
-            }
-        })
-        .catch((error) => {
-            console.error("[qrcode.js] Gagal menghentikan scanner:", error);
-
-            html5QRCodeScanner = null;
-            scannerStarting = false;
-
-            // Tetap submit agar presensi tidak gagal hanya karena
-            // proses penghentian kamera bermasalah.
-            if (form) {
-                form.submit();
-            }
-        });
-}
-
-
-// ============================================================
-// ERROR SAAT SCAN
-// ============================================================
-function onScanError(errorMessage) {
-    // Jangan console.log setiap frame karena akan sangat banyak.
-}
-
-
-// ============================================================
-// CARI KAMERA
-// ============================================================
-function getCameraId() {
-    return Html5Qrcode.getCameras()
-        .then((cameras) => {
-
-            if (!cameras || cameras.length === 0) {
-                throw new Error("KAMERA_TIDAK_DITEMUKAN");
-            }
-
-            console.log(
-                "[qrcode.js] Kamera ditemukan:",
-                cameras
-            );
-
-            // Prioritaskan kamera belakang
-            const backCamera = cameras.find((camera) => {
-                const label = (camera.label || "").toLowerCase();
-
-                return (
-                    label.includes("back") ||
-                    label.includes("rear") ||
-                    label.includes("environment") ||
-                    label.includes("belakang")
-                );
-            });
-
-            if (backCamera) {
-                console.log(
-                    "[qrcode.js] Menggunakan kamera belakang:",
-                    backCamera.label
-                );
-
-                return backCamera.id;
-            }
-
-            // Kalau kamera belakang tidak ditemukan,
-            // gunakan kamera pertama
-            console.log(
-                "[qrcode.js] Kamera belakang tidak ditemukan."
-            );
-
-            console.log(
-                "[qrcode.js] Menggunakan kamera:",
-                cameras[0].label
-            );
-
-            return cameras[0].id;
-        });
-}
-
-
-// ============================================================
-// MULAI SCANNER
-// ============================================================
 function startScanner() {
-
-    if (html5QRCodeScanner || scannerStarting) {
+    if (scanner || starting) {
         return;
     }
 
     const reader = document.getElementById("reader");
 
     if (!reader) {
-        console.error(
-            "[qrcode.js] Element #reader tidak ditemukan."
-        );
         return;
     }
 
-    // Pastikan library tersedia
     if (typeof Html5Qrcode === "undefined") {
-        console.error(
-            "[qrcode.js] Library Html5Qrcode tidak tersedia."
-        );
+        console.error("[QR] Html5Qrcode TIDAK TERLOAD");
         return;
     }
 
-    scannerStarting = true;
-    scanProcessed = false;
+    starting = true;
+    processed = false;
 
-    console.log("[qrcode.js] Mencari kamera...");
+    console.log("[QR] START CAMERA");
 
-    // Bersihkan area scanner
     reader.innerHTML = "";
 
-    getCameraId()
-        .then((cameraId) => {
+    scanner = new Html5Qrcode("reader");
 
-            console.log(
-                "[qrcode.js] Memulai kamera..."
-            );
+    Html5Qrcode.getCameras()
+        .then(function (cameras) {
 
-            html5QRCodeScanner = new Html5Qrcode("reader");
+            console.log("[QR] CAMERAS:", cameras);
 
-            return html5QRCodeScanner.start(
+            if (!cameras || cameras.length === 0) {
+                throw new Error("Tidak ada kamera ditemukan");
+            }
+
+            var cameraId = cameras[0].id;
+
+            var backCamera = cameras.find(function (camera) {
+                var label = (camera.label || "").toLowerCase();
+
+                return (
+                    label.includes("back") ||
+                    label.includes("rear") ||
+                    label.includes("environment")
+                );
+            });
+
+            if (backCamera) {
+                cameraId = backCamera.id;
+            }
+
+            console.log("[QR] CAMERA ID:", cameraId);
+
+            return scanner.start(
                 cameraId,
                 {
                     fps: 10,
-
                     qrbox: {
                         width: 250,
                         height: 250
                     },
-
                     aspectRatio: 1.0
                 },
-                onScanSuccess,
-                onScanError
+                function (decodedText) {
+
+                    if (processed) {
+                        return;
+                    }
+
+                    processed = true;
+
+                    console.log(
+                        "[QR] BERHASIL BACA:",
+                        decodedText
+                    );
+
+                    var codeField =
+                        document.getElementById("code-field");
+
+                    var form =
+                        document.getElementById("kirim-presensi");
+
+                    if (codeField) {
+                        codeField.value = decodedText;
+                    }
+
+                    scanner.stop()
+                        .then(function () {
+                            return scanner.clear();
+                        })
+                        .then(function () {
+
+                            scanner = null;
+                            starting = false;
+
+                            if (form) {
+                                form.submit();
+                            }
+
+                        })
+                        .catch(function (error) {
+
+                            console.error(
+                                "[QR] GAGAL STOP:",
+                                error
+                            );
+
+                            scanner = null;
+                            starting = false;
+
+                            if (form) {
+                                form.submit();
+                            }
+                        });
+                },
+                function () {
+                    // scan error diabaikan
+                }
             );
         })
-        .then(() => {
+        .then(function () {
 
-            scannerStarting = false;
+            starting = false;
 
             console.log(
-                "[qrcode.js] Kamera berhasil dimulai."
+                "[QR] KAMERA BERHASIL DIMULAI"
             );
 
         })
-        .catch((error) => {
+        .catch(function (error) {
 
-            scannerStarting = false;
-            html5QRCodeScanner = null;
+            starting = false;
+            scanner = null;
 
             console.error(
-                "[qrcode.js] Kamera gagal dimulai:",
+                "[QR] KAMERA GAGAL:",
                 error
             );
-
-            if (
-                error &&
-                error.message === "KAMERA_TIDAK_DITEMUKAN"
-            ) {
-                console.error(
-                    "[qrcode.js] Kamera tidak ditemukan."
-                );
-            } else {
-                console.error(
-                    "[qrcode.js] Izin kamera ditolak atau kamera tidak dapat digunakan."
-                );
-            }
         });
 }
 
-
-// ============================================================
-// STOP SCANNER
-// ============================================================
 function stopScanner() {
 
-    if (!html5QRCodeScanner) {
+    if (!scanner) {
         return;
     }
 
-    console.log(
-        "[qrcode.js] Menghentikan kamera..."
-    );
+    console.log("[QR] STOP CAMERA");
 
-    html5QRCodeScanner.stop()
-        .then(() => {
-
-            console.log(
-                "[qrcode.js] Kamera dihentikan."
-            );
-
-            return html5QRCodeScanner.clear();
+    scanner.stop()
+        .then(function () {
+            return scanner.clear();
         })
-        .then(() => {
+        .then(function () {
 
-            console.log(
-                "[qrcode.js] Scanner dibersihkan."
-            );
+            scanner = null;
+            starting = false;
+            processed = false;
 
-            html5QRCodeScanner = null;
-            scannerStarting = false;
-            scanProcessed = false;
         })
-        .catch((error) => {
+        .catch(function (error) {
 
             console.error(
-                "[qrcode.js] Gagal menghentikan scanner:",
+                "[QR] STOP ERROR:",
                 error
             );
 
-            html5QRCodeScanner = null;
-            scannerStarting = false;
-            scanProcessed = false;
+            scanner = null;
+            starting = false;
+            processed = false;
         });
 }
 
 
-// ============================================================
-// MODAL
-// ============================================================
+// ======================================================
+// POLLING
+// ======================================================
+
 document.addEventListener("DOMContentLoaded", function () {
 
-    const scannerModal =
-        document.getElementById("scannerModal");
+    console.log("[QR] SCRIPT AKTIF");
 
-    if (!scannerModal) {
-        console.error(
-            "[qrcode.js] Element #scannerModal tidak ditemukan."
-        );
-        return;
-    }
+    var attempts = 0;
 
-    console.log(
-        "[qrcode.js] QR scanner script aktif."
-    );
+    var timer = setInterval(function () {
 
+        attempts++;
 
-    // ========================================================
-    // Bootstrap Modal
-    // ========================================================
-    scannerModal.addEventListener(
-        "shown.bs.modal",
-        function () {
+        var reader =
+            document.getElementById("reader");
+
+        var modal =
+            document.getElementById("scannerModal");
+
+        if (reader && modal) {
 
             console.log(
-                "[qrcode.js] Modal scanner terbuka."
+                "[QR] READER DITEMUKAN"
             );
 
+            clearInterval(timer);
+
+            // Tunggu modal selesai terbuka
             setTimeout(function () {
                 startScanner();
-            }, 500);
+            }, 1000);
         }
-    );
 
+        // Jangan polling selamanya
+        if (attempts >= 20) {
 
-    scannerModal.addEventListener(
-        "hidden.bs.modal",
-        function () {
+            clearInterval(timer);
 
-            console.log(
-                "[qrcode.js] Modal scanner ditutup."
+            console.error(
+                "[QR] #reader tidak ditemukan setelah 20 detik"
             );
-
-            stopScanner();
         }
-    );
 
-
-    // ========================================================
-    // Fallback jika modal menggunakan perubahan class
-    // ========================================================
-    const observer = new MutationObserver(function () {
-
-        const isHidden =
-            scannerModal.classList.contains("hidden");
-
-        if (!isHidden) {
-
-            setTimeout(function () {
-                startScanner();
-            }, 500);
-
-        } else {
-
-            stopScanner();
-        }
-    });
-
-
-    observer.observe(scannerModal, {
-        attributes: true,
-        attributeFilter: ["class"]
-    });
-
+    }, 500);
 });
