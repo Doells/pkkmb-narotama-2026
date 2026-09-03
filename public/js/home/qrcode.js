@@ -1,148 +1,112 @@
-let html5QRCodeScanner = null;
+/**
+ * QR Code Scanner — PKKMB Narotama 2026
+ * File: public/js/home/qrcode.js
+ *
+ * Loaded as <script type="module"> after html5-qrcode.min.js.
+ * Only touches: #scannerModal, #reader, #code-field, #kirim-presensi.
+ */
 
-// Function ketika QR berhasil terbaca
-function onScanSuccess(decodedText, decodedResult) {
+let html5QRCodeScanner = null;
+let scanProcessed = false; // flag agar onScanSuccess hanya diproses 1x per sesi
+
+// ── Callback sukses ─────────────────────────────────────────
+function onScanSuccess(decodedText) {
+    // Cegah pemrosesan ganda jika kamera membaca QR berulang kali
+    if (scanProcessed) return;
+    scanProcessed = true;
+
     const codeField = document.getElementById("code-field");
+    const form = document.getElementById("kirim-presensi");
 
     if (codeField) {
         codeField.value = decodedText;
     }
 
-    const form = document.getElementById("kirim-presensi");
-
     if (html5QRCodeScanner) {
         html5QRCodeScanner.clear()
             .then(() => {
-                console.log("Scanner berhasil dihentikan setelah QR terbaca.");
-
-                if (form) {
-                    form.submit();
-                }
+                html5QRCodeScanner = null;
+                if (form) form.submit();
             })
-            .catch((error) => {
-                console.error("Gagal menghentikan scanner:", error);
-
-                if (form) {
-                    form.submit();
-                }
+            .catch(() => {
+                html5QRCodeScanner = null;
+                if (form) form.submit();
             });
-    } else {
-        if (form) {
-            form.submit();
-        }
+    } else if (form) {
+        form.submit();
     }
 }
 
-// Error scan - sengaja tidak ditampilkan terus menerus
-function onScanError(errorMessage) {
-    // Tidak perlu melakukan apa-apa
+// ── Callback error (sengaja dibiarkan kosong) ───────────────
+function onScanError() {
+    // Tidak ditampilkan agar console tidak penuh
 }
 
-// Mulai scanner
+// ── Start scanner ───────────────────────────────────────────
 function startScanner() {
-    // Jangan membuat scanner lebih dari satu
-    if (html5QRCodeScanner) {
-        return;
-    }
+    // Jangan buat lebih dari satu instance
+    if (html5QRCodeScanner) return;
 
     const reader = document.getElementById("reader");
-
     if (!reader) {
-        console.error("Element #reader tidak ditemukan.");
+        console.error("[qrcode.js] Element #reader tidak ditemukan.");
         return;
     }
 
-    // Pastikan library html5-qrcode sudah tersedia
-    if (
-        typeof window.Html5QrcodeScanner === "undefined" ||
-        typeof window.Html5QrcodeSupportedFormats === "undefined"
-    ) {
-        console.error("Library html5-qrcode belum tersedia.");
+    if (typeof Html5QrcodeScanner === "undefined") {
+        console.error("[qrcode.js] Library Html5QrcodeScanner belum tersedia.");
         return;
     }
 
-    console.log("Memulai QR Scanner...");
-
-    // Bersihkan reader terlebih dahulu
+    // Reset state
     reader.innerHTML = "";
+    scanProcessed = false;
 
-    html5QRCodeScanner = new window.Html5QrcodeScanner(
+    html5QRCodeScanner = new Html5QrcodeScanner(
         "reader",
         {
             fps: 10,
-            qrbox: {
-                width: 250,
-                height: 250
-            },
-            formatsToSupport: [
-                window.Html5QrcodeSupportedFormats.QR_CODE
-            ],
+            qrbox: { width: 250, height: 250 },
+            formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
             rememberLastUsedCamera: true
         },
-        false
+        /* verbose= */ false
     );
 
-    html5QRCodeScanner.render(
-        onScanSuccess,
-        onScanError
-    );
-
-    console.log("QR Scanner berhasil dibuat.");
+    html5QRCodeScanner.render(onScanSuccess, onScanError);
 }
 
-// Hentikan scanner
+// ── Stop scanner ────────────────────────────────────────────
 function stopScanner() {
-    if (!html5QRCodeScanner) {
-        return;
-    }
+    if (!html5QRCodeScanner) return;
 
     html5QRCodeScanner.clear()
-        .then(() => {
-            console.log("QR Scanner berhasil dihentikan.");
-            html5QRCodeScanner = null;
-        })
-        .catch((error) => {
-            console.error("Gagal menghentikan scanner:", error);
-            html5QRCodeScanner = null;
-        });
+        .then(() => { html5QRCodeScanner = null; })
+        .catch(() => { html5QRCodeScanner = null; });
 }
 
+// ── Bootstrap & fallback binding ────────────────────────────
 document.addEventListener("DOMContentLoaded", function () {
-
     const scannerModal = document.getElementById("scannerModal");
 
     if (!scannerModal) {
-        console.error("Element #scannerModal tidak ditemukan.");
+        console.error("[qrcode.js] Element #scannerModal tidak ditemukan.");
         return;
     }
 
-    console.log("QR Code script aktif.");
-
-    /*
-     * Bootstrap event
-     */
+    // 1) Primary: Bootstrap modal events
     scannerModal.addEventListener("shown.bs.modal", function () {
-        console.log("Modal scanner terbuka.");
-        setTimeout(function () {
-            startScanner();
-        }, 300);
+        setTimeout(startScanner, 300);
     });
 
     scannerModal.addEventListener("hidden.bs.modal", function () {
-        console.log("Modal scanner ditutup.");
         stopScanner();
     });
 
-    /*
-     * Fallback:
-     * Pantau perubahan class modal.
-     * Ini menjaga kompatibilitas dengan sistem modal yang sekarang.
-     */
+    // 2) Fallback: MutationObserver untuk sistem modal non-Bootstrap (Flowbite)
     const observer = new MutationObserver(function () {
         if (!scannerModal.classList.contains("hidden")) {
-            setTimeout(function () {
-                startScanner();
-            }, 300);
+            setTimeout(startScanner, 300);
         } else {
             stopScanner();
         }
@@ -152,5 +116,4 @@ document.addEventListener("DOMContentLoaded", function () {
         attributes: true,
         attributeFilter: ["class"]
     });
-
 });
