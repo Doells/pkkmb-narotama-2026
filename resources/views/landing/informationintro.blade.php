@@ -595,6 +595,73 @@
         </div>
     </section>
 
+    <!-- AFTER MOVIE SECTION -->
+    <section class="cine-aftermovie" style="padding: 20px 20px 60px; text-align: center;">
+        <div class="cine-container" style="max-width: 1000px; margin: 0 auto; position: relative;">
+            <div style="margin-bottom: 30px;">
+                <small style="color: var(--cine-primary); font-weight: 700; letter-spacing: 2px; font-size: 13px;">VIDEO</small>
+                <h2 style="color: #000000ff; margin-top: 5px; font-weight: 700; font-size: 32px;">Universitas Narotama</h2>
+            </div>
+            
+            <div style="position: relative;">
+                <div id="am-slider" style="display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; padding: 10px 0; -ms-overflow-style: none; scrollbar-width: none;">
+                    <style>
+                        #am-slider::-webkit-scrollbar { display: none; }
+                        #am-prev:hover, #am-next:hover { transform: scale(1.1); background: #f0c33a !important; color: #000 !important; }
+                        .am-item { flex: 0 0 calc(100% - 10px); max-width: calc(100% - 10px); position: relative; padding-bottom: 56.25%; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); }
+                        .am-item iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+                        @media(min-width: 768px) {
+                            .am-item { flex: 0 0 calc(50% - 10px); max-width: calc(50% - 10px); padding-bottom: 28.125%; }
+                        }
+                    </style>
+
+                    <div class="am-item">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/A5dB8j5IWDI?si=BFWDjAslIgzF8WQd" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <div class="am-item">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/8h5HCz-qlUE?si=Ox1t5NoVhUFgkKbQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <div class="am-item">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/GZnPvj6HcQk?si=L2Bij2MzwEd67v9V" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <div class="am-item">
+                        <iframe src="https://www.youtube.com/embed/T4rGIE94mAA" title="After Movie 2024" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="am-item">
+                        <iframe src="https://www.youtube.com/embed/Sf3cbf-GNJM" title="After Movie 2023" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="am-item">
+                        <iframe src="https://www.youtube.com/embed/jEOINXcJkyw" title="After Movie 2022" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="am-item">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/-IHGKsULQms?si=z0JbFTo4GJGVTI4J" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: center; gap: 15px; margin-top: 25px;">
+                <button id="am-prev" style="width: 50px; height: 50px; border-radius: 50%; background: var(--cine-primary); border: none; color: #000; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; font-size: 20px; transition: all 0.2s;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+                <button id="am-next" style="width: 50px; height: 50px; border-radius: 50%; background: var(--cine-primary); border: none; color: #000; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; font-size: 20px; transition: all 0.2s;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+            </div>
+            
+            <script>
+                const amSlider = document.getElementById('am-slider');
+                document.getElementById('am-prev').addEventListener('click', () => {
+                    const itemWidth = amSlider.querySelector('.am-item').offsetWidth + 20;
+                    amSlider.scrollBy({ left: -itemWidth, behavior: 'smooth' });
+                });
+                document.getElementById('am-next').addEventListener('click', () => {
+                    const itemWidth = amSlider.querySelector('.am-item').offsetWidth + 20;
+                    amSlider.scrollBy({ left: itemWidth, behavior: 'smooth' });
+                });
+            </script>
+        </div>
+    </section>
+
     <section class="cine-cta"><div class="cine-container cine-cta-inner"><div><small>LANGKAH SELANJUTNYA</small><h2>Sudah membaca semua panduan?</h2></div>@auth<a href="{{ route('home-presences.indexuserdashboard') }}" class="cine-button cine-button-dark">Buka Dashboard <b>→</b></a>@else<a href="{{ route('auth.login') }}" class="cine-button cine-button-dark">Login Peserta <b>→</b></a>@endauth</div></section>
 </main>
 @endsection

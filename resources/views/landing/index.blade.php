@@ -64,54 +64,7 @@
             <div style="height: 40px; background: #000; width: 100%;"></div>
         </div>
     </section>
-
-    <section class="cine-section">
-        <div class="cine-container cine-intro-grid">
-            <div><div class="cine-kicker">MULAI CERITAMU</div><h2 class="cine-title">Satu langkah kecil.<br><em>Dampak yang besar.</em></h2></div>
-            <div class="cine-intro-copy"><p>PKKMB bukan sekadar pengenalan kampus. Ini adalah babak pembuka untuk mengenali potensi, membangun koneksi, dan memulai karya yang berdampak.</p><a href="{{ route('informasi-landing') }}#pengenalan" class="cine-text-link">Baca tentang PKKMB ↗</a></div>
-        </div>
-    </section>
-
-    <section class="cine-section cine-info">
-        <div class="cine-container">
-            <div class="cine-section-head"><div><div class="cine-kicker">INFORMASI PESERTA</div><h2 class="cine-title">Semua yang perlu<br>kamu siapkan.</h2></div><p>Lima panduan utama untuk memastikan perjalanan pertamamu dimulai dengan percaya diri.</p></div>
-            <div class="cine-info-grid">
-                <a href="{{ route('informasi-landing') }}#pengenalan" class="cine-info-card blue"><small>01</small><div class="cine-info-icon">▶</div><h3>Pengenalan PKKMB</h3><p>Kenali tema, rangkaian kegiatan, dan hal penting sebelum hari pelaksanaan.</p><span class="cine-card-link">Buka informasi <b>↗</b></span></a>
-                <a href="{{ route('informasi-landing') }}#pedoman" class="cine-info-card yellow"><small>02</small><div class="cine-info-icon">≡</div><h3>Pedoman Peserta</h3><p>Panduan lengkap, tata tertib, perlengkapan, dan ketentuan peserta.</p><span class="cine-card-link">Buka informasi <b>↗</b></span></a>
-                <a href="{{ route('informasi-landing') }}#seragam" class="cine-info-card coral"><small>03</small><div class="cine-info-icon">◆</div><h3>Ketentuan Seragam</h3><p>Lihat pakaian dan atribut yang perlu disiapkan untuk setiap rangkaian acara.</p><span class="cine-card-link">Buka informasi <b>↗</b></span></a>
-                <a href="{{ route('informasi-landing') }}#panitia" class="cine-info-card mint"><small>04</small><div class="cine-info-icon">●</div><h3>Kenali Panitia</h3><p>Temukan koordinator dan narahubung yang siap membantu mahasiswa baru.</p><span class="cine-card-link">Buka informasi <b>↗</b></span></a>
-                <a href="{{ route('informasi-landing') }}#kegiatan" class="cine-info-card" style="grid-column: 1 / -1; background-color: #222; border-color: #444;"><small style="color: #bbb;">05</small><div class="cine-info-icon" style="color: #fff;">★</div><h3 style="color: #fff;">Kegiatan & Timeline</h3><p style="color: #aaa;">Lihat cuplikan dokumentasi kegiatan dan timeline mahasiswa baru PKKMB.</p><span class="cine-card-link" style="color: #fff;">Buka informasi <b>↗</b></span></a>
-            </div>
-        </div>
-    </section>
-
-    <section class="cine-section cine-mascot">
-        <div class="cine-container cine-mascot-grid">
-            <div class="cine-mascot-visual">
-                <img src="{{ asset('img/mascot/mascot-peek-white.png') }}" alt="Maskot PKKMB Narotama 2026">
-            </div>
-            <div class="cine-mascot-content">
-                <div class="cine-kicker">Wajah Ceria Garda Depan</div>
-                <h2 class="cine-title">Kenali<br><em>Maskot Kami.</em></h2>
-                <p class="cine-mascot-desc">
-                    Mewakili kearifan budaya dan semangat tak kenal lelah ksatria Narotama, Maskot PKKMB 2026 hadir untuk menemani perjalanan pertamamu di Garda Depan.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="cine-section" id="jadwal">
-        <div class="cine-container cine-schedule">
-            <div><div class="cine-kicker">LINIMASA KEGIATAN</div><h2 class="cine-title">Tandai<br><em>tanggalnya.</em></h2><p style="max-width:340px;color:#557282;line-height:1.7;margin-top:35px">Jadwal dapat berubah. Pantau informasi terbaru melalui website dan kanal resmi PKKMB.</p></div>
-            <div>
-                <article class="cine-agenda"><div class="cine-date"><b>01</b><span>SEPT</span></div><div><small>01</small><h3>Technical Meeting</h3><p>Zoom Meeting</p></div><span>↗</span></article>
-                <article class="cine-agenda"><div class="cine-date mint"><b>07-10</b><span>SEPT</span></div><div><small>02</small><h3>Pra-PKKMB</h3><p>Kampus Universitas Narotama</p></div><span>↗</span></article>
-                <article class="cine-agenda"><div class="cine-date yellow"><b>14-17</b><span>SEPT</span></div><div><small>03</small><h3>PKKMB 2026</h3><p>Kampus Universitas Narotama</p></div><span>↗</span></article>
-            </div>
-        </div>
-    </section>
-
-    {{-- Berita Terbaru Section --}}
+{{-- Berita Terbaru Section --}}
     <section class="cine-section" id="berita">
         <div class="cine-container">
             <div class="cine-section-head" style="margin-bottom:42px">
@@ -168,6 +121,51 @@
                     </div>
                 </div>
             @endif
+        </div>
+    </section>
+    <section class="cine-section">
+        <div class="cine-container cine-intro-grid">
+            <div><div class="cine-kicker">MULAI CERITAMU</div><h2 class="cine-title">Satu langkah kecil.<br><em>Dampak yang besar.</em></h2></div>
+            <div class="cine-intro-copy"><p>PKKMB bukan sekadar pengenalan kampus. Ini adalah babak pembuka untuk mengenali potensi, membangun koneksi, dan memulai karya yang berdampak.</p><a href="{{ route('informasi-landing') }}#pengenalan" class="cine-text-link">Baca tentang PKKMB ↗</a></div>
+        </div>
+    </section>
+
+    <section class="cine-section cine-info">
+        <div class="cine-container">
+            <div class="cine-section-head"><div><div class="cine-kicker">INFORMASI PESERTA</div><h2 class="cine-title">Semua yang perlu<br>kamu siapkan.</h2></div><p>Lima panduan utama untuk memastikan perjalanan pertamamu dimulai dengan percaya diri.</p></div>
+            <div class="cine-info-grid">
+                <a href="{{ route('informasi-landing') }}#pengenalan" class="cine-info-card blue"><small>01</small><div class="cine-info-icon">▶</div><h3>Pengenalan PKKMB</h3><p>Kenali tema, rangkaian kegiatan, dan hal penting sebelum hari pelaksanaan.</p><span class="cine-card-link">Buka informasi <b>↗</b></span></a>
+                <a href="{{ route('informasi-landing') }}#pedoman" class="cine-info-card yellow"><small>02</small><div class="cine-info-icon">≡</div><h3>Pedoman Peserta</h3><p>Panduan lengkap, tata tertib, perlengkapan, dan ketentuan peserta.</p><span class="cine-card-link">Buka informasi <b>↗</b></span></a>
+                <a href="{{ route('informasi-landing') }}#seragam" class="cine-info-card coral"><small>03</small><div class="cine-info-icon">◆</div><h3>Ketentuan Seragam</h3><p>Lihat pakaian dan atribut yang perlu disiapkan untuk setiap rangkaian acara.</p><span class="cine-card-link">Buka informasi <b>↗</b></span></a>
+                <a href="{{ route('informasi-landing') }}#panitia" class="cine-info-card mint"><small>04</small><div class="cine-info-icon">●</div><h3>Kenali Panitia</h3><p>Temukan koordinator dan narahubung yang siap membantu mahasiswa baru.</p><span class="cine-card-link">Buka informasi <b>↗</b></span></a>
+                <a href="{{ route('informasi-landing') }}#kegiatan" class="cine-info-card" style="grid-column: 1 / -1; background-color: #222; border-color: #444;"><small style="color: #bbb;">05</small><div class="cine-info-icon" style="color: #fff;">★</div><h3 style="color: #fff;">Kegiatan & Timeline</h3><p style="color: #aaa;">Lihat cuplikan dokumentasi kegiatan dan timeline mahasiswa baru PKKMB.</p><span class="cine-card-link" style="color: #fff;">Buka informasi <b>↗</b></span></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="cine-section cine-mascot">
+        <div class="cine-container cine-mascot-grid">
+            <div class="cine-mascot-visual">
+                <img src="{{ asset('img/mascot/mascot-peek-white.png') }}" alt="Maskot PKKMB Narotama 2026">
+            </div>
+            <div class="cine-mascot-content">
+                <div class="cine-kicker">Wajah Ceria Garda Depan</div>
+                <h2 class="cine-title">Kenali<br><em>Maskot Kami.</em></h2>
+                <p class="cine-mascot-desc">
+                    Mewakili kearifan budaya dan semangat tak kenal lelah ksatria Narotama, Maskot PKKMB 2026 hadir untuk menemani perjalanan pertamamu di Garda Depan.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cine-section" id="jadwal">
+        <div class="cine-container cine-schedule">
+            <div><div class="cine-kicker">LINIMASA KEGIATAN</div><h2 class="cine-title">Tandai<br><em>tanggalnya.</em></h2><p style="max-width:340px;color:#557282;line-height:1.7;margin-top:35px">Jadwal dapat berubah. Pantau informasi terbaru melalui website dan kanal resmi PKKMB.</p></div>
+            <div>
+                <article class="cine-agenda"><div class="cine-date"><b>01</b><span>SEPT</span></div><div><small>01</small><h3>Technical Meeting</h3><p>Zoom Meeting</p></div><span>↗</span></article>
+                <article class="cine-agenda"><div class="cine-date mint"><b>07-10</b><span>SEPT</span></div><div><small>02</small><h3>Pra-PKKMB</h3><p>Kampus Universitas Narotama</p></div><span>↗</span></article>
+                <article class="cine-agenda"><div class="cine-date yellow"><b>14-17</b><span>SEPT</span></div><div><small>03</small><h3>PKKMB 2026</h3><p>Kampus Universitas Narotama</p></div><span>↗</span></article>
+            </div>
         </div>
     </section>
 
