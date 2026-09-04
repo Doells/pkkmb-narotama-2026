@@ -41,7 +41,7 @@
                         <div class="cine-input"><span>●</span><input type="password" name="password" id="password" placeholder="Masukkan kata sandi" required autocomplete="current-password"></div>
                         @error('password')<p class="cine-error">{{ $message }}</p>@enderror
                     </div>
-                    <button type="submit" class="cine-submit">Masuk <span>→</span></button>
+                    <button type="submit" class="cine-submit">Login</button>
                 </form>
             </div>
         </section>

@@ -62,7 +62,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard/admin/presensi', [PresenceController::class, 'index'])->name('presences.index');
         Route::get('/dashboard/admin/presensi/{attendance}', [PresenceController::class, 'show'])->name('presences.show');
 
-        Route::post('/dashboard/admin/presensi/kirim-presensi/qrcode', [PresenceController::class, 'sendEnterPresenceUsingQRCode'])->name('sendEnterPresenceUsingQRCode');
+        // QR presensi — format endpoint disamakan dengan pkkmb.indrianto.cloud
+        Route::post('/dashboard/admin/presensi/qrcode/kirim-presensi', [PresenceController::class, 'sendEnterPresenceUsingQRCode'])->name('sendEnterPresenceUsingQRCode');
     });
     
     Route::middleware('role:superadmin')->group(function (){

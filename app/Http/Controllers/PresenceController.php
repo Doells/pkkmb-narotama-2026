@@ -51,29 +51,51 @@ class PresenceController extends Controller
         }
     }
 
+    /**
+     * Generate QR peserta/panitia.
+     * Format: AES-256-CBC(Base64(JSON {id, expired_date}))
+     * Compatible with pkkmb.indrianto.cloud.
+     */
     public function showQrcode()
     {
         $code = request('code');
+        $userId = (string) auth()->user()->id;
 
-        $userId = auth()->user()->id;
-        
-        $randomString = UniqueCode::pluck('unique_code')->random(); // Menghasilkan string acak sepanjang 10 karakter
-        $timestamp = Carbon::now()->timestamp; // Mendapatkan timestamp saat ini
+        $payload = json_encode([
+            'id' => $userId,
+            'expired_date' => Carbon::now()->addMinutes(5)->toISOString(),
+        ], JSON_UNESCAPED_SLASHES);
 
-        $qrCodeContent = "kode-{$randomString}-{$code}-{$userId}-{$timestamp}";
+        $key = base64_decode('c+R8LGJChPU+1zoZ1BgJmqaivpKn/Ly/RsapBKI55fY=');
+        $iv = base64_decode('UHvpaORuxDGSu+LQuPZmSg==');
 
-        $encryptQrCodeContent = Crypt::encryptString($qrCodeContent);
-        $explodeQrCodeContent = explode('-', $qrCodeContent);
+        $encrypted = openssl_encrypt(
+            $payload,
+            'AES-256-CBC',
+            $key,
+            OPENSSL_RAW_DATA,
+            $iv
+        );
 
-        $dataSesiPresensi = Attendance::where('code', $explodeQrCodeContent[2])->get()->first();
+        if ($encrypted === false) {
+            abort(500, 'Gagal membuat QR Code.');
+        }
 
-        $qrcode =  "data:image/svg+xml;base64," . base64_encode(QrCode::size(300)->style('round')->generate($encryptQrCodeContent));
+        $encryptQrCodeContent = base64_encode($encrypted);
+
+        $dataSesiPresensi = $code
+            ? Attendance::where('code', $code)->first()
+            : null;
+
+        $qrcode = 'data:image/svg+xml;base64,' . base64_encode(
+            QrCode::size(512)->margin(1)->generate($encryptQrCodeContent)
+        );
 
         return view('dashboard.admin.presences.qrcode', [
-            "title" => "Presensi QRCode",
-            "qrcode" => $qrcode,
-            "code" => $code, // Pastikan kode tersedia di view
-            "dataSesiPresensi" => $dataSesiPresensi
+            'title' => 'Presensi QRCode',
+            'qrcode' => $qrcode,
+            'code' => $code,
+            'dataSesiPresensi' => $dataSesiPresensi,
         ]);
     }
 
@@ -96,112 +118,173 @@ class PresenceController extends Controller
         return response()->json(['qr_code' => $qrCodeImage]);
     } */
 
+    /**
+     * Validasi QR format baru dan kompatibilitas dengan URL lama.
+     */
     public function checkDataQrCode(Request $request)
     {
         $code = $request->input('code');
 
-        if(!$code){
+        if (!$code) {
             Alert::error('Gagal!', 'QR Code tidak valid!');
             return redirect()->back();
         }
 
         try {
-            $decryptQrCodeContent = Crypt::decryptString($code);
-        } catch (\Exception $e) {
-            Alert::error('Gagal!', 'QR Code tidak valid atau rusak!');
+            $payload = $this->decryptCompatibleQr($code);
+
+            if (!isset($payload['id'], $payload['expired_date'])) {
+                throw new \RuntimeException('Payload QR tidak lengkap.');
+            }
+
+            if (Carbon::parse($payload['expired_date'])->isPast()) {
+                Alert::error('Gagal!', 'QR Code sudah tidak berlaku!');
+                return redirect()->back();
+            }
+
+            $dataUser = User::where('id', $payload['id'])
+                ->with('detailuser', 'kelompok', 'position')
+                ->firstOrFail();
+
+            $attendanceCode = $request->input('presensi_code');
+            $dataSesiPresensi = $attendanceCode
+                ? Attendance::where('code', $attendanceCode)->first()
+                : null;
+
+            $isEnteredToday = $dataSesiPresensi
+                ? Presence::query()
+                    ->where('user_id', $payload['id'])
+                    ->where('attendance_id', $dataSesiPresensi->id)
+                    ->whereDate('presence_date', $dataSesiPresensi->date)
+                    ->exists()
+                : false;
+
+            return view('dashboard.admin.presences.check-data', [
+                'title' => 'Presensi QRCode',
+                'dataUser' => $dataUser,
+                'dataSesiPresensi' => $dataSesiPresensi,
+                'code' => $code,
+                'statusPresensi' => $isEnteredToday,
+            ]);
+        } catch (\Throwable $e) {
+            Alert::error('Gagal!', 'QR Code tidak valid atau sudah kadaluarsa!');
             return redirect()->back();
         }
-
-        // Memecah string berdasarkan delimiter koma
-        $dataQrCode = explode('-', $decryptQrCodeContent);
-        
-        list($prefix, $randomString, $qrCode, $userId, $timestamp) = $dataQrCode;
-        
-        // Periksa apakah QR code sudah kadaluarsa
-        $currentTimestamp = Carbon::now()->timestamp;
-        $expiryTime = 30; // Waktu kadaluarsa dalam detik
-        
-        if (($currentTimestamp - $timestamp) > $expiryTime) {
-            Alert::error('Gagal!', 'QR Code sudah tidak berlaku!');
-            return redirect()->back();
-        }  
-
-        $dataUser = User::where('id', $dataQrCode[3])->with('detailuser', 'kelompok', 'position')->get()->first();
-        $dataSesiPresensi = Attendance::where('code', $dataQrCode[2])->get()->first();
-
-        // Cek apakah pengguna sudah melakukan presensi masuk pada tanggal yang sama
-        $isEnteredToday = Presence::query()
-        ->where('user_id',  $dataQrCode[3])
-        ->where('attendance_id', $dataSesiPresensi->id)
-        ->whereDate('presence_date', $dataSesiPresensi->date /* now()->toDateString() */)
-        ->exists();
-
-        return view('dashboard.admin.presences.check-data', [
-            "title" => "Presensi QRCode",
-            "dataUser" => $dataUser,
-            "dataSesiPresensi" => $dataSesiPresensi,
-            "code" => $code,
-            "statusPresensi" => $isEnteredToday, 
-        ]);
     }
 
-    // for qrcode
+    /**
+     * Menerima format yang sama dengan project sumber:
+     * userId-presensiCode
+     */
     public function sendEnterPresenceUsingQRCode(Request $request)
-    {   
-        // Misalkan input code berupa string seperti 'value1,value2,value3'
-        $code = $request->input('code');
+    {
+        $qrCode = $request->input('qr_code');
 
-        try {
-            $decryptQrCodeContent = Crypt::decryptString($code);
-        } catch (\Exception $e) {
-            Alert::error('Gagal!', 'QR Code tidak valid atau rusak!');
+        // Kompatibilitas flow lama.
+        if (!$qrCode && $request->filled('code')) {
+            try {
+                $payload = $this->decryptCompatibleQr($request->input('code'));
+                $attendanceCode = $request->input('presensi_code');
+
+                if (!$attendanceCode && isset($payload['presensi_code'])) {
+                    $attendanceCode = $payload['presensi_code'];
+                }
+
+                $qrCode = isset($payload['id'], $attendanceCode)
+                    ? $payload['id'] . '-' . $attendanceCode
+                    : null;
+            } catch (\Throwable $e) {
+                $qrCode = null;
+            }
+        }
+
+        if (!$qrCode || !str_contains($qrCode, '-')) {
+            Alert::error('Gagal!', 'QR Code tidak valid, coba lagi!');
             return redirect()->back();
         }
 
-        // Memecah string berdasarkan delimiter koma
-        $dataQrCode = explode('-', $decryptQrCodeContent);
-        $uniqueCodeCheck = UniqueCode::where('unique_code', $dataQrCode[1])->get()->first();
+        [$userId, $attendanceCode] = explode('-', $qrCode, 2);
 
-        if($uniqueCodeCheck){
-            $attendance = Attendance::query()->where('code', $dataQrCode[2])->first();
-            $userId = $dataQrCode[3];
-            $dataUser = User::where('id', $userId)->get()->first();
+        if (!ctype_digit((string) $userId) || !$attendanceCode) {
+            Alert::error('Gagal!', 'QR Code tidak valid, coba lagi!');
+            return redirect()->back();
+        }
 
-            // Cek apakah pengguna sudah melakukan presensi masuk pada tanggal yang sama
-            $isEnteredToday = Presence::query()
-            ->where('user_id',  $dataQrCode[3])
+        $attendance = Attendance::where('code', $attendanceCode)->first();
+
+        if (!$attendance) {
+            Alert::error('Gagal!', 'Sesi presensi tidak ditemukan!');
+            return redirect()->back();
+        }
+
+        $dataUser = User::find($userId);
+
+        if (!$dataUser) {
+            Alert::error('Gagal!', 'Peserta tidak ditemukan!');
+            return redirect()->back();
+        }
+
+        $isEnteredToday = Presence::query()
+            ->where('user_id', $userId)
             ->where('attendance_id', $attendance->id)
-            ->whereDate('presence_date', $attendance->date /* now()->toDateString() */)
+            ->whereDate('presence_date', $attendance->date)
             ->exists();
 
-            if ($isEnteredToday) {
-                Alert::error('Gagal!', 'Peserta sudah melakukan presensi masuk pada sesi ini.');
-                return redirect()->route('presences.show', $attendance->id);
-            }
-            
-            // fix: user bisa presensi dengan tanggal yang sama, cek apakah user id attendance id dan presence date sudah ada
-            $kirimPresensi = Presence::create([
-                "user_id" => $userId,
-                "attendance_id" => $attendance->id,
-                "presence_date" => $attendance->date /* now()->toDateString() */,
-                "presence_enter_time" => now()->toTimeString(),
-                'is_permission' => false,
-                /* "presence_out_time" => null */
-            ]);
-
-            if($kirimPresensi){
-                Alert::success('Berhasil!', "Kehadiran atas nama '" . $dataUser->name . "' berhasil dikirim.");
-                return redirect()->route('presences.show', $attendance->id);
-            }
-
+        if ($isEnteredToday) {
+            Alert::error('Gagal!', 'Peserta sudah melakukan presensi masuk pada sesi ini.');
             return redirect()->route('presences.show', $attendance->id);
-        } else {
-            Alert::error('Gagal', 'QR Code tidak valid, coba lagi!');
-            return redirect()->back();
         }
+
+        Presence::create([
+            'user_id' => $userId,
+            'attendance_id' => $attendance->id,
+            'presence_date' => $attendance->date,
+            'presence_enter_time' => now()->toTimeString(),
+            'is_permission' => false,
+        ]);
+
+        Alert::success(
+            'Berhasil!',
+            "Kehadiran atas nama '" . $dataUser->name . "' berhasil dikirim."
+        );
+
+        return redirect()->route('presences.show', $attendance->id);
     }
-    
-     
+
+    /**
+     * AES-256-CBC kompatibel dengan qr-crypto.ts pada project sumber.
+     */
+    private function decryptCompatibleQr(string $encryptedText): array
+    {
+        $key = base64_decode('c+R8LGJChPU+1zoZ1BgJmqaivpKn/Ly/RsapBKI55fY=');
+        $iv = base64_decode('UHvpaORuxDGSu+LQuPZmSg==');
+
+        $encrypted = base64_decode($encryptedText, true);
+
+        if ($encrypted === false) {
+            throw new \RuntimeException('Base64 QR tidak valid.');
+        }
+
+        $decrypted = openssl_decrypt(
+            $encrypted,
+            'AES-256-CBC',
+            $key,
+            OPENSSL_RAW_DATA,
+            $iv
+        );
+
+        if ($decrypted === false) {
+            throw new \RuntimeException('QR tidak dapat didekripsi.');
+        }
+
+        $payload = json_decode($decrypted, true);
+
+        if (!is_array($payload)) {
+            throw new \RuntimeException('Payload QR tidak valid.');
+        }
+
+        return $payload;
+    }
 
     public function notPresent(Attendance $attendance)
     {

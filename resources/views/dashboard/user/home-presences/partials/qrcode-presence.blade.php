@@ -3,13 +3,25 @@
     @if ($attendance->data->is_using_qrcode)
 
     {{-- jika belum absen dan absen masuk sudah dimulai --}}
-    <button data-is-enter="1" data-modal-target="scannerModal" data-modal-toggle="scannerModal" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 w-full">Scan QR-Code Masuk</button>
+    <button
+        type="button"
+        data-is-enter="1"
+        data-presensi-code="{{ $attendance->code }}"
+        data-modal-target="scannerModal"
+        data-modal-toggle="scannerModal"
+        class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 w-full">
+        Scan QR-Code Masuk
+    </button>
 
-    <form id="kirim-presensi" action="{{route('checkDataQrCode')}}" method="GET" hidden>
-      @csrf
-      <input type="text" name="code" id="code-field" placeholder="QR Code Data">
-      <button type="submit">Submit</button>
-  </form>
+    <form
+        id="kirim-presensi"
+        action="{{ route('sendEnterPresenceUsingQRCode') }}"
+        method="POST"
+        hidden>
+        @csrf
+        <input type="hidden" name="qr_code" id="code-field">
+        <button type="submit">Submit</button>
+    </form>
   
 
     {{-- jika sudah absen masuk--}}
@@ -50,6 +62,10 @@
 </div>
 
 @push('script')
-<script src="{{ asset('html5-qrcode/html5-qrcode.min.js') }}"></script>
-<script type="module" src="{{ asset('js/home/qrcode.js') }}"></script>
+<script
+    src="https://cdn.jsdelivr.net/npm/qr-scanner@1.4.2/qr-scanner.umd.min.js"
+    integrity="sha512-Fb3L5w+k6OMng6v8gWYr7fuO//kwaC0PfMReI2pYIRYHRfkjvrsNHoGkiVCvjNkrXX3+Ve9Ag+COx98AZlvR7w=="
+    crossorigin="anonymous">
+</script>
+<script src="{{ asset('js/home/qrcode.js') }}"></script>
 @endpush
