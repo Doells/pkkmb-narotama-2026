@@ -62,10 +62,6 @@
 </div>
 
 @push('script')
-<script
-    src="https://cdn.jsdelivr.net/npm/qr-scanner@1.4.2/qr-scanner.umd.min.js"
-    integrity="sha512-Fb3L5w+k6OMng6v8gWYr7fuO//kwaC0PfMReI2pYIRYHRfkjvrsNHoGkiVCvjNkrXX3+Ve9Ag+COx98AZlvR7w=="
-    crossorigin="anonymous">
-</script>
+<script src="{{ asset('js/vendor/qr-scanner/qr-scanner.umd.min.js') }}"></script>
 <script src="{{ asset('js/home/qrcode.js') }}"></script>
 @endpush

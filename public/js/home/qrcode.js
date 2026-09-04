@@ -1,31 +1,16 @@
-/**
- * QR Code Scanner - PKKMB Narotama 2026
- * Compatible dengan mekanisme pkkmb.indrianto.cloud
- *
- * - qr-scanner 1.4.2
- * - AES-256-CBC
- * - Payload QR:
- *   {"id":"USER_ID","expired_date":"ISO_DATE"}
- * - Submit:
- *   qr_code = "<userId>-<presensiCode>"
- */
-
 (function () {
     'use strict';
 
-    const KEY_B64 =
-        'c+R8LGJChPU+1zoZ1BgJmqaivpKn/Ly/RsapBKI55fY=';
+    console.log('[QR] qrcode.js loaded');
 
-    const IV_B64 =
-        'UHvpaORuxDGSu+LQuPZmSg==';
-
-    let scanner = null;
+    let qrScanner = null;
     let scanning = false;
-    let scanProcessed = false;
 
-    function b64ToBytes(b64) {
-        const binary = atob(b64);
+    const KEY_B64 = 'c+R8LGJChPU+1zoZ1BgJmqaivpKn/Ly/RsapBKI55fY=';
+    const IV_B64 = 'UHvpaORuxDGSu+LQuPZmSg==';
 
+    function base64ToBytes(base64) {
+        const binary = atob(base64);
         const bytes = new Uint8Array(binary.length);
 
         for (let i = 0; i < binary.length; i++) {
@@ -35,433 +20,290 @@
         return bytes;
     }
 
-    async function getKey() {
-        return crypto.subtle.importKey(
+    async function decryptQR(encryptedText) {
+        const key = await crypto.subtle.importKey(
             'raw',
-            b64ToBytes(KEY_B64),
+            base64ToBytes(KEY_B64),
             'AES-CBC',
             false,
             ['decrypt']
         );
-    }
-
-    async function decryptQrPayload(scanned) {
-        const key = await getKey();
-
-        const encrypted = b64ToBytes(scanned.trim());
 
         const decrypted = await crypto.subtle.decrypt(
             {
                 name: 'AES-CBC',
-                iv: b64ToBytes(IV_B64)
+                iv: base64ToBytes(IV_B64)
             },
             key,
-            encrypted
+            base64ToBytes(encryptedText)
         );
 
-        const text =
-            new TextDecoder().decode(decrypted);
-
-        return JSON.parse(text);
-    }
-
-    function isExpired(expiredDate) {
-        const time = Date.parse(expiredDate);
-
-        if (!Number.isFinite(time)) {
-            return true;
-        }
-
-        return time <= Date.now();
+        return new TextDecoder().decode(decrypted);
     }
 
     async function handleScan(raw) {
-        if (scanProcessed || !raw) {
-            return;
-        }
+        if (scanning) return;
 
-        scanProcessed = true;
+        scanning = true;
+
+        console.log('[QR] TERDETEKSI:', raw);
 
         try {
-            console.log('[QR] ===============================');
-            console.log('[QR] QR BERHASIL TERBACA');
-            console.log('[QR] PANJANG DATA:', raw.length);
-            console.log('[QR] ===============================');
+            const decrypted = await decryptQR(raw);
 
-            /*
-             * Dekripsi QR menggunakan AES-256-CBC
-             */
-            const payload =
-                await decryptQrPayload(raw);
+            console.log('[QR] DECRYPT:', decrypted);
 
-            console.log('[QR] Payload berhasil didekripsi:', payload);
+            const payload = JSON.parse(decrypted);
 
-            /*
-             * Validasi payload
-             */
-            if (
-                !payload ||
-                !payload.id ||
-                !payload.expired_date
-            ) {
-                throw new Error(
-                    'Payload QR tidak valid'
-                );
+            if (!payload.id || !payload.expired_date) {
+                throw new Error('Format QR tidak valid');
             }
 
-            /*
-             * Cek masa berlaku QR
-             */
-            if (isExpired(payload.expired_date)) {
+            const expiredDate = new Date(payload.expired_date);
 
-                console.warn(
-                    '[QR] QR SUDAH KADALUARSA'
-                );
+            if (Number.isNaN(expiredDate.getTime())) {
+                throw new Error('Tanggal QR tidak valid');
+            }
 
-                alert(
-                    'Kode QR sudah kadaluarsa, minta peserta membuat ulang.'
-                );
-
-                scanProcessed = false;
-
+            if (expiredDate.getTime() <= Date.now()) {
+                alert('QR Code sudah kadaluarsa. Silakan buat QR baru.');
+                scanning = false;
                 return;
             }
 
-            /*
-             * Ambil kode sesi presensi
-             */
-            const button =
-                document.querySelector(
-                    '[data-presensi-code][data-is-enter="1"]'
-                );
+            const button = document.querySelector(
+                '[data-is-enter="1"][data-presensi-code]'
+            );
 
-            const codeField =
-                document.getElementById(
-                    'code-field'
-                );
-
-            const form =
-                document.getElementById(
-                    'kirim-presensi'
-                );
-
-            if (
-                !button ||
-                !codeField ||
-                !form
-            ) {
-                throw new Error(
-                    'Elemen presensi tidak ditemukan'
-                );
+            if (!button) {
+                throw new Error('Tombol presensi tidak ditemukan');
             }
 
             const presensiCode =
-                button.dataset.presensiCode;
+                button.getAttribute('data-presensi-code');
 
             if (!presensiCode) {
-                throw new Error(
-                    'Kode sesi presensi tidak ditemukan'
-                );
+                throw new Error('Kode presensi tidak ditemukan');
             }
 
-            /*
-             * FORMAT SAMA DENGAN
-             * pkkmb.indrianto.cloud
-             *
-             * <userId>-<presensiCode>
-             */
-            const qrCode =
-                `${payload.id}-${presensiCode}`;
+            const finalCode =
+                payload.id + '-' + presensiCode;
 
-            codeField.value = qrCode;
+            console.log('[QR] User ID:', payload.id);
+            console.log('[QR] Presensi Code:', presensiCode);
+            console.log('[QR] QR Code final:', finalCode);
 
-            console.log(
-                '[QR] USER ID:',
-                payload.id
-            );
+            const input =
+                document.getElementById('code-field');
 
-            console.log(
-                '[QR] PRESENSI CODE:',
-                presensiCode
-            );
+            if (!input) {
+                throw new Error('code-field tidak ditemukan');
+            }
 
-            console.log(
-                '[QR] QR CODE:',
-                qrCode
-            );
+            input.value = finalCode;
 
-            /*
-             * Matikan scanner
-             */
-            await stopScanner();
+            stopScanner();
 
-            /*
-             * Kirim ke Laravel
-             */
-            console.log(
-                '[QR] SUBMIT PRESENSI...'
-            );
+            const form =
+                document.getElementById('kirim-presensi');
+
+            if (!form) {
+                throw new Error('Form presensi tidak ditemukan');
+            }
+
+            console.log('[QR] SUBMIT PRESENSI');
 
             form.submit();
 
         } catch (error) {
-
-            console.error(
-                '[QR] QR TIDAK DIKENALI / GAGAL DEKRIPSI:',
-                error
-            );
+            console.error('[QR] Gagal:', error);
 
             alert(
-                'Kode QR tidak dikenali atau tidak sesuai. Pastikan menggunakan QR Presensi peserta.'
+                'QR Code tidak dikenali atau tidak valid.'
             );
 
-            scanProcessed = false;
+            scanning = false;
         }
     }
 
     async function startScanner() {
+        console.log('[QR] START SCANNER');
 
-        if (scanning) {
+        if (qrScanner) {
+            console.log('[QR] Scanner sudah aktif');
+            return;
+        }
+
+        if (typeof QrScanner === 'undefined') {
+            console.error(
+                '[QR] Library QrScanner tidak ditemukan'
+            );
             return;
         }
 
         const reader =
-            document.getElementById(
-                'reader'
-            );
+            document.getElementById('reader');
 
         if (!reader) {
-
             console.error(
-                '[QR] Element #reader tidak ditemukan.'
+                '[QR] #reader tidak ditemukan'
             );
-
             return;
         }
 
-        /*
-         * Pastikan library qr-scanner tersedia
-         */
-        if (
-            typeof QrScanner ===
-            'undefined'
-        ) {
+        reader.innerHTML = '';
 
-            console.error(
-                '[QR] Library qr-scanner tidak ditemukan.'
-            );
+        const video =
+            document.createElement('video');
 
-            alert(
-                'Scanner QR belum termuat. Silakan refresh halaman.'
-            );
+        video.id = 'qr-camera-video';
 
-            return;
-        }
+        video.setAttribute(
+            'playsinline',
+            ''
+        );
+
+        video.setAttribute(
+            'muted',
+            ''
+        );
+
+        video.autoplay = true;
+
+        video.style.width = '100%';
+        video.style.maxWidth = '500px';
+        video.style.display = 'block';
+        video.style.margin = '0 auto';
+        video.style.borderRadius = '12px';
+
+        reader.appendChild(video);
+
+        QrScanner.WORKER_PATH =
+            window.location.origin +
+            '/js/vendor/qr-scanner/qr-scanner-worker.min.js';
+
+        console.log(
+            '[QR] WORKER:',
+            QrScanner.WORKER_PATH
+        );
 
         try {
+            qrScanner = new QrScanner(
+                video,
+                function (result) {
 
-            scanning = true;
-            scanProcessed = false;
+                    const raw =
+                        typeof result === 'string'
+                            ? result
+                            : result.data;
 
-            /*
-             * Bersihkan scanner lama
-             */
-            reader.innerHTML = '';
-
-            /*
-             * Buat video kamera
-             */
-            const video =
-                document.createElement(
-                    'video'
-                );
-
-            video.id =
-                'qr-camera-video';
-
-            video.setAttribute(
-                'autoplay',
-                ''
+                    handleScan(raw);
+                },
+                {
+                    preferredCamera: 'environment',
+                    maxScansPerSecond: 10,
+                    highlightScanRegion: true,
+                    highlightCodeOutline: true,
+                    returnDetailedScanResult: true,
+                    onDecodeError: function () {}
+                }
             );
 
-            video.setAttribute(
-                'muted',
-                ''
-            );
-
-            video.setAttribute(
-                'playsinline',
-                ''
-            );
-
-            video.style.width =
-                '100%';
-
-            video.style.height =
-                '100%';
-
-            video.style.objectFit =
-                'cover';
-
-            video.style.borderRadius =
-                '12px';
-
-            video.style.background =
-                '#000';
-
-            reader.appendChild(
-                video
-            );
-
-            /*
-             * Worker qr-scanner
-             */
-            QrScanner.WORKER_PATH =
-                'https://cdn.jsdelivr.net/npm/qr-scanner@1.4.2/qr-scanner-worker.min.js';
-
-            /*
-             * Buat scanner
-             */
-            scanner =
-                new QrScanner(
-                    video,
-
-                    result => {
-
-                        const raw =
-                            typeof result ===
-                                'string'
-                                ? result
-                                : result.data;
-
-                        handleScan(raw);
-                    },
-
-                    {
-                        preferredCamera:
-                            'environment',
-
-                        maxScansPerSecond:
-                            20,
-
-                        highlightScanRegion:
-                            true,
-
-                        highlightCodeOutline:
-                            true,
-
-                        returnDetailedScanResult:
-                            true,
-
-                        onDecodeError:
-                            () => { }
-                    }
-                );
-
-            /*
-             * Mulai kamera
-             */
-            await scanner.start();
+            await qrScanner.start();
 
             console.log(
-                '[QR] ==============================='
-            );
-
-            console.log(
-                '[QR] QR-SCANNER AKTIF'
-            );
-
-            console.log(
-                '[QR] MENCARI QR...'
-            );
-
-            console.log(
-                '[QR] AES-256-CBC READY'
-            );
-
-            console.log(
-                '[QR] ==============================='
+                '[QR] KAMERA BERHASIL AKTIF'
             );
 
         } catch (error) {
 
             console.error(
-                '[QR] GAGAL MEMULAI SCANNER:',
+                '[QR] KAMERA GAGAL:',
                 error
             );
 
-            scanning = false;
+            qrScanner = null;
 
-            alert(
-                'Kamera tidak dapat diakses. Buka halaman melalui Safari atau Chrome.'
-            );
+            reader.innerHTML =
+                '<div style="padding:20px;text-align:center;color:white;">' +
+                'Kamera tidak dapat diakses.<br>' +
+                'Pastikan izin kamera sudah diberikan.' +
+                '</div>';
         }
     }
 
-    async function stopScanner() {
+    function stopScanner() {
+        console.log('[QR] STOP SCANNER');
 
-        if (scanner) {
+        if (qrScanner) {
+            try {
+                qrScanner.stop();
+            } catch (e) {}
 
             try {
+                qrScanner.destroy();
+            } catch (e) {}
 
-                scanner.stop();
-
-                scanner.destroy();
-
-                console.log(
-                    '[QR] Scanner dihentikan.'
-                );
-
-            } catch (error) {
-
-                console.warn(
-                    '[QR] Gagal menghentikan scanner:',
-                    error
-                );
-            }
+            qrScanner = null;
         }
-
-        scanner = null;
 
         scanning = false;
     }
 
-    function watchModal() {
+    function setupScanner() {
+        console.log('[QR] SETUP SCANNER');
 
         const modal =
-            document.getElementById(
-                'scannerModal'
-            );
+            document.getElementById('scannerModal');
 
         if (!modal) {
-
-            console.warn(
-                '[QR] #scannerModal belum ditemukan.'
+            console.error(
+                '[QR] scannerModal tidak ditemukan'
             );
-
             return;
         }
 
-        /*
-         * Flowbite menggunakan class hidden
-         * untuk membuka/menutup modal.
-         */
+        document.addEventListener(
+            'click',
+            function (event) {
+
+                const target =
+                    event.target.closest(
+                        '[data-modal-target="scannerModal"], ' +
+                        '[data-modal-toggle="scannerModal"]'
+                    );
+
+                if (target) {
+
+                    console.log(
+                        '[QR] TOMBOL SCAN DIKLIK'
+                    );
+
+                    setTimeout(
+                        startScanner,
+                        700
+                    );
+                }
+            }
+        );
+
         const observer =
             new MutationObserver(
-                () => {
+                function () {
 
-                    const hidden =
-                        modal.classList.contains(
+                    if (
+                        !modal.classList.contains(
                             'hidden'
+                        )
+                    ) {
+
+                        console.log(
+                            '[QR] MODAL TERBUKA'
                         );
 
-                    if (!hidden) {
-
                         setTimeout(
-                            () => {
-                                startScanner();
-                            },
-                            150
+                            startScanner,
+                            500
                         );
 
                     } else {
@@ -475,57 +317,28 @@
             modal,
             {
                 attributes: true,
-                attributeFilter: [
-                    'class'
-                ]
+                attributeFilter: ['class']
             }
         );
 
-        /*
-         * Bootstrap compatibility
-         */
-        modal.addEventListener(
-            'shown.bs.modal',
-            () => {
-                startScanner();
-            }
-        );
-
-        modal.addEventListener(
-            'hidden.bs.modal',
-            () => {
-                stopScanner();
-            }
+        console.log(
+            '[QR] OBSERVER AKTIF'
         );
     }
 
-    /*
-     * Saat halaman selesai dimuat
-     */
-    document.addEventListener(
-        'DOMContentLoaded',
-        () => {
+    if (
+        document.readyState ===
+        'loading'
+    ) {
 
-            watchModal();
+        document.addEventListener(
+            'DOMContentLoaded',
+            setupScanner
+        );
 
-            console.log(
-                '[QR] qrcode.js loaded'
-            );
+    } else {
 
-            console.log(
-                '[QR] Mode: qr-scanner + AES-256-CBC'
-            );
-        }
-    );
-
-    /*
-     * Bersihkan kamera saat halaman ditutup
-     */
-    window.addEventListener(
-        'beforeunload',
-        () => {
-            stopScanner();
-        }
-    );
+        setupScanner();
+    }
 
 })();

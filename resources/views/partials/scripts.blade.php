@@ -12,6 +12,6 @@
 {{-- Main JS --}}
 <script type="module" src="{{ asset('js/main.js') }}"></script>
 {{-- Flowbite JS --}}
-<script src="../path/to/flowbite/dist/flowbite.min.js"></script>
+<script src="{{ asset('js/vendor/flowbite/flowbite.min.js') }}"></script>
 {{-- Livewire JS --}}
 @livewireScripts
