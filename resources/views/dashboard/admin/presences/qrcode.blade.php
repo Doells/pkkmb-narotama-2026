@@ -17,20 +17,25 @@
 
 <script>
 function updateResetTimer() {
-    const interval = 31; // waktu dalam detik
+    const interval = 5 * 60; // QR Code berlaku selama 5 menit
     let remainingTime = interval;
 
     function updateTimer() {
-        remainingTime--;
+        const minutes = Math.floor(remainingTime / 60);
         const seconds = remainingTime % 60;
-        document.getElementById('reset-timer').textContent = `QR Code akan reset dalam ${seconds} Detik`;
+
+        document.getElementById('reset-timer').textContent =
+            `QR Code akan reset dalam ${minutes} Menit ${String(seconds).padStart(2, '0')} Detik`;
 
         if (remainingTime <= 0) {
-            remainingTime = interval;
-            location.reload(); // Refresh halaman setiap kali timer habis
+            location.reload(); // Refresh halaman dan buat QR baru setelah 5 menit
+            return;
         }
+
+        remainingTime--;
     }
 
+    updateTimer();
     setInterval(updateTimer, 1000);
 }
 
