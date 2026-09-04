@@ -58,7 +58,18 @@
         </div>
 
         <div class="relative overflow-x-auto">
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <div class="mb-4 mt-2">
+                <div class="relative w-full md:w-1/3">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg aria-hidden="true" class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <input type="text" id="searchName" class="border text-sm rounded-lg block w-full pl-10 p-2.5" style="background-color: var(--cine-surface, #1e293b); border-color: var(--cine-border, #334155); color: #fff;" placeholder="Cari nama peserta...">
+                </div>
+            </div>
+
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" id="pesertaTable">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
@@ -81,11 +92,11 @@
                 @if ($notPresenceDate->isSameDay($sessionDate))
                 <tbody>
                 @foreach ($data['users'] as $user)    
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 row-peserta">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ $loop->iteration }}
                         </th>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 nama-peserta">
                             {{ $user['name'] }}
                         </td>
                         <td class="px-6 py-4">
@@ -150,5 +161,29 @@
         </div>
 @endforeach
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchName');
+        const rows = document.querySelectorAll('.row-peserta');
+        
+        if(searchInput) {
+            searchInput.addEventListener('keyup', function(e) {
+                const term = e.target.value.toLowerCase();
+                rows.forEach(row => {
+                    const nameCell = row.querySelector('.nama-peserta');
+                    if(nameCell) {
+                        const name = nameCell.textContent.toLowerCase();
+                        if(name.includes(term)) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        }
+    });
+</script>
 
 @endsection
