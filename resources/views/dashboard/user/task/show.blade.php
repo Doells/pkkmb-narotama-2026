@@ -146,15 +146,11 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         @php
-                                        $waktuMasuk = \Carbon\Carbon::parse($histo->submit_enter_time);
-                                        $waktuTepatWaktu = \Carbon\Carbon::parse($tambahtugas->start_time);
-                                        $waktuAkhirTepatWaktu = \Carbon\Carbon::parse($tambahtugas->batas_start_time); 
-                                        $tanggalTepatWaktu = \Carbon\Carbon::parse($tambahtugas->start_date); 
-                                        $tanggalAkhirTepatWaktu = \Carbon\Carbon::parse($tambahtugas->end_date); 
-                                        $tanggalMasuk = \Carbon\Carbon::parse($histo->submit_date)
+                                        $datetimeMasuk = \Carbon\Carbon::parse($histo->submit_date . ' ' . $histo->submit_enter_time);
+                                        $datetimeAkhir = \Carbon\Carbon::parse($tambahtugas->end_date . ' ' . $tambahtugas->batas_start_time);
                                         @endphp
                                         
-                                        @if ($waktuMasuk->isBefore($waktuAkhirTepatWaktu) && $tanggalMasuk->between($tanggalTepatWaktu, $tanggalAkhirTepatWaktu))
+                                        @if ($datetimeMasuk->lte($datetimeAkhir))
                                             <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">Tepat Waktu</span>
                                         @else
                                             <span class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">Terlambat</span> 

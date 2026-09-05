@@ -93,14 +93,10 @@ final class ResultTaskTable extends PowerGridComponent
     /* Kehadiran Terlambat/TepatWaktu */
     protected function setLateStatus(Task $model)
     {   
-        $waktuMasuk = \Carbon\Carbon::parse($model->submit_enter_time);
-        $waktuTepatWaktu = \Carbon\Carbon::parse($model->tambahtugas->start_time);
-        $waktuAkhirTepatWaktu = \Carbon\Carbon::parse($model->tambahtugas->batas_start_time); 
-        $tanggalTepatWaktu = \Carbon\Carbon::parse($model->tambahtugas->start_date); 
-        $tanggalAkhirTepatWaktu = \Carbon\Carbon::parse($model->tambahtugas->end_date); 
-        $tanggalMasuk = \Carbon\Carbon::parse($model->submit_date);
+        $datetimeMasuk = \Carbon\Carbon::parse($model->submit_date . ' ' . $model->submit_enter_time);
+        $datetimeAkhir = \Carbon\Carbon::parse($model->tambahtugas->end_date . ' ' . $model->tambahtugas->batas_start_time); 
     
-        if ($waktuMasuk->isBefore($waktuAkhirTepatWaktu) && $tanggalMasuk->between($tanggalTepatWaktu, $tanggalAkhirTepatWaktu)) {
+        if ($datetimeMasuk->lte($datetimeAkhir)) {
             return 'Tepat Waktu';
         } else {
             return 'Terlambat';
