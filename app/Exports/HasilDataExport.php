@@ -53,7 +53,7 @@ class HasilDataExport implements FromCollection, WithHeadings
             $totalSkor = ($totalPresensi + $totalTugas + $ketaatan) / 3;
             
             $keputusan = '';
-            if ($totalSkor <= 40) {
+            if ($totalSkor <= 59) {
                 $keputusan = 'Tidak Lulus';
             } elseif ($totalSkor >= 80) {
                 $keputusan = 'Lulus';

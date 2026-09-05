@@ -50,7 +50,7 @@
                                     $ketaatan = max(0, 100 - $totalPelanggaran);
                                     $totalSkor = round(($totalPresensi + $totalTugas + $ketaatan) / 3, 2);
 
-                                    if ($totalSkor <= 40) {
+                                    if ($totalSkor <= 59) {
                                         $keputusan = 'Tidak Lulus';
                                         $decisionClass = 'is-failed';
                                     } elseif ($totalSkor >= 80) {
