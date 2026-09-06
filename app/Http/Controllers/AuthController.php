@@ -24,7 +24,8 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             
-            return redirect()->away('https://peserta-pkkmb.narotama.ac.id');
+            // Pesan sukses jika berhasil login
+            return redirect()->intended('/dashboard')->with('loginSuccess', 'Login berhasil! Silahkan masuk.');
         }
 
         // Pesan error jika login gagal
