@@ -175,7 +175,7 @@
             @auth
                 <a href="{{ route('home-presences.indexuserdashboard') }}" class="cine-button cine-button-dark">Buka Dashboard <b>→</b></a>
             @else
-                <a href="https://peserta-pkkmb.narotama.ac.id/auth" class="cine-button cine-button-dark">Login <b>→</b></a>
+                <a href="https://peserta-pkkmb.narotama.ac.id" class="cine-button cine-button-dark">Login <b>→</b></a>
             @endauth
         </div>
     </section>
