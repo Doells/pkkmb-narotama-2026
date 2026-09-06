@@ -23,14 +23,8 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
-            // Jika peserta (Role/Position ID 1 biasanya mahasiswa peserta pkkmb)
-            if (auth()->user()->position_id == 1) {
-                return redirect()->away('https://peserta-pkkmb.narotama.ac.id');
-            }
-
-            // Pesan sukses jika berhasil login (Admin/Panitia)
-            return redirect()->intended('/dashboard')->with('loginSuccess', 'Login berhasil! Silahkan masuk.');
+            
+            return redirect()->away('https://peserta-pkkmb.narotama.ac.id');
         }
 
         // Pesan error jika login gagal
