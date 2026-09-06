@@ -37,7 +37,7 @@
                     @auth
                         <a href="{{ route('home-presences.indexuserdashboard') }}" class="block {{ request()->is('login') ? 'pt-8 pb-1 px-2 text-white font-sans font-bold hover:text-white border-b-2 border-white hover:border-white transition duration-300' : 'pt-8 pb-1 px-2 text-white font-sans font-normal hover:text-gray-300 hover:border-b-2 hover:border-gray-300 transition duration-300' }}">Dashboard</a>
                     @else
-                        <a href="https://peserta-pkkmb.narotama.ac.id" class="block {{ request()->is('login') ? 'pt-8 pb-1 px-2 text-white font-sans font-bold hover:text-white border-b-2 border-white hover:border-white transition duration-300' : 'pt-8 pb-1 px-2 text-white font-sans font-normal hover:text-gray-300 hover:border-b-2 hover:border-gray-300 transition duration-300' }}">Login</a>
+                        <a href="https://peserta-pkkmb.narotama.ac.id/auth" class="block {{ request()->is('login') ? 'pt-8 pb-1 px-2 text-white font-sans font-bold hover:text-white border-b-2 border-white hover:border-white transition duration-300' : 'pt-8 pb-1 px-2 text-white font-sans font-normal hover:text-gray-300 hover:border-b-2 hover:border-gray-300 transition duration-300' }}">Login</a>
                     @endauth
                 </div>
             </div>
