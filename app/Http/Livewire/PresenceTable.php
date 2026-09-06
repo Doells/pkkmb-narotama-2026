@@ -95,14 +95,13 @@ final class PresenceTable extends PowerGridComponent
             return 'Izin';
         }
         
-        $waktuMasuk = Carbon::parse($model->presence_enter_time);
-        $waktuTepatWaktu = Carbon::parse($model->attendance->start_time);
-        $waktuAkhirTepatWaktu = Carbon::parse($model->attendance->batas_start_time);
+        $waktuMasuk = Carbon::parse($model->presence_date . ' ' . $model->presence_enter_time);
+        $waktuBatasMasuk = Carbon::parse($model->attendance->date . ' ' . $model->attendance->batas_start_time);
     
-        if ($waktuMasuk->isBefore($waktuTepatWaktu) || $waktuMasuk->isAfter($waktuAkhirTepatWaktu)) {
-            return 'Terlambat';
-        } else {
+        if ($waktuMasuk->lte($waktuBatasMasuk)) {
             return 'Tepat Waktu';
+        } else {
+            return 'Terlambat';
         }
     }
 
