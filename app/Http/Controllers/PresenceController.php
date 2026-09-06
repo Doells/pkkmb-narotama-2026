@@ -238,7 +238,7 @@ class PresenceController extends Controller
         Presence::create([
             'user_id' => $userId,
             'attendance_id' => $attendance->id,
-            'presence_date' => $attendance->date,
+            'presence_date' => now()->toDateString(),
             'presence_enter_time' => now()->toTimeString(),
             'is_permission' => false,
         ]);
@@ -288,62 +288,32 @@ class PresenceController extends Controller
 
     public function notPresent(Attendance $attendance)
     {
-        $byDate = $attendance->date;
-        if (request('display-by-date'))
-            $byDate = request('display-by-date');
-
         $presences = Presence::query()
             ->where('attendance_id', $attendance->id)
-            ->where('presence_date', $byDate)
-            ->get(['presence_date', 'user_id']);
+            ->get(['user_id']);
             
         $positionIds = $attendance->positions->pluck('id')->toArray();
+        $attendedUserIds = $presences->pluck('user_id')->toArray();
 
-        // Get participants or committee members based on position_id
-        if ($presences->isEmpty()) {
-            $notPresentData[] = 
+        $absentUsers = User::query()
+            ->with('position')
+            ->whereIn('position_id', $positionIds)
+            ->whereNotIn('id', $attendedUserIds)
+            ->get()
+            ->toArray();
+
+        $notPresentData = [
             [
-                "not_presence_date" => $byDate,
-                "users" => User::query()
-                    ->with('position')
-                    ->whereIn('position_id', $positionIds)
-                    ->get()
-                    ->toArray(),
-            ];
-        } else {
-            $notPresentData = $this->getNotPresentStudents($presences, $positionIds);
-        }
+                "not_presence_date" => $attendance->date,
+                "users" => $absentUsers
+            ]
+        ];
 
         return view('dashboard.admin.presences.not-present', [
             "title" => "Data Peserta Tidak Hadir",
             "attendance" => $attendance,
             "notPresentData" => $notPresentData
         ]);
-    }
-
-    private function getNotPresentStudents($presences, $positionIds)
-    {
-        $uniquePresenceDates = $presences->unique("presence_date")->pluck('presence_date');
-        $uniquePresenceDatesAndCompactTheUserIds = $uniquePresenceDates->map(function ($date) use ($presences) {
-            return [
-                "presence_date" => $date,
-                "user_ids" => $presences->where('presence_date', $date)->pluck('user_id')->toArray()
-            ];
-        });
-        $notPresentData = [];
-        foreach ($uniquePresenceDatesAndCompactTheUserIds as $presence) {
-            $notPresentData[] =
-                [
-                    "not_presence_date" => $presence['presence_date'],
-                    "users" => User::query()
-                        ->with('position')
-                        ->whereNotIn('id', $presence['user_ids'])
-                        ->whereIn('position_id', $positionIds)
-                        ->get()
-                        ->toArray()
-                ];
-        }
-        return $notPresentData;
     }
 
     public function acceptPermissionByAdmin(Request $request, $attendanceId)

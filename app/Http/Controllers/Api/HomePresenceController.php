@@ -89,7 +89,7 @@ class HomePresenceController extends Controller
             $isEnteredToday = Presence::query()
             ->where('user_id', $user_id)
             ->where('attendance_id', $attendance->id)
-            ->whereDate('presence_date', $attendance->date /* now()->toDateString() */)
+            ->whereDate('presence_date', now()->toDateString())
             ->exists();
 
             if ($isEnteredToday) {
@@ -103,7 +103,7 @@ class HomePresenceController extends Controller
             $tambahDataPresensi = Presence::create([
                 "user_id" => $user_id,
                 "attendance_id" => $attendance->id,
-                "presence_date" => $attendance->date /* now()->toDateString() */,
+                "presence_date" => now()->toDateString(),
                 "presence_enter_time" => now()->toTimeString(),
                 'is_permission' => false,
                 /* "presence_out_time" => null */
