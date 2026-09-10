@@ -127,7 +127,7 @@ class NewsController extends Controller
 
                 // store photo
                 $path = $file->store(
-                    'assets/news/thumbnail'. 'public'
+                    'assets/news/thumbnail', 'public'
                 );
 
                 // update thumbnail
@@ -136,11 +136,8 @@ class NewsController extends Controller
                 $thumbnail_news->save();
 
                 // delete old photo thumbnail
-                $data = 'storage/'.$get_photo['photo'];
-                if(Storage::exists($data)){
-                    Storage::delete($data);
-                }else{
-                    Storage::delete('storage/app/public/'.$get_photo['photo']);
+                if ($get_photo && $get_photo->thumbnail) {
+                    Storage::disk('public')->delete($get_photo->thumbnail);
                 }
             }
         }
@@ -162,10 +159,14 @@ class NewsController extends Controller
         }
 
         // update to tagline
-        foreach($data['taglines'] as $key => $value){
-            $tagline = Tagline::find($key);
-            $tagline->tagline = $value;
-            $tagline->save();
+        if (isset($data['taglines'])) {
+            foreach($data['taglines'] as $key => $value){
+                $tagline = Tagline::find($key);
+                if ($tagline) {
+                    $tagline->tagline = $value;
+                    $tagline->save(); 
+                }
+            }
         }
 
         // add new tagline
